@@ -59,11 +59,6 @@ class Channel:
             }
         )
         self.clear()
-        # def broadcast
-        #   operations.select! { |_, list| list.present? }
-        #   operations.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
-        #   ActionCable.server.broadcast name, "cableReady" => true, "operations" => operations
-        #   clear
 
     def dispatch(self, options={}):
         '''
