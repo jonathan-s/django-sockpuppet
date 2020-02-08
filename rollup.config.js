@@ -1,5 +1,6 @@
 import babel from "rollup-plugin-babel"
 import uglify from "rollup-plugin-uglify"
+import resolve from "rollup-plugin-node-resolve"
 
 const uglifyOptions = {
   mangle: false,
@@ -10,15 +11,18 @@ const uglifyOptions = {
   }
 }
 
-export default {
-  input: "javascript/action_cable/index.js",
-  output: {
-    file: "sockpuppet/static/js/action_cable.js",
-    format: "umd",
-    name: "ActionCable"
-  },
-  plugins: [
-    babel(),
-    uglify(uglifyOptions)
-  ]
-}
+export default [
+  {
+    input: "javascript/cable_ready/cable_ready.js",
+    output: {
+        file: "sockpuppet/static/js/cable_ready.js",
+        format: "umd",
+        name: "CableReady"
+    },
+    plugins: [
+        babel(),
+        uglify(uglifyOptions),
+        resolve()
+    ]
+  }
+]

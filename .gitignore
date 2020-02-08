@@ -47,3 +47,5 @@ output/*/index.html
 docs/_build
 
 node_modules
+notes.md
+*.sqlite3
