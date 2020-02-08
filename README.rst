@@ -20,14 +20,15 @@ Prototype status of getting stimulus-reflex to work with Django.
 
 You need to have redis running for this.
 
+.. code-block:: python
 
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
+    pip install -r requirements.txt
+    python manage.py migrate
+    python manage.py runserver
 
-visit https://localhost:8000/test
+    visit https://localhost:8000/test
 
-in the console type in python manage.py progressbar
+    # in the cli type in python manage.py progressbar in a new window.
 
 
 Quickstart
