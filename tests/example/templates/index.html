@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="action-cable-url" content="/cable">
+    <script src="{% static 'js/cable_ready.js' %}"></script>
+    <title>Hello world</title>
+    <style>
+         #progress-bar {
+            background-color: #ccc;
+            border-radius: 13px;
+            padding: 3px;
+          }
+
+          #progress-bar > div {
+            background-color: green;
+            width: 0;
+            height: 20px;
+            border-radius: 10px;
+          }
+    </style>
+</head>
+<body>
+    <script>
+        let chatSocket = new WebSocket(
+            'ws://localhost:8000/ws/cable/'
+        )
+
+        chatSocket.onmessage = function(e) {
+            let data = JSON.parse(e.data);
+            console.log(data)
+            if (data.cableReady) {
+                CableReady.perform(data.operations)
+            }
+        }
+    </script>
+    <h1>Progress Bar Demo</h1>
+    <div id="progress-bar">
+      <div></div>
+    </div>
+</body>
+</html>
