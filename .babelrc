@@ -3,6 +3,7 @@
     ["env", { "modules": false, "loose": true } ]
   ],
   "plugins": [
-    "external-helpers"
+    "external-helpers",
+    "transform-object-rest-spread"
   ]
 }
