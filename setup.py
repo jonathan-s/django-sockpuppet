@@ -43,6 +43,7 @@ if sys.argv[-1] == 'tag':
 
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+requirements = open('requirements.txt').readlines()
 
 setup(
     name='django-sockpuppet',
@@ -56,7 +57,7 @@ setup(
         'sockpuppet',
     ],
     include_package_data=True,
-    install_requires=[],
+    install_requires=requirements,
     license="Apache Software License 2.0",
     zip_safe=False,
     keywords='django-sockpuppet',
