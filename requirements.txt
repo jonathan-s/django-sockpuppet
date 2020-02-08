@@ -1,2 +1,2 @@
-
-# Additional requirements go here
+channels>=2.0
+inflector
