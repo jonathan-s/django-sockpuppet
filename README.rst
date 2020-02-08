@@ -16,7 +16,19 @@ Helping you use websockets in an effective way in views
 Documentation
 -------------
 
-The full documentation is at https://django-sockpuppet.readthedocs.io.
+Prototype status of getting stimulus-reflex to work with Django.
+
+You need to have redis running for this.
+
+
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+visit https://localhost:8000/test
+
+in the console type in python manage.py progressbar
+
 
 Quickstart
 ----------
