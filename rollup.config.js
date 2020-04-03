@@ -1,6 +1,6 @@
 import babel from "rollup-plugin-babel"
-import uglify from "rollup-plugin-uglify"
-import resolve from "rollup-plugin-node-resolve"
+import { uglify } from "rollup-plugin-uglify"
+import resolve from "@rollup/plugin-node-resolve"
 
 const uglifyOptions = {
   mangle: false,
@@ -24,5 +24,18 @@ export default [
         uglify(uglifyOptions),
         resolve()
     ]
-  }
+  },
+  {
+    input: "javascript/stimulus/stimulus_reflex.js",
+    output: {
+        file: "sockpuppet/static/js/stimulus_reflex.js",
+        format: "umd",
+        name: "StimulusReflex"
+    },
+    plugins: [
+        babel(),
+        uglify(uglifyOptions),
+        resolve()
+    ]
+  },
 ]
