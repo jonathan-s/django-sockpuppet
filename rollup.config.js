@@ -1,8 +1,9 @@
 import babel from "rollup-plugin-babel"
-import { uglify } from "rollup-plugin-uglify"
+import { terser } from "rollup-plugin-terser"
 import resolve from "@rollup/plugin-node-resolve"
+import commonjs from '@rollup/plugin-commonjs'
 
-const uglifyOptions = {
+const options = {
   mangle: false,
   compress: false,
   output: {
@@ -20,8 +21,10 @@ export default [
         name: "CableReady"
     },
     plugins: [
-        babel(),
-        uglify(uglifyOptions),
+        // babel({
+        //     exclude: "node_modules/**"
+        // }),
+        terser(options),
         resolve()
     ]
   },
@@ -33,9 +36,14 @@ export default [
         name: "StimulusReflex"
     },
     plugins: [
+        resolve(),
+        commonjs({
+            namedExports: {
+                "node_modules/@rails/actioncable/app/assets/javascripts/action_cable.js": ["createConsumer"]
+            }
+        }),
         babel(),
-        uglify(uglifyOptions),
-        resolve()
+        terser(options),
     ]
   },
 ]
