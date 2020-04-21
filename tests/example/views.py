@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 
 class TestView(TemplateView):
-    template_name = "index.html"
+    template_name = "progressbar.html"
 
 
 def index(request):
