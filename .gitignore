@@ -49,3 +49,12 @@ docs/_build
 node_modules
 notes.md
 *.sqlite3
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
