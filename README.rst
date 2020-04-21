@@ -66,6 +66,43 @@ Features
 
 * TODO
 
+
+Logging in debug mode
+---------------------
+
+An example if you want to enable debug logging for the consumer.
+
+.. code-block:: python
+
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'root': {
+            'handlers': ['console'],
+            'level': 'DEBUG'
+        },
+        'handlers': {
+            'sockpuppet': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple'
+            }
+        },
+        'formatters': {
+            'simple': {
+                'format': '%(levelname)s %(message)s'
+            },
+        },
+        'loggers': {
+            'sockpuppet': {
+                'level': 'DEBUG',
+                'handlers': ['sockpuppet']
+            }
+        }
+    }
+
+
+
 Running Tests
 -------------
 
