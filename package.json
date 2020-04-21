@@ -1,32 +1,30 @@
 {
-  "name": "@rails/actioncable",
-  "version": "6.1.0-alpha",
-  "description": "WebSocket framework for Ruby on Rails.",
-  "main": "sockpuppet/static/js/action_cable.js",
+  "name": "sockpuppet-js",
+  "version": "0.1.0",
+  "description": "Websocket consumer to support django-sockpuppet / stimulus-reflex.",
+  "main": "sockpuppet/static/js/reflex-websocket.js",
   "files": [
     "app/assets/javascripts/*.js",
     "src/*.js"
   ],
   "repository": {
-    "type": "git",
-    "url": "rails/rails"
+    "type": "git"
   },
   "keywords": [
     "websockets",
-    "actioncable",
-    "rails"
+    "stimulus-reflex",
+    "django"
   ],
-  "author": "David Heinemeier Hansson <david@loudthinking.com>",
+  "author": "Jonathan Sundqvist <jonathan@argpar.se>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rails/rails/issues"
+    "url": "https://github.com/jonathan-s/sockpuppet/issues"
   },
-  "homepage": "https://rubyonrails.org/",
+  "homepage": "https://github.com/jonathan-s/sockpuppet",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-external-helpers": "^7.8.3",
     "@babel/preset-env": "^7.6.2",
-    "@rails/actioncable": "^6.0.2",
     "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -34,19 +32,12 @@
     "eslint": "^4.3.0",
     "eslint-plugin-import": "^2.7.0",
     "inflected": ">= 2.0",
-    "karma": "^3.1.1",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-qunit": "^2.1.0",
-    "karma-sauce-launcher": "^1.2.0",
-    "mock-socket": "^2.0.0",
-    "morphdom": "^2.5.9",
-    "qunit": "^2.8.0",
     "rollup": "^1.32.1",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^5.3.0",
-    "stimulus": ">= 1.1"
+    "stimulus": ">= 1.1",
+    "reconnecting-websocket": "^4.4.0"
   },
-  "dependencies": {},
   "optionalDependencies": {
     "fsevents": "1.2.9"
   },
@@ -54,7 +45,6 @@
     "build": "rollup --config rollup.config.js",
     "lint": "eslint javascript",
     "prepublishOnly": "rm -rf src && cp -R app/javascript/action_cable src",
-    "pretest": "bundle exec rake assets:codegen && rollup --config rollup.config.test.js",
-    "test": "karma start"
+    "pretest": "bundle exec rake assets:codegen && rollup --config rollup.config.test.js"
   }
 }
