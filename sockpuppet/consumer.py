@@ -13,14 +13,14 @@ logger = logging.getLogger('sockpuppet')
 
 class SockpuppetConsumer(JsonWebsocketConsumer):
     channel_name = ''
-    reflexes = []
+    reflexes = {}
 
     def load_reflexes_from_config(self, config):
         def append_reflex(module):
             for classname in dir(module):
                 if 'reflex' in classname.lower():
                     ReflexClass = getattr(module, classname)
-                    self.reflexes.append(ReflexClass)
+                    self.reflexes[ReflexClass.__name__] = ReflexClass
 
         path = config.module.__path__[0]
         for dirpath, dirnames, filenames in walk(path):
