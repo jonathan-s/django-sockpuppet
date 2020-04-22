@@ -11,9 +11,52 @@ from channels.generic.websocket import JsonWebsocketConsumer
 logger = logging.getLogger('sockpuppet')
 
 
+'''
+how to send to a specific group.
+
+deal with that a bit later.
+'''
+
+
 class SockpuppetConsumer(JsonWebsocketConsumer):
-    channel_name = ''
     reflexes = {}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.subscriptions = set()
+
+        if not self.reflexes:
+            configs = apps.app_configs.values()
+            for config in configs:
+                self.load_reflexes_from_config(config)
+
+    def connect(self):
+        super().connect()
+        session = self.scope['session']
+        if not session.session_key:
+            # normally there is no session key for anonymous users.
+            session.save()
+
+        async_to_sync(self.channel_layer.group_add)(
+            session.session_key,
+            self.channel_name
+        )
+        logger.debug(
+            ':: CONNECT: Channel %s session: %s',
+            self.channel_name, session.session_key
+        )
+
+    def disconnect(self):
+        super().disconnect()
+        session = self.scope['session']
+        async_to_sync(self.channel_layer.group_discard)(
+            session.session_key,
+            self.channel_name
+        )
+        logger.debug(
+            ':: DISCONNECT: Channel %s session: %s',
+            self.channel_name, session.session_key
+        )
 
     def load_reflexes_from_config(self, config):
         def append_reflex(module):
@@ -40,51 +83,6 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                     module = import_module(full_import_path)
                     append_reflex(module)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.subscriptions = set()
-
-        if not self.reflexes:
-            configs = apps.app_configs.values()
-            for config in configs:
-                self.load_reflexes_from_config(config)
-
     def receive_json(self, content, **kwargs):
         logger.debug('Json: %s', content)
         logger.debug('kwargs: %s', kwargs)
-
-    def subscribe(self, event):
-        room_name = event['room_name']
-        if room_name not in self.subscriptions:
-            logger.debug(f':: SUBSCRIBE {self.channel_name} {room_name}')
-            async_to_sync(self.channel_layer.group_add)(
-                room_name,
-                self.channel_name
-            )
-            self.subscriptions.add(room_name)
-
-    def unsubscribe(self, event):
-        room_name = event['room_name']
-        if room_name in self.subscriptions:
-            logger.debug(f':: UNSUBSCRIBE {self.channel_name} {room_name}')
-            async_to_sync(self.channel_layer.group_discard)(
-                room_name,
-                self.channel_name
-            )
-            self.subscriptions.discard(room_name)
-
-    def connect(self):
-        super().connect()
-        self.scope['channel_name'] = self.channel_name
-        # self.send_json({
-        #     'type': 'components',
-        #     'component_types': {
-        #         name: c.extends for name, c in Component._all.items()
-        #     }
-        # })
-        logger.debug(f':: CONNECT {self.channel_name}')
-
-    def disconnect(self, close_code):
-        for room in list(self.subscriptions):
-            self.unsubscribe({'room_name': room})
-        logger.debug(f':: DISCONNECT {self.channel_name}')
