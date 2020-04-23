@@ -1,21 +1,35 @@
-
 import logging
 from importlib import import_module
+from functools import wraps
+import inspect
 from os import walk
 
-from django.apps import apps
 from asgiref.sync import async_to_sync
+from bs4 import BeautifulSoup
 from channels.generic.websocket import JsonWebsocketConsumer
+from django.apps import apps
+from django.urls import resolve
+
+from .channel import Channel
+from .reflex import PROTECTED_VARIABLES
+from .element import Element
+from .utils import camelize
 
 
 logger = logging.getLogger('sockpuppet')
 
 
-'''
-how to send to a specific group.
+class SockpuppetError(Exception):
+    pass
 
-deal with that a bit later.
-'''
+
+def context_decorator(method, extra_context):
+    @wraps(method)
+    def wrapped(self, *method_args, **method_kwargs):
+        context = method(self, *method_args, **method_kwargs)
+        context.update(extra_context)
+        return context
+    return wrapped
 
 
 class SockpuppetConsumer(JsonWebsocketConsumer):
@@ -83,6 +97,86 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                     module = import_module(full_import_path)
                     append_reflex(module)
 
-    def receive_json(self, content, **kwargs):
-        logger.debug('Json: %s', content)
+    def receive_json(self, data, **kwargs):
+        logger.debug('Json: %s', data)
         logger.debug('kwargs: %s', kwargs)
+
+        url = data['url']
+        selectors = data.get('selectors', ['body'])
+        target = data['target']
+        reflex_name, method_name = target.split('#')
+        reflex_name = camelize(reflex_name)
+        arguments = data['args'] if data.get('args') else []
+        element = Element(data['attrs'])
+
+        try:
+            ReflexClass = self.reflexes.get(reflex_name)
+            if not self.is_reflex(ReflexClass):
+                msg = '{} is not of the class SockpuppetReflex'
+                raise ValueError(msg)
+            reflex = ReflexClass(self, url=url, element=element, selectors=selectors)
+            self.delegate_call_to_reflex(reflex, method_name, arguments)
+        except ValueError as e:
+            msg = 'SockpuppetConsumer failed to invoke {target}, {url}, {message}'.format(
+                target=target, url=url, message=e.message
+            )
+            return self.broadcast_error(msg, data)
+            raise SockpuppetError(msg)
+
+        try:
+            self.render_page_and_broadcast_morph(reflex, selectors, data)
+        except Exception as e:
+            message = 'SockpuppetConsumer failed to re-render {url} {message}'.format(
+                url=url, message=e.message
+            )
+            self.broadcast_error(message, data)
+            raise SockpuppetError(message)
+
+    def render_page_and_broadcast_morph(self, reflex, selectors, data):
+        html = self.render_page(reflex)
+        if html:
+            self.broadcast_morphs(selectors, data, html)
+
+    def render_page(self, reflex):
+        resolved = resolve(reflex.url)
+        view = resolved.func
+
+        instance_variables = [
+            member for (_type, member) in inspect.getmembers(reflex)
+            if _type == 'instance_variable' and _type not in PROTECTED_VARIABLES
+        ]
+        reflex_context = {key: getattr(key, reflex) for key in instance_variables}
+        view.view_class.get_context_data = context_decorator(
+            view.view_class.get_context_data, reflex_context
+        )
+        reflex.session.save()
+        response = view(reflex.request, resolved.args, resolved.kwargs)
+        return response
+
+    def broadcast_morphs(self, selectors, data, html):
+        document = BeautifulSoup(html)
+        selectors = [selector for selector in selectors if document.select(selector)]
+        channel = Channel(self.scope['session'].session_key)
+        for selector in selectors:
+            channel.morph({
+                'selector': selector,
+                'html': [str(e) for e in document.select(selector)],
+                'children_only': True,
+                'permanent_attribute_name': data['permanent_attribute_name']
+            })
+        channel.broadcast()
+
+    def is_reflex(self, reflex_class):
+        # TODO fix this
+        return True
+
+    def delegate_call_to_reflex(self, reflex, method_name, arguments):
+        method = getattr(reflex, method_name)
+        method_signature = inspect.signature(method)
+        if len(method_signature.parameters) == 0:
+            getattr(reflex, method_name)()
+        else:
+            getattr(reflex, method_name)(*arguments)
+
+    def broadcast_error(self, message, data):
+        raise NotImplementedError()
