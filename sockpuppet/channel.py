@@ -1,16 +1,13 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-from inflector import Inflector
-
-inflector = Inflector()
-
-
-def camelize(word):
-    word = inflector.camelize(word)
-    return '{}{}'.format(word[0].lower(), word[1:])
+from .utils import camelize
 
 
 class Channel:
+    '''
+    Accepts a name which should either be the name of the group or the channel_name
+    to which the content will be broadcast to.
+    '''
 
     def __init__(self, name):
         self.name = name
