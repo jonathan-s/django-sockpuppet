@@ -1,6 +1,6 @@
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-from .utils import camelize
+from .utils import camelize, deep_transform
 
 
 class Channel:
@@ -38,11 +38,14 @@ class Channel:
         }
 
     def broadcast(self):
-        '''
-        Figure out the structure of this..
-        '''
+        def camelize_value(value):
+            if isinstance(value, list):
+                for num, obj in enumerate(value):
+                    value[num] = {camelize(key): value for key, value in obj.items()}
+            return value
+
         operations = {
-            camelize(key): value
+            camelize(key): camelize_value(value)
             for key, value in self.operations.items() if value
         }
         channel_layer = get_channel_layer()

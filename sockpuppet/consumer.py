@@ -1,3 +1,4 @@
+import json
 import logging
 from importlib import import_module
 from functools import wraps
@@ -100,6 +101,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
 
     def message(self, event):
         logger.debug(event)
+        self.send(json.dumps(event))
 
     def receive_json(self, data, **kwargs):
         logger.debug('Json: %s', data)
@@ -151,23 +153,29 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             if not name.startswith('__') and name not in PROTECTED_VARIABLES
         ]
         reflex_context = {key: getattr(reflex, key) for key in instance_variables}
+        original_context_data = view.view_class.get_context_data
         view.view_class.get_context_data = context_decorator(
             view.view_class.get_context_data, reflex_context
         )
-        reflex.session.save()
         response = view(reflex.request, resolved.args, resolved.kwargs)
+        # we've got the response, the function needs to work as normal again
+        view.view_class.get_context_data = original_context_data
+        reflex.session.save()
         return response.rendered_content
 
     def broadcast_morphs(self, selectors, data, html):
         document = BeautifulSoup(html)
         selectors = [selector for selector in selectors if document.select(selector)]
+
         channel = Channel(self.scope['session'].session_key)
+        logger.debug('Broadcasting to %s', self.scope['session'].session_key)
         for selector in selectors:
             channel.morph({
                 'selector': selector,
                 'html': [str(e) for e in document.select(selector)],
                 'children_only': True,
-                'permanent_attribute_name': data['permanent_attribute_name']
+                'permanent_attribute_name': data['permanent_attribute_name'],
+                'stimulus_reflex': {'url': data['url']}
             })
         channel.broadcast()
 
