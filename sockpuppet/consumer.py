@@ -106,7 +106,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         logger.debug('kwargs: %s', kwargs)
 
         url = data['url']
-        selectors = data.get('selectors', ['body'])
+        selectors = data['selectors'] if data['selectors'] else ['body']
         target = data['target']
         reflex_name, method_name = target.split('#')
         reflex_name = classify(reflex_name)
@@ -147,10 +147,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         view = resolved.func
 
         instance_variables = [
-            member for (_type, member) in inspect.getmembers(reflex)
-            if _type == 'instance_variable' and _type not in PROTECTED_VARIABLES
+            name for (name, member) in inspect.getmembers(reflex)
+            if not name.startswith('__') and name not in PROTECTED_VARIABLES
         ]
-        reflex_context = {key: getattr(key, reflex) for key in instance_variables}
+        reflex_context = {key: getattr(reflex, key) for key in instance_variables}
         view.view_class.get_context_data = context_decorator(
             view.view_class.get_context_data, reflex_context
         )
