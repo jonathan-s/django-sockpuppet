@@ -86,13 +86,14 @@ export default class WebsocketConsumer {
         this._url = url
         this.subscriptions = new Subscriptions(this)
         this.connection = new ReconnectingWebSocket(url, [], options)
-        this.connection.addEventListener("message", (data) => {
+        this.connection.addEventListener("message", (event) => {
+            let data = JSON.parse(event.data)
             if (!data.cableReady) return
             if (!data.operations.morph || !data.operations.morph.length) return
             const urls = [
-              ...new Set(data.operations.morph.map(m => m.stimulusReflex.url))
+                ...new Set(data.operations.morph.map(m => m.stimulusReflex.url))
             ]
-            if (urls.length !== 1 || urls[0] !== location.href) return
+            if (urls.length !== 1 || !urls[0].has(location.href)) return
             CableReady.perform(data.operations)
         })
     }
