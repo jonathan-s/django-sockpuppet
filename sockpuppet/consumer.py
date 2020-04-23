@@ -3,6 +3,7 @@ from importlib import import_module
 from functools import wraps
 import inspect
 from os import walk
+from urllib.parse import urlparse
 
 from asgiref.sync import async_to_sync
 from bs4 import BeautifulSoup
@@ -13,7 +14,7 @@ from django.urls import resolve
 from .channel import Channel
 from .reflex import PROTECTED_VARIABLES
 from .element import Element
-from .utils import camelize
+from .utils import classify
 
 
 logger = logging.getLogger('sockpuppet')
@@ -60,8 +61,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             self.channel_name, session.session_key
         )
 
-    def disconnect(self):
-        super().disconnect()
+    def disconnect(self, *args, **kwargs):
         session = self.scope['session']
         async_to_sync(self.channel_layer.group_discard)(
             session.session_key,
@@ -71,6 +71,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             ':: DISCONNECT: Channel %s session: %s',
             self.channel_name, session.session_key
         )
+        super().disconnect(*args, **kwargs)
 
     def load_reflexes_from_config(self, config):
         def append_reflex(module):
@@ -97,6 +98,9 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                     module = import_module(full_import_path)
                     append_reflex(module)
 
+    def message(self, event):
+        logger.debug(event)
+
     def receive_json(self, data, **kwargs):
         logger.debug('Json: %s', data)
         logger.debug('kwargs: %s', kwargs)
@@ -105,10 +109,9 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         selectors = data.get('selectors', ['body'])
         target = data['target']
         reflex_name, method_name = target.split('#')
-        reflex_name = camelize(reflex_name)
+        reflex_name = classify(reflex_name)
         arguments = data['args'] if data.get('args') else []
         element = Element(data['attrs'])
-
         try:
             ReflexClass = self.reflexes.get(reflex_name)
             if not self.is_reflex(ReflexClass):
@@ -138,7 +141,9 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             self.broadcast_morphs(selectors, data, html)
 
     def render_page(self, reflex):
-        resolved = resolve(reflex.url)
+        parsed_url = urlparse(reflex.url)
+        url_path = parsed_url.path + parsed_url.query
+        resolved = resolve(url_path)
         view = resolved.func
 
         instance_variables = [
@@ -151,7 +156,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         )
         reflex.session.save()
         response = view(reflex.request, resolved.args, resolved.kwargs)
-        return response
+        return response.rendered_content
 
     def broadcast_morphs(self, selectors, data, html):
         document = BeautifulSoup(html)
