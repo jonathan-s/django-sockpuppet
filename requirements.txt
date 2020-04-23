@@ -1,4 +1,4 @@
 channels>=2.0
 inflector
-django-extensions
 channels_redis
+bs4
