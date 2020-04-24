@@ -26,6 +26,7 @@ Add it to your `INSTALLED_APPS`:
 ```
 INSTALLED_APPS = (
     ...
+    'channels',
     'sockpuppet',
     ...
 )

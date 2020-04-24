@@ -1234,10 +1234,10 @@
         var data = JSON.parse(event.data);
         if (!data.cableReady) return;
         if (!data.operations.morph || !data.operations.morph.length) return;
-        var urls = [].concat(new Set(data.operations.morph.map((function(m) {
+        var urls = Array.from(new Set(data.operations.morph.map((function(m) {
           return m.stimulusReflex.url;
         }))));
-        if (urls.length !== 1 || !urls[0].has(location.href)) return;
+        if (urls.length !== 1 || urls[0] !== location.href) return;
         CableReady.perform(data.operations);
       }));
     }
