@@ -153,6 +153,8 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             if not name.startswith('__') and name not in PROTECTED_VARIABLES
         ]
         reflex_context = {key: getattr(reflex, key) for key in instance_variables}
+        reflex_context['stimulus_reflex'] = True
+
         original_context_data = view.view_class.get_context_data
         view.view_class.get_context_data = context_decorator(
             view.view_class.get_context_data, reflex_context
