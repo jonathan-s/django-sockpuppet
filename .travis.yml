@@ -1,28 +1,22 @@
 language: python
 
-jobs:
-    include:
-    - python: "3.5"
-        env: TOX_ENV=py35-django-22
-    - python: "3.5"
-        env: TOX_ENV=py35-django-30
-    - python: "3.6"
-        env: TOX_ENV=py36-django-22
-    - python: "3.6"
-        env: TOX_ENV=py36-django-30
-    - python: "3.7"
-        env: TOX_ENV=py37-django-22
-    - python: "3.7"
-        env: TOX_ENV=py37-django-30
-
 matrix:
+  include:
+  - env: TOX_ENV=py35-django-22
+    python: "3.5"
+  - env: TOX_ENV=py36-django-22
+    python: "3.6"
+  - env: TOX_ENV=py36-django-30
+    python: "3.6"
+  - env: TOX_ENV=py37-django-22
+    python: "3.7"
+  - env: TOX_ENV=py37-django-30
+    python: "3.7"
   fast_finish: true
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -r requirements_test.txt
-
-before_script: npm install
-script: tox -e $TOX_ENV
+install: "pip install -r requirements_test.txt"
+before_script: "npm install"
+script: "tox -e $TOX_ENV"
 
 after_success:
-  - codecov -e TOX_ENV
+    - "codecov -e TOX_ENV"
