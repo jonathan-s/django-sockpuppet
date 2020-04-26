@@ -8,7 +8,7 @@ from git import Repo
 class JavascriptCommittedTest(TestCase):
 
     def test_all_javascript_is_committed_to_source_code(self):
-        subprocess.call('npm run-script build'.split(' '))
+        subprocess.check_call('npm run-script build'.split(' '))
         repo = Repo(settings.BASE_DIR)
         diff_result = repo.git.diff('sockpuppet/static/js/reflex-websocket.js')
 
