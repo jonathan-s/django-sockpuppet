@@ -2,5 +2,6 @@ include AUTHORS.rst
 include CONTRIBUTING.rst
 include HISTORY.rst
 include LICENSE
-include README.rst
+include README.md
+include requirements.txt
 recursive-include sockpuppet *.html *.png *.gif *js *.css *jpg *jpeg *svg *py
