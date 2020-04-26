@@ -76,6 +76,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
 
     def load_reflexes_from_config(self, config):
         def append_reflex(module):
+            # TODO only import classes that are actually that inherits Reflex
             for classname in dir(module):
                 if 'reflex' in classname.lower():
                     ReflexClass = getattr(module, classname)
@@ -100,7 +101,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                     append_reflex(module)
 
     def message(self, event):
-        logger.debug(event)
+        logger.debug('Sending data to session: %s, %s', event)
         self.send(json.dumps(event))
 
     def receive_json(self, data, **kwargs):
@@ -116,9 +117,6 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         element = Element(data['attrs'])
         try:
             ReflexClass = self.reflexes.get(reflex_name)
-            if not self.is_reflex(ReflexClass):
-                msg = '{} is not of the class SockpuppetReflex'
-                raise ValueError(msg)
             reflex = ReflexClass(self, url=url, element=element, selectors=selectors)
             self.delegate_call_to_reflex(reflex, method_name, arguments)
         except ValueError as e:
@@ -180,10 +178,6 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                 'stimulus_reflex': {'url': data['url']}
             })
         channel.broadcast()
-
-    def is_reflex(self, reflex_class):
-        # TODO fix this
-        return True
 
     def delegate_call_to_reflex(self, reflex, method_name, arguments):
         method = getattr(reflex, method_name)
