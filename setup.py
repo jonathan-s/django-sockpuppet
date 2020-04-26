@@ -41,15 +41,14 @@ if sys.argv[-1] == 'tag':
     os.system("git push --tags")
     sys.exit()
 
-readme = open('README.rst').read()
-history = open('HISTORY.rst').read().replace('.. :changelog:', '')
+readme = open('README.md').read()
 requirements = open('requirements.txt').readlines()
 
 setup(
     name='django-sockpuppet',
     version=version,
     description="""Helping you use websockets in an effective way in views""",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     author='Jonathan Sundqvist',
     author_email='jonathan@argpar.se',
     url='https://github.com/jonathan-s/django-sockpuppet',
@@ -58,20 +57,19 @@ setup(
     ],
     include_package_data=True,
     install_requires=requirements,
-    license="Apache Software License 2.0",
+    license="MIT",
     zip_safe=False,
     keywords='django-sockpuppet',
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'Framework :: Django :: 1.11',
         'Framework :: Django :: 2.1',
+        'Framework :: Django :: 2.2',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
 )
