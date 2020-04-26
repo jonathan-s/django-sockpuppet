@@ -12,6 +12,8 @@ This is the django implementation of the excellent rails library [stimulus-refle
 
 ## 📚 Documentation
 
+We share the documentation with the excellent stimulusreflex. For the time being the documentation can be found in this [PR](https://github.com/hopsoft/stimulus_reflex/pull/167)
+
 - [Official Documentation](https://docs.stimulusreflex.com)
 
 ## ⚡️ Get started
@@ -19,6 +21,7 @@ This is the django implementation of the excellent rails library [stimulus-refle
 ```
     # not yet on pip
     pip install django-sockpuppet
+    npm install sockpuppet-js
 ```
 
 Add it to your `INSTALLED_APPS`:
@@ -45,40 +48,6 @@ You're almost there, read about how to tie it all together in the [quickstart do
 - [Discourse](https://stimulus-reflex.discourse.group) - long form async communication
 - [Discord](https://discord.gg/XveN625) - We share the discord together with stimulus-reflex, and there is a channel dedicated for python/django discussions.
 
-
-
-## Logging in debug mode
-
-An example if you want to enable debug logging for the consumer.
-
-```
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG'
-    },
-    'handlers': {
-        'sockpuppet': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        }
-    },
-    'formatters': {
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'loggers': {
-        'sockpuppet': {
-            'level': 'DEBUG',
-            'handlers': ['sockpuppet']
-        }
-    }
-}
-```
 
 [1]: https://github.com/hopsoft/stimulus_reflex
 [2]: https://youtu.be/Z2DU0qLfPIY?t=670
