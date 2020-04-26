@@ -123,16 +123,16 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             self.delegate_call_to_reflex(reflex, method_name, arguments)
         except ValueError as e:
             msg = 'SockpuppetConsumer failed to invoke {target}, {url}, {message}'.format(
-                target=target, url=url, message=e.message
+                target=target, url=url, message=str(e)
             )
-            return self.broadcast_error(msg, data)
+            self.broadcast_error(msg, data)
             raise SockpuppetError(msg)
 
         try:
             self.render_page_and_broadcast_morph(reflex, selectors, data)
         except Exception as e:
             message = 'SockpuppetConsumer failed to re-render {url} {message}'.format(
-                url=url, message=e.message
+                url=url, message=str(e)
             )
             self.broadcast_error(message, data)
             raise SockpuppetError(message)
@@ -194,4 +194,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             getattr(reflex, method_name)(*arguments)
 
     def broadcast_error(self, message, data):
-        raise NotImplementedError()
+        channel = Channel(self.scope['session'].session_key)
+        data.update({'error': 'message'})
+        channel.dispatch_event({
+            'name': 'stimulus-reflex:500',
+            'detail': {'stimulus_reflex': data}
+        })
+        channel.broadcast()
