@@ -18,27 +18,22 @@ We share the documentation with the excellent stimulusreflex. For the time being
 
 ## ⚡️ Get started
 
-```
-    # not yet on pip
-    pip install django-sockpuppet
-    npm install sockpuppet-js
-```
+```bash
+# not yet on pypi
+pip install django-sockpuppet
 
-Add it to your `INSTALLED_APPS`:
-
-```
-INSTALLED_APPS = (
-    ...
+# Add these into INSTALLED_APPS in settings.py
+INSTALLED_APPS = [
     'channels',
-    'sockpuppet',
-    ...
-)
-```
+    'sockpuppet'
+]
 
-Generate an example application to get started
+# generates scaffolding for webpack.config.js and installs required js dependencies
+# if you prefer to do that manually read the more thorough documentation
+python manage.py initial_sockpuppet
 
-```
-python manage.py generate_reflex your_app
+# scaffolds a new reflex with everything that's needed.
+python manage.py generate_reflex app_name name_of_reflex
 ```
 
 You're almost there, read about how to tie it all together in the [quickstart documentation][3]
