@@ -9,13 +9,13 @@ class Command(BaseGenerateCommand):
     help = "Generate scaffolding to compile javascript."
 
     def handle(self, *args, **options):
+        install = 'npm install -g add-project-script'
         build = 'add-project-script -n "build" -v "webpack --mode production"'
         watch = 'add-project-script -n "watch" -v "webpack --watch --info-verbosity verbose"'
-        args = 'npm install -g add-project-script'.split(' ')
-        subprocess.check_call(args, shell=False)
-        subprocess.check_call(build.split(' '), shell=True)
-        subprocess.check_call(watch.split(' '), shell=True)
-        subprocess.check_call('npm uninstall -g add-project-script'.split(' '))
+        subprocess.check_call(install, shell=True)
+        subprocess.check_call(build, shell=True)
+        subprocess.check_call(watch, shell=True)
+        subprocess.check_call('npm uninstall -g add-project-script', shell=True)
 
         npm_pkg = 'npm install -save-dev glob sockpuppet-js stimulus_reflex webpack webpack-cli'
         subprocess.check_call(npm_pkg.split(' '))
