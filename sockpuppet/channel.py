@@ -35,6 +35,7 @@ class Channel:
             'add_css_class': [],
             'remove_css_class': [],
             'set_dataset_property': [],
+            'set_style': []
         }
 
     def broadcast(self):
@@ -133,14 +134,14 @@ class Channel:
         '''
         self.add_operation('remove', options)
 
-    def set_value(self, options={}):
+    def remove_attribute(self, options={}):
         '''
-        set_value: [{
+        remove_attribute: [{
             selector: "string",
-            value:    "string"
+            name:     "string"
         }, ...],
         '''
-        self.add_operation('set_value', options)
+        self.add_operation('remove_attribute', options)
 
     def set_attribute(self, options={}):
         '''
@@ -152,14 +153,14 @@ class Channel:
         '''
         self.add_operation('set_attribute', options)
 
-    def remove_attribute(self, options={}):
+    def set_value(self, options={}):
         '''
-        remove_attribute: [{
+        set_value: [{
             selector: "string",
-            name:     "string"
+            value:    "string"
         }, ...],
         '''
-        self.add_operation('remove_attribute', options)
+        self.add_operation('set_value', options)
 
     def add_css_class(self, options={}):
         '''
@@ -188,3 +189,14 @@ class Channel:
         }, ...],
         '''
         self.add_operation('set_dataset_property', options)
+
+    def set_style(self, options):
+        '''
+        set_style: [{
+          selector: "string",
+          name:     "string",
+          value:    "string"
+        }, ...],
+        '''
+        self.add_operation('set_style', options)
+
