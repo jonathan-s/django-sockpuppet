@@ -4,6 +4,8 @@ from django.apps import apps
 from django.core.management.base import BaseCommand, CommandError
 from django.template.loader import get_template
 
+from ._base import BaseGenerateCommand
+
 
 TEMPLATES = {
     '_reflex.py': 'sockpuppet/scaffolds/reflex.py',
@@ -14,7 +16,7 @@ TEMPLATES = {
 }
 
 
-class Command(BaseCommand):
+class Command(BaseGenerateCommand):
     help = "Scaffold for reflex. Includes javascript and python."
 
     def add_arguments(self, parser):
@@ -28,34 +30,11 @@ class Command(BaseCommand):
             default='example'
         )
 
-    def call_stdout(self, msg, _type='WARNING'):
-        style = getattr(self.style, _type)
-        self.stdout.write(style(msg))
-
-    def create_file(self, folder, filename, contents):
-        filepath = self.module_path / folder / filename
-        if filepath.exists():
-            partial_path = '/'.join(filepath.parts[-4:])
-            self.call_stdout('{} already exists, so it will be skipped'.format(partial_path))
-            return
-
-        try:
-            filepath.parent.mkdir(parents=True)
-        except FileExistsError:
-            pass
-
-        with filepath.open(mode='w') as f:
-            f.write(contents)
-
     def handle(self, *args, **options):
         app_name = options['app_name'][0]
         reflex_name = options['reflex_name']
-        try:
-            config = apps.get_app_config(app_name)
-        except LookupError as e:
-            raise CommandError(str(e))
 
-        module_path = config.module.__path__[0]
+        module_path = self.lookup_app_path(app_name)
         self.module_path = Path(module_path)
 
         paths = [
@@ -75,3 +54,9 @@ class Command(BaseCommand):
         self.create_file('views', '__init__.py', '')
         self.create_file('reflexes', '__init__.py', '')
         self.call_stdout('Scaffolding generated!', _type='SUCCESS')
+        if (self.module_path / 'views.py').exists():
+            msg = 'We created a views directory which means that you need to move your initial views there'
+            self.call_stdout('')
+            self.call_stdout(msg, _type='WARNING')
+
+        self.call_stdout("Last step is to add the view to urls.py", _type='SUCCESS')
