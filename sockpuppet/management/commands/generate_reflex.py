@@ -74,3 +74,4 @@ class Command(BaseCommand):
 
         self.create_file('views', '__init__.py', '')
         self.create_file('reflexes', '__init__.py', '')
+        self.call_stdout('Scaffolding generated!', _type='SUCCESS')
