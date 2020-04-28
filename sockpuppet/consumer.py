@@ -101,7 +101,8 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                     append_reflex(module)
 
     def message(self, event):
-        logger.debug('Sending data to session: %s, %s', event)
+        session_key = self.scope['session'].session_key
+        logger.debug('Sending data to session: %s, %s', session_key, event)
         self.send(json.dumps(event))
 
     def receive_json(self, data, **kwargs):
@@ -119,9 +120,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             ReflexClass = self.reflexes.get(reflex_name)
             reflex = ReflexClass(self, url=url, element=element, selectors=selectors)
             self.delegate_call_to_reflex(reflex, method_name, arguments)
-        except ValueError as e:
-            msg = 'SockpuppetConsumer failed to invoke {target}, {url}, {message}'.format(
-                target=target, url=url, message=str(e)
+        except Exception as e:
+            error = '{}: {}'.format(e.__class__.__name__, str(e))
+            msg = 'SockpuppetConsumer failed to invoke {target}, with url {url}, {message}'.format(
+                target=target, url=url, message=error
             )
             self.broadcast_error(msg, data)
             raise SockpuppetError(msg)
@@ -129,8 +131,9 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         try:
             self.render_page_and_broadcast_morph(reflex, selectors, data)
         except Exception as e:
+            error = '{}: {}'.format(e.__class__.__name__, str(e))
             message = 'SockpuppetConsumer failed to re-render {url} {message}'.format(
-                url=url, message=str(e)
+                url=url, message=error
             )
             self.broadcast_error(message, data)
             raise SockpuppetError(message)
