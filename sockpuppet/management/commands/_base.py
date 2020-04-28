@@ -1,4 +1,6 @@
 from pathlib import Path
+
+from django.apps import apps
 from django.core.management.base import BaseCommand, CommandError
 
 
