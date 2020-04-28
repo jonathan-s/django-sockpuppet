@@ -17,6 +17,7 @@ entryFiles.forEach(function(file){
         entryObj[fileName] = `./${file}`;
     }
 });
+console.log(entryObj)
 
 const config = {
     mode: process.env.NODE_ENV,
