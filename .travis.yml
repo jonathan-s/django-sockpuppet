@@ -16,7 +16,10 @@ matrix:
 
 install: "pip install -r requirements_test.txt"
 before_script: "npm install"
-script: "tox -e $TOX_ENV"
+script:
+    - "tox -e $TOX_ENV"
+    - "python manage.py runserver &"
+    - $(npm bin)/cypress run
 
 after_success:
     - "codecov -e TOX_ENV"
