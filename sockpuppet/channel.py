@@ -61,7 +61,7 @@ class Channel:
         )
         self.clear()
 
-    def dispatch(self, options={}):
+    def dispatch_event(self, options={}):
         '''
         dispatch_event: [{
                 name:     "string",
@@ -199,4 +199,3 @@ class Channel:
         }, ...],
         '''
         self.add_operation('set_style', options)
-
