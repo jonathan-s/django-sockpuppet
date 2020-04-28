@@ -8,7 +8,6 @@ const options = {
     debug: true
 }
 
-
 function createWebSocketURL(url) {
     if (typeof url === "function") {
       url = url()
@@ -85,7 +84,12 @@ export default class WebsocketConsumer {
     constructor(url) {
         this._url = url
         this.subscriptions = new Subscriptions(this)
+
         this.connection = new ReconnectingWebSocket(url, [], options)
+        this.connection.isOpen = function open() {
+            return this.readyState === ReconnectingWebSocket.OPEN;
+        }
+
         this.connection.addEventListener("message", (event) => {
             let data = JSON.parse(event.data)
             if (!data.cableReady) return
@@ -95,6 +99,12 @@ export default class WebsocketConsumer {
             )
             if (urls.length !== 1 || urls[0] !== (location.href)) return
             CableReady.perform(data.operations)
+        })
+
+        this.connection.addEventListener("message", (event) => {
+            let data = JSON.parse(event.data)
+            if (data.meta_type !== 'cookie') return
+            document.cookie = `${data.key}=${data.value||""}; max-age=${data.max_age}; path=/`;
         })
     }
 

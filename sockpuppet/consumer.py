@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from channels.generic.websocket import JsonWebsocketConsumer
 from django.apps import apps
 from django.urls import resolve
+from django.conf import settings
 
 from .channel import Channel
 from .reflex import PROTECTED_VARIABLES
@@ -49,7 +50,9 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
     def connect(self):
         super().connect()
         session = self.scope['session']
-        if not session.session_key:
+        has_session_key = session.session_key
+
+        if not has_session_key:
             # normally there is no session key for anonymous users.
             session.save()
 
@@ -57,6 +60,19 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             session.session_key,
             self.channel_name
         )
+
+        if not has_session_key:
+            self.group_send(
+                self.scope['session'].session_key,
+                {
+                    'type': 'message',
+                    'meta_type': 'cookie',
+                    'key': 'sessionid',
+                    'value': session.session_key,
+                    'max_age': settings.SESSION_COOKIE_AGE
+                }
+            )
+
         logger.debug(
             ':: CONNECT: Channel %s session: %s',
             self.channel_name, session.session_key
@@ -73,6 +89,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             self.channel_name, session.session_key
         )
         super().disconnect(*args, **kwargs)
+
+    def group_send(self, recipient, message):
+        send = async_to_sync(self.channel_layer.group_send)
+        send(recipient, message)
 
     def load_reflexes_from_config(self, config):
         def append_reflex(module):
