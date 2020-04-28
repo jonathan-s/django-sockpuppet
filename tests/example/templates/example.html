@@ -1,9 +1,14 @@
 {% load static %}
+
 <body>
-    <script src="{% static 'js/example.js' %}"></script>
-    <a  href="#"
-        data-controller="example"
-        data-action="click->example#increment"
-        data-count="{{ count }}"
-    >Increment {{ count }}</a>
+  <script src="{% static 'js/example.js' %}"></script>
+  <a
+    id="link"
+    href="#"
+    data-controller="example"
+    data-action="click->example#increment"
+    data-count="{{ count }}">
+    Increment
+  </a>
+  <div id="counter">{{ count }}</div>
 </body>
