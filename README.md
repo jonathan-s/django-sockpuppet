@@ -44,6 +44,17 @@ You're almost there, read about how to tie it all together in the [quickstart do
 - [Discord](https://discord.gg/XveN625) - We share the discord together with stimulus-reflex, and there is a channel dedicated for python/django discussions.
 
 
+## 🛠 Test things using this repo
+
+```
+git clone git@github.com:jonathan-s/django-sockpuppet.git
+npm install
+npm run build_test
+python manage.py runserver
+# visit https://localhost:8000/test
+```
+
+
 [1]: https://github.com/hopsoft/stimulus_reflex
 [2]: https://youtu.be/Z2DU0qLfPIY?t=670
 [3]: #

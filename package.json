@@ -30,14 +30,18 @@
     "cable_ready": ">= 4.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.7.0",
+    "reconnecting-websocket": "^4.4.0",
     "rollup": "^1.32.1",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^5.3.0",
     "stimulus": ">= 1.1",
-    "reconnecting-websocket": "^4.4.0"
+    "stimulus_reflex": ">= 3.1.4",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   },
   "scripts": {
     "build": "rollup --config rollup.config.js",
-    "lint": "eslint javascript"
+    "lint": "eslint javascript",
+    "build_test": "webpack --mode production"
   }
 }

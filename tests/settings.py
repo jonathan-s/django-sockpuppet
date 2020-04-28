@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "8er5kk2%*p!y43qfuvsjmxq)!_ybjzc-9v3i7i29!pn1mq4k)p"
+SECRET_KEY = "a_not_so_secret_key"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -62,16 +62,13 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'tests.example.routing.application'
+ASGI_APPLICATION = 'sockpuppet.routing.application'
 WSGI_APPLICATION = 'tests.example.wsgi.application'
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
 
 # Database
@@ -119,3 +116,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    ('js', '{}/dist/js/'.format(BASE_DIR)),
+]
