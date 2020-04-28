@@ -1,11 +1,12 @@
-{% load static %}
+{% load sockpuppet %}
+{% raw %}{% load static %}{% endraw %}
 <body>
     {# You'll need to make sure that the javascript is compiled and placed in the static files dirs.  #}
-    <script src="{% static 'js/{{ reflex_name }}.js' %}"></script>
+    <script src="{% raw %}{% static 'js/{{ reflex_name }}.js' %}{% endraw %}"></script>
 
     <a  href="#"
         data-controller="{{ reflex_name }}"
         data-action="click->{{ reflex_name }}#increment"
-        data-count="{{ count }}"
-    >Increment {{ count }}</a>
+        data-count="{% raw %}{{ count }}{% endraw %}"
+    >Increment {% raw %}{{ count }}{% endraw %}</a>
 </body>
