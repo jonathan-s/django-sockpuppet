@@ -2,7 +2,7 @@
   "name": "sockpuppet-js",
   "version": "0.1.0",
   "description": "Websocket consumer to support django-sockpuppet / stimulus-reflex.",
-  "main": "sockpuppet/static/js/reflex-websocket.js",
+  "main": "./sockpuppet/static/js/reflex-websocket.js",
   "files": [
     "app/assets/javascripts/*.js",
     "src/*.js"
@@ -44,6 +44,7 @@
     "build": "rollup --config rollup.config.js",
     "lint": "eslint javascript",
     "build_test": "webpack --mode production",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   }
 }
