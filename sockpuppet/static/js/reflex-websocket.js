@@ -1230,6 +1230,9 @@
       this._url = url;
       this.subscriptions = new Subscriptions(this);
       this.connection = new ReconnectingWebSocket(url, [], options);
+      this.connection.isOpen = function open() {
+        return this.readyState === ReconnectingWebSocket.OPEN;
+      };
       this.connection.addEventListener("message", (function(event) {
         var data = JSON.parse(event.data);
         if (!data.cableReady) return;
@@ -1239,6 +1242,11 @@
         }))));
         if (urls.length !== 1 || urls[0] !== location.href) return;
         CableReady.perform(data.operations);
+      }));
+      this.connection.addEventListener("message", (function(event) {
+        var data = JSON.parse(event.data);
+        if (data.meta_type !== "cookie") return;
+        document.cookie = data.key + "=" + (data.value || "") + "; max-age=" + data.max_age + "; path=/";
       }));
     }
     var _proto3 = WebsocketConsumer.prototype;
