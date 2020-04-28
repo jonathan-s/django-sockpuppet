@@ -20,4 +20,7 @@ class Reflex:
     @property
     def request(self):
         factory = RequestFactory()
-        return factory.get(self.url)
+        request = factory.get(self.url)
+        request.session = self.consumer.scope['session']
+        request.user = self.consumer.scope['user']
+        return request
