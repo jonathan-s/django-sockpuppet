@@ -16,9 +16,8 @@ Including another URLconf
 
 from django.urls import path
 
-from . import views
+from .views.example import ExampleView
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('<str:room_name>/', views.room, name='room'),
+    path('test/', ExampleView.as_view(), name='example')
 ]
