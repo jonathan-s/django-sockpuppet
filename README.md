@@ -19,7 +19,6 @@ We share the documentation with the excellent stimulusreflex. For the time being
 ## ⚡️ Get started
 
 ```bash
-# not yet on pypi
 pip install django-sockpuppet
 
 # Add these into INSTALLED_APPS in settings.py

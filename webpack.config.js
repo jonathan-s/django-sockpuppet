@@ -23,7 +23,7 @@ const config = {
     mode: process.env.NODE_ENV,
     entry: entryObj,
     output: {
-        path: __dirname + '/dist/js',
+        path: __dirname + '/jsdist/js',
         filename: '[name].js'
     },
     optimization: {
