@@ -62,5 +62,6 @@ venv.bak/
 
 # repo specific
 dist/
+jsdist/
 cypress/videos/
 cypress/screenshots/

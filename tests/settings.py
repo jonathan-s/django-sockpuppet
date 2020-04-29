@@ -117,5 +117,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    ('js', '{}/dist/js/'.format(BASE_DIR)),
+    ('js', '{}/jsdist/js/'.format(BASE_DIR)),
 ]

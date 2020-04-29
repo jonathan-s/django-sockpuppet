@@ -57,6 +57,7 @@ setup(
     ],
     include_package_data=True,
     install_requires=requirements,
+    long_description_content_type="text/markdown",
     license="MIT",
     zip_safe=False,
     keywords='django-sockpuppet',
