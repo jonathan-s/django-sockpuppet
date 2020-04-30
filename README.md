@@ -5,10 +5,15 @@
 
 ### 🎉 **You just discovered an exciting new way to build modern, reactive, real-time apps with Django.**
 
-It's a way to avoid fiddling with apis on the backend and then using single page applications on the frontend. Sockpuppet does all the heavylifting for you.
+**Why should I spend time exploring this?** If you use current frontend libraries, such as react, vue or angular you end up creating state for the frontend and then updating state changes in the backend through an api.
+
+This means that you forgo server-rendered html with the advantages that brings + you'll end up with a more complex app overall.
+
+With this library you can still use normal django templates, and any frontend state you change will be directly reflected in the backend. Currently this happens through the use of websockets.
 
 This is the django implementation of the excellent rails library [stimulus-reflex][1], which in turn is inspired by [Phoenix LiveView][2].
 
+Hit me up on twitter if you have any questions.  [![Twitter follow](https://img.shields.io/twitter/follow/argparse?style=social)](https://twitter.com/argparse)
 
 ## 📚 Documentation
 
