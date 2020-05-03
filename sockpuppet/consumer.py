@@ -3,7 +3,7 @@ import logging
 from importlib import import_module
 from functools import wraps
 import inspect
-from os import walk
+from os import walk, path
 from urllib.parse import urlparse
 
 from asgiref.sync import async_to_sync
@@ -102,22 +102,26 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                     ReflexClass = getattr(module, classname)
                     self.reflexes[ReflexClass.__name__] = ReflexClass
 
-        path = config.module.__path__[0]
-        for dirpath, dirnames, filenames in walk(path):
-            if dirpath == path and 'reflexes' in dirnames:
+        modpath = config.module.__path__[0]
+
+        for dirpath, dirnames, filenames in walk(modpath):
+            if dirpath == modpath and 'reflexes' in filenames:
                 # classes in reflexes.py
                 import_path = '{}.reflexes'.format(config.name)
                 module = import_module(import_path)
+
                 append_reflex(module)
-            elif dirpath == '{}/{}'.format(path, 'reflexes'):
+            elif dirpath == path.join(modpath, 'reflexes'):
                 # assumes reflexes folder is placed directly in app.
                 import_path = '{config_name}.reflexes.{reflex_file}'
+
                 for filename in filenames:
                     name = filename.split('.')[0]
                     full_import_path = import_path.format(
                         config_name=config.name, reflex_file=name
                     )
                     module = import_module(full_import_path)
+
                     append_reflex(module)
 
     def message(self, event):
