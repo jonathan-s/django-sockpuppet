@@ -105,7 +105,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         modpath = config.module.__path__[0]
 
         for dirpath, dirnames, filenames in walk(modpath):
-            if dirpath == modpath and 'reflexes' in filenames:
+            if dirpath == modpath and 'reflexes.py' in filenames:
                 # classes in reflexes.py
                 import_path = '{}.reflexes'.format(config.name)
                 module = import_module(import_path)
