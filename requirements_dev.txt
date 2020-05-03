@@ -3,6 +3,6 @@
 django-extensions
 invoke
 twine
-wheel==0.30.0
+wheel
 zest.releaser
 
