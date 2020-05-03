@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const glob = require('glob');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 
 let globOptions = {
@@ -19,16 +20,21 @@ entryFiles.forEach(function(file){
 });
 console.log(entryObj)
 
-const config = {
+module.exports = function(env, argv) {
+  console.log(env)
+  let config = {
     mode: process.env.NODE_ENV,
     entry: entryObj,
     output: {
-        path: __dirname + '/jsdist/js',
-        filename: '[name].js'
+      path: __dirname + '/jsdist/js',
+      filename: '[name].js'
     },
-    optimization: {
-        minimize: false
-    }
-}
+    plugins: []
+  }
 
-module.exports = config
+  if (env.analyze) {
+    config.plugins.push(new BundleAnalyzerPlugin())
+  }
+  console.log(env)
+  return config
+}
