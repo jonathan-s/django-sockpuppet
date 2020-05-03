@@ -1,4 +1,7 @@
-bumpversion==0.5.3
+-r requirements_test.txt
+
+zest.releaser
 wheel==0.30.0
 django-extensions
 twine
+invoke
