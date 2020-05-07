@@ -29,8 +29,8 @@ class SockpuppetError(Exception):
 def context_decorator(method, extra_context):
     @wraps(method)
     def wrapped(self, *method_args, **method_kwargs):
+        method_kwargs.update(extra_context)
         context = method(self, *method_args, **method_kwargs)
-        context.update(extra_context)
         return context
     return wrapped
 
