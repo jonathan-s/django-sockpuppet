@@ -1,4 +1,3 @@
 channels>=2.0
-inflector
 channels_redis
 bs4
