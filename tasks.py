@@ -74,7 +74,10 @@ def release(c, bumpsize=''):
     Package and upload a release
     """
     clean(c)
-    c.run("bumpversion {bump} --no-input".format(bump='--' + bumpsize))
+    if bumpsize:
+        bumpsize = '--' + bumpsize
+
+    c.run("bumpversion {bump} --no-input".format(bump=bumpsize))
 
     import sockpuppet
     c.run('git tag -a {version} -m "New version: {version}"'.format(version=sockpuppet.__version__))
