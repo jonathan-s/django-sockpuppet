@@ -16,7 +16,7 @@ from django.conf import settings
 from .channel import Channel
 from .reflex import PROTECTED_VARIABLES
 from .element import Element
-from .utils import classify
+from .utils import classify, camelize_value
 
 
 logger = logging.getLogger('sockpuppet')
@@ -31,6 +31,8 @@ def context_decorator(method, extra_context):
     def wrapped(self, *method_args, **method_kwargs):
         method_kwargs.update(extra_context)
         context = method(self, *method_args, **method_kwargs)
+        # if context was picked from cache extra context needs to be added again
+        context.update(extra_context)
         return context
     return wrapped
 
@@ -196,13 +198,14 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
 
         channel = Channel(self.scope['session'].session_key)
         logger.debug('Broadcasting to %s', self.scope['session'].session_key)
+
         for selector in selectors:
             channel.morph({
                 'selector': selector,
                 'html': [str(e) for e in document.select(selector)],
                 'children_only': True,
                 'permanent_attribute_name': data['permanent_attribute_name'],
-                'stimulus_reflex': {'url': data['url']}
+                'stimulus_reflex': {**data, 'last': selector == selectors[-1]}
             })
         channel.broadcast()
 

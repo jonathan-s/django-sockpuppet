@@ -1,11 +1,21 @@
-from inflector import Inflector
-
-inflector = Inflector()
+import re
 
 
 def camelize(word):
-    word = inflector.camelize(word)
-    return '{}{}'.format(word[0].lower(), word[1:])
+    word = re.sub(
+        r'[\s_](.)',
+        lambda m: m.group(1).title(),
+        word, flags=re.DOTALL
+    )
+    return word
+
+
+def camelize_value(value):
+    if isinstance(value, list):
+        value = [camelize_value(val) for val in value]
+    elif isinstance(value, dict):
+        value = {camelize(key): camelize_value(val) for key, val in value.items()}
+    return value
 
 
 def classify(word):
