@@ -29,6 +29,9 @@ module.exports = function(env, argv) {
       path: __dirname + '/jsdist/js',
       filename: '[name].js'
     },
+    optimization: {
+      minimize: false
+    },
     plugins: []
   }
 
