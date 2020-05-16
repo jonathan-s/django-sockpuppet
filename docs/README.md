@@ -31,15 +31,6 @@ Wouldn't it be great if you could **focus on your product** instead of the techn
 * [x] Facilitate simple, concise, and clear code 🤸
 * [x] Integrate seamlessly with Django 🚝
 
-## Live demo
-
-[StimulusReflex Expo](http://expo.stimulusreflex.com/) is a growing collection of like examples showing different use-cases alongside the [source code](https://github.com/hopsoft/stimulus_reflex_expo) behind them.
-
-Some of our favorite demos include:
-
-* [Tabular](https://expo.stimulusreflex.com/demos/tabular): filtering, sorting and pagination without any client JavaScript
-* [Todo](https://expo.stimulusreflex.com/demos/todo): our take on the [classic](http://todomvc.com/), with a wire size 2-15x smaller than every other solution
-
 ## Build the next Twitter in just 9 minutes \(or less\) 😉
 
 Our friends at StimulusReflex proves that you can build things fast.
