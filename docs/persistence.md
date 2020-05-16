@@ -8,96 +8,98 @@ description: >-
 
 We estimate that 80% of the pain points in web development are the direct result of maintaining state on the client. Even without considering the complexity of frameworks like React, how much time have you lost to fretting about model validation, stale data, and DOM readiness over your career?
 
-#### StimulusReflex applications don't have a client state.\*
+#### Sockpuppet applications don't have a client state.\*
 
 > \* This is _at least_ 98% true.
 
 Imagine if you could focus almost all of your time and attention on the fun parts of web development again. Exploring the best way to implement features instead of worrying about data serialization and forgotten user flows. Smaller teams working smarter and faster, then going home on time.
 
-Designing applications in the StimulusReflex mindset is far simpler than what we're used to, and we don't have to give up responsive client functionality to see our productivity shoot through the roof. It does, however, require some unlearning of old habits. You're about to rethink how you approach persisting the state of your application. This can be jarring at first! Even positive changes feel like work.
+Designing applications in the Sockpuppet mindset is far simpler than what we're used to, and we don't have to give up responsive client functionality to see our productivity shoot through the roof. It does, however, require some unlearning of old habits. You're about to rethink how you approach persisting the state of your application. This can be jarring at first! Even positive changes feel like work.
 
 ### The life of a Reflex
 
-When you access a page in a StimulusReflex application, you see the current state of your user interface for that URL. There is no mounting process and no fetching of JSON from an API. Your request goes through the Rails router to Action Pack where your controller renders your view template and sends HTML to the browser. This is Rails in all it's server-rendered glory.
+When you access a page in a Sockpuppet application, you see the current state of your user interface for that URL. There is no mounting process and no fetching of JSON from an API. Your request goes through the url router to your django view where it renders the template and sends HTML to the browser. This is Django in all it's server-rendered glory.
 
-Only once the HTML page is displayed in your browser, StimulusReflex wakes up. First, it opens a websocket connection and waits for messages. Then it scans your DOM for elements with `data-reflex` attributes. Those attributes become event handlers that map to methods in Stimulus controllers. The controllers connect events in your browser to methods in your Reflex classes on the server.
+Only once the HTML page is displayed in your browser, the javascript library StimulusReflex wakes up. First, it opens a websocket connection and waits for messages. Then it scans your DOM for elements with `data-reflex` attributes. Those attributes become event handlers that map to methods in Stimulus controllers. The controllers connect events in your browser to methods in your Reflex classes on the server.
 
-In a Reflex method you can call ActiveRecord, access data from Redis or the Rails cache, and set instance variables that get picked up in your view. After the Reflex method is complete, the Rails controller's action method is called and any instance variables set are passed on to the Rails controller's action method. The controller then passes its instance variables to the view template render engine itself. In this way, a Reflex is sort of like a `before_action` callback that fires before the controller even kicks in.
+In a Reflex method you can call the django orm, access data from Redis or sessions, and set instance variables that get picked up in your view. After the Reflex method is complete, the django view is executed and any instance variables set on the Reflex will be passed onto the view's context.
 
-We find that people learn StimulusReflex quickly when they are pushed in the right direction. The order of operations can seem fuzzy until the light bulb flicks on.
+We find that people learn how to work with Sockpuppet quickly when they are pushed in the right direction. The order of operations can seem fuzzy until the light bulb flicks on.
 
 This document is here to get you to the light bulb moment quickly.
 
+{% hint style="danger" %}
+Sockpuppet only works with class based views and expects the method `get_context_data` to exist on the view.
+
+As Sockpuppet re-renders the view during the reflex phase it's important to consider caching the view correctly. Otherwise queries in the view will be executed again which will decrease performance.
+{% endhint %}
+
 ## Instance Variables
 
-One of the most common patterns in StimulusReflex is to pass instance variables from the Reflex method through the controller and into the view template. Ruby's `||=` \(pronounced "**or equals**"\) operator helps us manage this hand-off:
+One of the most common patterns in Sockpuppet is to pass instance variables from the Reflex method to the view and which then gets rendered in the template. Ruby's `||=` \(pronounced "**or equals**"\) operator helps us manage this hand-off:
 
 {% tabs %}
-{% tab title="example\_reflex.rb" %}
-```ruby
+{% tab title="example\_reflex.py" %}
+```python
 def updateValue
-  @value = element[:value]
-end
+  this.value = self.element['value']
 ```
 {% endtab %}
 {% endtabs %}
 
 {% tabs %}
-{% tab title="example\_controller.rb" %}
-```ruby
-def index
-  @value ||= 0
-end
+{% tab title="example\_view.py" %}
+```python
+def get_context_data(self, *args, **kwargs):
+    context = super().get_context_data(*args, **kwargs)
+    context['value'] = 0
+    return context
 ```
 {% endtab %}
 {% endtabs %}
 
 {% tabs %}
-{% tab title="index.html.erb" %}
-```markup
+{% tab title="index.html" %}
+```html
 <div data-controller="example">
   <input type="text" data-reflex-permanent
     data-reflex="input->ExampleReflex#updateValue">
-  <p>The value is: <%= @value %>.</p>
+  <p>The value is: {{ value }}.</p>
 </div>
 ```
 {% endtab %}
 {% endtabs %}
 
-When you access the index page, the value will initially be set to 0. If the user changes the value of the text input, the value is updated to reflect whatever has been typed. This is possible because the `||=` will only set the instance variable to be 0 if there hasn't already been a value set in the Reflex method.
-
-{% hint style="info" %}
-It's good to remember that in Ruby, **nil.to\_i** will return 0. This means that even without **\|\|=** you can safely use **@value.to\_i** in your view template, because it will default to 0 in the rendered output.
-{% endhint %}
+When you access the index page, the value will initially be set to 0. If the user changes the value of the text input, the value is updated to reflect whatever has been typed. This is possible because reflex data takes precedence over view data.
 
 {% hint style="success" %}
-StimulusReflex doesn't need to go through the Rails routing module. This means updates are processed much faster than requests that come from typing in a URL or refreshing the page.
+Sockpuppet doesn't need to go through django routing. This means updates are processed much faster than requests that come from typing in a URL or refreshing the page.
 {% endhint %}
 
-Of course, instance variables are aptly named; they only exist for the duration of a single request, regardless of whether that request is initiated by accessing a URL or clicking a button managed by StimulusReflex.
+Of course, instance variables are aptly named; they only exist for the duration of a single request, regardless of whether that request is initiated by accessing a URL or clicking a button managed by javascript through the library StimulusReflex.
 
-### The @stimulus\_reflex instance variable
+### The stimulus\_reflex context variable
 
-When StimulusReflex calls your Rails controller's action method, it passes any active instance variables along with a special instance variable called `@stimulus_reflex` which is set to `true`. **You can use this variable to create an if/else block in your controller that behaves differently depending on whether it's being called within the context of a Reflex update or not.**
+When Sockpuppet calls your django view, it passes any active instance variables along with a special context variable called `stimulus_reflex` which is set to `true`. **You can use this context variable to create an if/else block in your template or view that behaves differently depending on whether it's being called within the context of a Reflex update or not.**
 
 {% tabs %}
-{% tab title="pinball\_controller.rb" %}
-```ruby
-def index
-  unless @stimulus_reflex
-    session[:balls_left] = 3
-  end
-end
+{% tab title="pinball\_view.py" %}
+```python
+def get_context_data(self, *args, **kwargs):
+    context = super().get_context_data(*args, **kwargs)
+    if not context['stimulus_reflex']:
+        self.request.session['balls_left'] = 3
+    return context
 ```
 {% endtab %}
 {% endtabs %}
 
-In this example, the user is given 3 new balls every time they refresh the page in their browser, effectively restarting the game. If the page state is updated via StimulusReflex, no new balls are allocated.
+In this example, the user is given 3 new balls every time they refresh the page in their browser, effectively restarting the game. If the page state is updated via the Sockpuppet reflex, no new balls are allocated.
 
-This also means that `session[:balls_left]` will be set to 3 before the initial HTML page has been rendered and transmitted.
+This also means that `self.request.session['balls_left']` will be set to 3 before the initial HTML page has been rendered and transmitted.
 
 {% hint style="success" %}
-**The first time the controller action executes is your opportunity to set up the state that StimulusReflex will later modify.**
+**The first time the view action executes is your opportunity to set up the state that Sockpuppet will later modify.**
 {% endhint %}
 
 ## The Rails session object
@@ -128,7 +130,7 @@ end
 
 {% tabs %}
 {% tab title="index.html.erb" %}
-```markup
+```html
 <div data-controller="example">
   <input type="text" data-reflex-permanent
     data-reflex="input->ExampleReflex#updateValue">

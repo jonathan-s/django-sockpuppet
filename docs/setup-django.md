@@ -150,35 +150,3 @@ By default django is using the database as a backend for sessions. Examples in t
 This may cause more strain on your database in high-traffic scenarios than would you like. Since you are already using redis for `django-channels` you could use redis as a session storage. The library [`django-redis`](https://github.com/jazzband/django-redis) has instructions to set that up.
 
 
-## Logging
-
-To get debug logging for Sockpupet you need to make some modifications to `LOGGING` in `settings.py`. Below you can see an example logging configuration that enables debug level logging Sockpuppet.
-
-```python
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'root': {
-        'handlers': ['console'],
-        'level': 'DEBUG'
-    },
-    'handlers': {
-        'sockpuppet': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        }
-    },
-    'formatters': {
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'loggers': {
-        'sockpuppet': {
-            'level': 'DEBUG',
-            'handlers': ['sockpuppet']
-        }
-    }
-}
-```
