@@ -1,16 +1,16 @@
 ---
-description: StimulusReflex rocks because it stands on the shoulders of Stimulus
+description: the javascript library StimulusReflex rocks because it stands on the shoulders of Stimulus
 ---
 
 # Working with Events
 
 It's become progressively easier to work with events in a consistent way across all web browsers. There are still gotchas and awkward idiosyncrasies that would make Larry David squirm, but compared to the bad old days of IE6 - long a _nevergreen_ browser default on Windows - there's usually a correct answer to most problems.
 
-The team behind StimulusReflex works hard to make sure that the library has everything it needs to present a favorable alternative to using SPAs. We're also opinionated about what StimulusReflex shouldn't take on, and those decisions reflect some of the biggest differences from other solutions such as [LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#module-key-events).
+The team behind [StimulusReflex](https://docs.stimulusreflex.com) works hard to make sure that the javascript library has everything it needs to present a favorable alternative to using SPAs. They are also opinionated about what StimulusReflex shouldn't take on, and those decisions reflect some of the biggest differences from other solutions such as [LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#module-key-events).
 
-A big part of the reason we can keep the footprint of StimulusReflex so small without sacrificing functionality is that it is tightly integrated with [Stimulus](https://stimulusjs.org), a lightweight library that provides powerful event handling.
+A big part of the reason they can keep the footprint of the javascript library so small without sacrificing functionality is that it is tightly integrated with [Stimulus](https://stimulusjs.org), a lightweight library that provides powerful event handling.
 
-We also draw upon proven libraries such as [Lodash](https://lodash.com) when necessary to craft flexible solutions to common problems.
+They also draw upon proven libraries such as [Lodash](https://lodash.com) when necessary to craft flexible solutions to common problems.
 
 ## Throttle, Debounce and requestAnimationFrame
 
@@ -62,18 +62,17 @@ export default class extends Controller {
 ```
 {% endtab %}
 
-{% tab title="event\_reflex.rb" %}
-```ruby
-class EventReflex < StimulusReflex::Reflex
-  def scroll(value)
-    puts value
-  end
-end
+{% tab title="event\_reflex.py" %}
+```python
+class EventReflex(Reflex):
+  def scroll(value):
+      # do something here, you've got the value on far it's been scrolled.
+      return value
 ```
 {% endtab %}
 
-{% tab title="index.html.erb" %}
-```text
+{% tab title="index.html" %}
+```html
 <div
   data-controller="event"
   data-action="scroll@window->event#scroll"
@@ -85,7 +84,7 @@ end
 
 We can use the [Stimulus Global Events](https://stimulusjs.org/reference/actions#global-events) syntax to map window scroll events to the `scroll` function on a Stimulus controller named `event`. When the controller is attached to the `div` at page load, `connect` is fired, StimulusReflex is instantiated and we use the Lodash `debounce` [function](https://lodash.com/docs/4.17.15#debounce) to return a new event handler that will execute when the page is scrolled _but then stops scrolling for at least a second_. We could set a `maxWait` option if we were worried about users who just won't stop scrolling, but that's as weird as it sounds and qualifies as premature optimisation.
 
-When the handler is executed, we call `stimulate` and pass the current scroll offset of the browser window to the server as an integer argument. The server reflex writes the scroll offset to `STDOUT` or your Rails log file.
+When the handler is executed, we call `stimulate` and pass the current scroll offset of the browser window to the server as an integer argument. The server reflex executes the scroll method and it can do whatever you would like it to do.
 
 We will look at more examples below, but for now just remember that `throttle` with default parameters has the example same form and syntax as `debounce`.
 
@@ -167,7 +166,7 @@ Throttling or debouncing is usually _not_ required as the event doesn't fire unt
 
 ### input
 
-Introduced in 1999, the new member of the key event family wasn't available in IE until version 9. As IE 9 also doesn't support Websockets, it's as safe to use as ActionCable and by extension, StimulusReflex.
+Introduced in 1999, the new member of the key event family wasn't available in IE until version 9.
 
 A close cousin of `change` and `blur`, `input` events can be used to manage the state of `input`, `textarea` and `select` elements. `input` is fired every time the `value` of the element changes, including when text is pasted. `change` only fires when the `value` is committed, such as by pressing the enter key or selecting a value from a list of options. `blur` fires when focus is lost, _even if nothing changed_.
 
@@ -211,18 +210,17 @@ export default class extends Controller {
 ```
 {% endtab %}
 
-{% tab title="event\_reflex.rb" %}
-```ruby
-class EventReflex < StimulusReflex::Reflex
+{% tab title="event\_reflex.py" %}
+```python
+class EventReflex(Reflex):
   def keydown(key)
-    puts key
-  end
-end
+    # do something with key press
+    return key
 ```
 {% endtab %}
 
-{% tab title="index.html.erb" %}
-```text
+{% tab title="index.html" %}
+```html
 <div data-controller="event">
   <input type="text" data-action="keydown->event#keydown">
 </div>

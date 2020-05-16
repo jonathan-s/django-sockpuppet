@@ -1,12 +1,8 @@
 # Table of contents
 
 * [Welcome](README.md)
-* [Setup](#)
-    * [Setup for Rails](setup-rails.md)
-    * [Setup for Django](setup-django.md)
-* [Quick Start](quickstart.md)
-    * [Quickstart for Rails](quickstart-rails.md)
-    * [Quickstart for Django](quickstart-django.md)
+* [Setup](setup-django.md)
+* [Quick Start](quickstart-django.md)
 * [Reflexes](reflexes.md)
 * [Lifecycle](lifecycle.md)
 * [Scoping](scoping.md)

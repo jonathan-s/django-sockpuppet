@@ -4,14 +4,14 @@ description: "Reflex classes are full of Reflex actions. Reflex actions? Full of
 
 # Reflexes
 
-Server side reflexes inherit from `StimulusReflex::Reflex` or `sockpuppet.Reflex` in the case of Django. They hold logic responsible for performing operations like writing to your backend data stores. Reflexes are not concerned with rendering because rendering is delegated to the Rails controller or Django view and action that originally rendered the page.
+Server side reflexes inherit from `sockpuppet.Reflex`. They hold logic responsible for performing operations like writing to your backend data stores. Reflexes are not concerned with rendering because rendering is delegated to the Rails controller or Django view and action that originally rendered the page.
 
 ## Glossary
 
-* StimulusReflex: the name of this project, which has a JS client and a Ruby based server component that rides along on top of Rails' ActionCable websockets framework
+* Sockpuppet: the name of this project, which has a JS websocket client and a django based server component, which is based on django-channels.
 * Stimulus: an incredibly simple yet powerful JS framework by the creators of Rails
-* "a Reflex": used to describe the full, round-trip life-cycle of a StimulusReflex operation, from client to server and back again
-* Reflex class: a Ruby class that inherits from `StimulusReflex::Reflex` and lives in your `app/reflexes` folder, this is where your Reflex actions are implemented
+* "a Reflex": used to describe the full, round-trip life-cycle of a Sockpuppet operation, from client to server and back again
+* Reflex class: a python class that inherits from `sockpuppet.Reflex` and lives in your `reflexes` folder or `reflex.py`, this is where your Reflex actions are implemented.
 * Reflex action: a method in a Reflex class, called in response to activity in the browser. It has access to several special accessors containing all of the Reflex controller element's attributes
 * Reflex controller: a Stimulus controller that imports the StimulusReflex client library. It has a `stimulate` method for triggering Reflexes and like all Stimulus controllers, it's aware of the element it is attached to - as well as any Stimulus [targets](https://stimulusjs.org/reference/targets) in its DOM hierarchy
 * Reflex controller element: the DOM element upon which the `data-reflex` attribute is placed, which often has data attributes intended to be delivered to the server during a Reflex action
@@ -23,11 +23,7 @@ Regardless of whether you use declarative Reflex calls via `data-reflex` attribu
 All Stimulus controllers that have had `StimulusReflex.register(this)` called in their `connect` method gain a `stimulate` method.
 
 ```javascript
-<<<<<<< HEAD
 this.stimulate(string target, [DOMElement element], ...[JSONObject argument])
-=======
-this.stimulate(string target, [DOMElement element], [JSONObject argument])
->>>>>>> Include code examples for django in reflexes.md
 ```
 
 **target**, required \(exception: see "Requesting a Refresh" below\): a string containing the server Reflex class and method, in the form "ExampleReflex\#increment".
@@ -54,7 +50,7 @@ It's also possible to trigger this global Reflex by passing nothing but a browse
 
 ### Scanning for new data-reflex attributes
 
-StimulusReflex scans the DOM looking for instances of the `data-reflex` attribute. When it finds one, it attaches a `stimulus-reflex` Stimulus controller to that element.
+The javascript library [StimulusReflex](https://www.npmjs.com/package/stimulus_reflex) scans the DOM looking for instances of the `data-reflex` attribute. When it finds one, it attaches a `stimulus-reflex` Stimulus controller to that element.
 
 By default, scans happen in response to four events:
 
@@ -71,22 +67,11 @@ While those should cover the vast majority of cases, there are scenarios such as
 StimulusReflex.setupDeclarativeReflexes()
 ```
 
-If you need to re-scan the DOM after a jQuery operation, you'll need to use the [jquery-events-to-dom-events](https://www.npmjs.com/package/jquery-events-to-dom-events) npm package. This library lets you delegate the events you need so that you can write a DOM event handler for it. In that event handler, call StimulusReflex.setupDeclarativeReflexes\(\) to pick up any new data-reflex attributes.
-
 ## Reflex Classes
 
 StimulusReflex makes the following properties available to the developer inside Reflex actions:
 
 {% tabs %}
-{% tab title="Ruby" %}
-* `connection` - the ActionCable connection
-* `channel` - the ActionCable channel
-* `request` - an `ActionDispatch::Request` proxy for the socket connection
-* `session` - the `ActionDispatch::Session` store for the current visitor
-* `url` - the URL of the page that triggered the reflex
-* `element` - a Hash like object that represents the HTML element that triggered the reflex
-{% endtab %}
-
 {% tab title="Python" %}
 * `consumer` - the websocket connection from django channels.
 * `request` - a django request object
@@ -112,7 +97,7 @@ Elements that support **multiple values** (like `<select multiple>`, or a collec
 
 Here's an example that outlines how you can interact with the `element` property in your reflexes.
 
-{% code title="app/views/examples/show.html.erb" %}
+{% code title="app/templates/show.html" %}
 ```html
 <checkbox id="example" label="Example" checked
   data-reflex="ExampleReflex#work" data-value="123" />
@@ -120,25 +105,6 @@ Here's an example that outlines how you can interact with the `element` property
 {% endcode %}
 
 {% tabs %}
-{% tab title=app/reflexes/example\_reflex.rb" %}
-```ruby
-class ExampleReflex < StimulusReflex::Reflex
-  def work()
-    element[:id]    # => the HTML element's id attribute value
-    element.dataset # => a Hash that represents the HTML element's dataset
-
-    element[:id]                 # => "example"
-    element[:tag_name]           # => "CHECKBOX"
-    element[:checked]            # => true
-    element[:label]              # => "Example"
-    element["data-reflex"]       # => "ExampleReflex#work"
-    element.dataset[:reflex]     # => "ExampleReflex#work"
-    element["data-value"]        # => "123"
-    element.dataset[:value]      # => "123"
-  end
-end
-```
-{% endtab %}
 {% tab %}
 ```python
 from sockpuppet.reflex import Reflex
@@ -161,23 +127,10 @@ class ExampleReflex(Reflex):
 {% endtabs %}
 
 {% hint style="success" %}
-When StimulusReflex is rendering your template, an instance variable named **@stimulus\_reflex** is available to your Rails controller and set to true.
+When Sockpuppet is rendering your template, a context variable named **stimulus\_reflex** is available to your django view and set to true.
 
 You can use this flag to create branching logic to control how the template might look different if it's a Reflex vs normal page refresh.
 {% endhint %}
-
-### Reflex exceptions are rescuable
-
-If you'd like to wire up 3rd-party exception handling services like Sentry or HoneyBadger to your Reflex classes, you can use `rescue_from` to respond to an errors raised.
-
-```ruby
-class MyTestReflex < StimulusReflex::Reflex
-  rescue_from StandardError do |exception|
-    ExceptionTrackingService.error(exception)
-  end
-  # ...
-end
-```
 
 ## Flash messages
 

@@ -4,7 +4,7 @@ description: How to build a great StimulusReflex application
 
 # Useful Patterns
 
-In the course of creating StimulusReflex and using it to build production applications, we have discovered several useful tricks. While it may be tempting to add features to the core library, every idea that we include creates bloat and comes with the risk of stepping on someone's toes because we didn't anticipate all of the ways it could be used.
+In the course of creating Sockpuppet and using it to build applications, we have discovered several useful tricks. While it may be tempting to add features to the core library, every idea that we include creates bloat and comes with the risk of stepping on someone's toes because we didn't anticipate all of the ways it could be used.
 
 ## Client Side
 
@@ -133,8 +133,6 @@ If we wanted to check the whole page for an **autofocus** attribute, we can just
 ### Offering visual feedback
 
 We recommend [Velocity](https://github.com/julianshapiro/velocity/wiki) for light, tweening animations that alert the user to UI state changes.
-
-You can see Velocity in action on the StimulusReflex Expo [Todos demo](https://expo.stimulusreflex.com/demos/todo).
 
 ### Capture all DOM update events
 
