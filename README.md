@@ -1,5 +1,23 @@
 <p align="center">
   <h1 align="center">Welcome to Sockpuppet 👋</h1>
+  <p align="center">
+    <img src="https://img.shields.io/pypi/v/django-sockpuppet"/>
+    <img src="https://img.shields.io/npm/v/sockpuppet-js.svg?color=blue" />
+    <a href="https://www.npmjs.com/package/sockpuppet-js">
+      <img alt="downloads" src="https://img.shields.io/npm/dm/sockpuppet-js.svg?color=blue" target="_blank" />
+    </a>
+    <a href="https://github.com/jonathan-s/sockpuppet/blob/master/LICENSE">
+      <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-brightgreen.svg" target="_blank" />
+    </a>
+    <a href="https://sockpuppet.argpar.se/" target="_blank">
+      <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+    </a>
+    <br />
+    <a href="#badge">
+      <img alt="semantic-release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg">
+    </a>
+    <img src="https://travis-ci.org/jonathan-s/django-sockpuppet.svg?branch=master" alt="Tests">
+  </p>
 </p>
 
 
@@ -17,9 +35,7 @@ Hit me up on twitter if you have any questions.  [![Twitter follow](https://img.
 
 ## 📚 Documentation
 
-We share the documentation with the excellent stimulusreflex. For the time being the documentation can be found in this [PR](https://github.com/hopsoft/stimulus_reflex/pull/167)
-
-- [Official Documentation](https://docs.stimulusreflex.com)
+- [Official Documentation](https://sockpuppet.argpar.se)
 
 ## ⚡️ Get started
 
