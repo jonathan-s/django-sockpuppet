@@ -92,4 +92,4 @@ invoke release -b feature
 
 [1]: https://github.com/hopsoft/stimulus_reflex
 [2]: https://youtu.be/Z2DU0qLfPIY?t=670
-[3]: #
+[3]: ./docs/quickstart-django.md
