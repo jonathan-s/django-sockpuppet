@@ -35,7 +35,7 @@ Hit me up on twitter if you have any questions.  [![Twitter follow](https://img.
 
 ## 📚 Documentation
 
-- [Official Documentation](https://sockpuppet.argpar.se/docs/)
+- [Official Documentation](https://sockpuppet.argpar.se/)
 
 ## ⚡️ Get started
 
@@ -92,4 +92,4 @@ invoke release -b feature
 
 [1]: https://github.com/hopsoft/stimulus_reflex
 [2]: https://youtu.be/Z2DU0qLfPIY?t=670
-[3]: https://sockpuppet.argpar.se/docs/quickstart-django
+[3]: https://sockpuppet.argpar.se/quickstart-django
