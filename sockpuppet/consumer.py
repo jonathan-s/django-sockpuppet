@@ -202,7 +202,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         for selector in selectors:
             channel.morph({
                 'selector': selector,
-                'html': [str(e) for e in document.select(selector)],
+                'html': ''.join([e.decode_contents() for e in document.select(selector)]),
                 'children_only': True,
                 'permanent_attribute_name': data['permanent_attribute_name'],
                 'stimulus_reflex': {**data, 'last': selector == selectors[-1]}
