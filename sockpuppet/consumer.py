@@ -1,3 +1,4 @@
+import time
 import json
 import logging
 from importlib import import_module
@@ -134,6 +135,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
     def receive_json(self, data, **kwargs):
         logger.debug('Json: %s', data)
         logger.debug('kwargs: %s', kwargs)
+        start = time.time()
 
         url = data['url']
         selectors = data['selectors'] if data['selectors'] else ['body']
@@ -163,6 +165,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             )
             self.broadcast_error(message, data)
             raise SockpuppetError(message)
+        logger.debug('Reflex took %6.2fms', (time.time() - start) * 1000)
 
     def render_page_and_broadcast_morph(self, reflex, selectors, data):
         html = self.render_page(reflex)
