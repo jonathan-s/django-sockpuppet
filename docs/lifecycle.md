@@ -34,8 +34,8 @@ StimulusReflex controllers can define up to four generic lifecycle callback meth
 3. `reflexError`
 4. `afterReflex`
 
-{% code title="app/views/examples/show.html.erb" %}
-```markup
+{% code title="templates/show.html" %}
+```html
 <div data-controller="example">
   <a href="#" data-reflex="ExampleReflex#update">Update</a>
   <a href="#" data-reflex="ExampleReflex#delete">Delete</a>
@@ -43,7 +43,7 @@ StimulusReflex controllers can define up to four generic lifecycle callback meth
 ```
 {% endcode %}
 
-{% code title="app/javascript/controllers/example\_controller.js" %}
+{% code title="javascript/controllers/example\_controller.js" %}
 ```javascript
 import { Controller } from 'stimulus'
 import StimulusReflex from 'stimulus_reflex'
@@ -73,8 +73,8 @@ StimulusReflex controllers can define up to four custom lifecycle callback metho
 3. `updateError`
 4. `afterUpdate`
 
-{% code title="app/views/examples/show.html.erb" %}
-```markup
+{% code title="templates/show.html" %}
+```html
 <div data-controller="example">
   <a href="#" data-reflex="ExampleReflex#update">Update</a>
   <a href="#" data-reflex="ExampleReflex#delete">Delete</a>
@@ -82,7 +82,7 @@ StimulusReflex controllers can define up to four custom lifecycle callback metho
 ```
 {% endcode %}
 
-{% code title="app/javascript/controllers/example\_controller.js" %}
+{% code title="javascript/controllers/example\_controller.js" %}
 ```javascript
 import { Controller } from 'stimulus'
 import StimulusReflex from 'stimulus_reflex'
@@ -129,9 +129,9 @@ Both generic and custom lifecycle callback methods share the same arguments:
 * `reflexError(element, reflex, error)`
 * `afterReflex(element, reflex, error)`
 
-**element** - the DOM element that triggered the Reflex _this may not be the same as the controller's `this.element`_ 
+**element** - the DOM element that triggered the Reflex _this may not be the same as the controller's `this.element`_
 
-**reflex** - the name of the server side Reflex 
+**reflex** - the name of the server side Reflex
 
 **error** - the error message if an error occurred, otherwise `null`
 
