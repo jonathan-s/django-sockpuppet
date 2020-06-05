@@ -102,39 +102,40 @@ This also means that `self.request.session['balls_left']` will be set to 3 befor
 **The first time the view action executes is your opportunity to set up the state that Sockpuppet will later modify.**
 {% endhint %}
 
-## The Rails session object
+## The Django session object
 
-The `session` object will persist across multiple requests; indeed, you can open multiple browser tabs and they will all share the same `session.id` value on the server. See for yourself: you can create a new session using Incognito Mode or using a 2nd web browser.
+The `session` object will persist across multiple requests; indeed, you can open multiple browser tabs and they will all share the same `session.session_key` value on the server. See for yourself: you can create a new session using Incognito Mode or using a 2nd web browser.
 
 We can update our earlier example to use the session object, and it will now persist across multiple browser tabs and refreshes:
 
 {% tabs %}
-{% tab title="example\_reflex.rb" %}
-```ruby
-def updateValue
-  session[:value] = element[:value]
-end
+{% tab title="example\_reflex.py" %}
+```python
+def update_value(self):
+    self.request.session['value'] = self.element['value']
+
 ```
 {% endtab %}
 {% endtabs %}
 
 {% tabs %}
-{% tab title="example\_controller.rb" %}
-```ruby
-def index
-  session[:value] ||= 0
-end
+{% tab title="example\_view.py" %}
+```python
+def get(self, *args, **kwargs):
+    context = self.get_context_data()
+    context['value'] = self.request.session['value'] = 0
+    return render_to_response(...)
 ```
 {% endtab %}
 {% endtabs %}
 
 {% tabs %}
-{% tab title="index.html.erb" %}
+{% tab title="index.html" %}
 ```html
 <div data-controller="example">
   <input type="text" data-reflex-permanent
     data-reflex="input->ExampleReflex#updateValue">
-  <p>The value is: <%= session[:value] %>.</p>
+  <p>The value is: {{ value }}.</p>
 </div>
 ```
 {% endtab %}
