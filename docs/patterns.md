@@ -178,61 +178,66 @@ For example, if your controller is named _list-item_ you might consider **this.e
 
 ### Rendering views inside of an ActiveRecord model or ActiveJob class
 
-If you plan to initiate a CableReady broadcast inside of a model callback or job, you might find yourself trying to render templates and wondering why it seems to return nil.
+If you plan to broadcast an update of a html template from somewhere outside a reflex you can draw from the example below.
 
-The secret to an efficient and successful template render operation is to call the `render` method of the `ApplicationController.renderer` class.
+**It's not a complete working example**, but it should set you on the right path.
 
 **The following isn't a complete working example**, but it should set you on the right path.
 
-```ruby
-class Notification < ApplicationRecord
-  include CableReady::Broadcaster
-  after_save do
-    html = ApplicationController.renderer.render(
-      partial: "layouts/navbar/notification",
-      locals: { notification: self }
-    )
-    cable_ready["notification_feed:#{self.recipient.id}"].insert_adjacent_html(
-      selector: "#notification_dropdown",
-      position: "afterbegin",
-      html: html
-    )
-    cable_ready.broadcast
-  end
-end
+```python
+from django.template.loader import render_to_string
+from sockpuppet.channel import Channel
+
+
+class Notification(models.Model):
+    def save(self, *args, **kwargs):
+        result = super().save(*args, **kwargs)
+        html = render_to_string('my_template.html', {'foo': 'bar'})
+
+        user_session_key = ... # get the user session somehow
+        channel = Channel(user_session_key)
+        channel.insert_adjacent_html({
+            'selector': '#notification_dropdown',
+            'position': 'afterbegin',
+            'html': html
+        })
+        channel.broadcast()
+
 ```
 
 ### Triggering custom events and forcing DOM updates
 
-CableReady, one of StimulusReflex's dependencies, has [many handy methods](https://cableready.stimulusreflex.com/usage/dom-operations/event-dispatch) that you can call from controllers, ActionJob tasks and Reflex classes. One of those methods is dispatch\_event, which allows you to trigger any event in the client, including custom events and jQuery events.
+You can trigger out of band updates with the `Channel` class, it is the workhorse behind sockpuppet. Take a look at the [source code](https://github.com/jonathan-s/django-sockpuppet/blob/master/sockpuppet/channel.py) to learn more about what kind of updates you can do.
 
-In this example, we send out an event to everyone connected to ActionCable suggesting that update is required:
+One of the things you can do is to dispatch an event. You can do that with the method `dispatch_event`, which allows you to trigger any event in the client, including custom events and jQuery events.
 
 {% tabs %}
-{% tab title="Ruby" %}
-```ruby
-class NotificationReflex < StimulusReflex::Reflex
-  include CableReady::Broadcaster
+{% tab title="Python" %}
+```python
 
-  def force_update(id)
-    cable_ready["StimulusReflex::Channel"].dispatch_event {
-      name: "force:update",
-      detail: {id: id},
-    }
-    cable_ready.broadcast
-  end
+from sockpuppet.reflex import Reflex
+from sockpuppet.channel import Channel
 
-  def reload
-    # noop: this method exists so we can refresh the DOM
-  end
-end
+class NotificationReflex(Reflex):
+
+    def force_update(id)
+        channel = Channel(self.consumer.scope['session'].session_key)
+        channel.dispatch_event {
+        name: "force:update",
+        detail: {id: id},
+        }
+        channel.broadcast()
+
+    def reload(self):
+        # noop: this method exists so we can refresh the DOM
+        pass
 ```
 {% endtab %}
 {% endtabs %}
 
 {% tabs %}
-{% tab title="index.html.erb" %}
-```markup
+{% tab title="index.html" %}
+```html
 <div data-action="force:update@document->notification#reload">
   <button data-action="notification#forceUpdate">
 </div>
