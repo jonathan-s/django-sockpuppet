@@ -92,13 +92,13 @@ The `element` property contains all of the Stimulus controller's [DOM element at
 {% hint style="info" %}
 **Most values are strings.** The only exceptions are `checked` and `selected` which are booleans.
 
-Elements that support **multiple values** (like `<select multiple>`, or a collection of checkboxes with equal `name`), will emit an additional **`values` property.** The `value` property will contain a comma-separated string of the checked options.
+Elements that support **multiple values** \(like `<select multiple>`, or a collection of checkboxes with equal `name`\), will emit an additional **`values` property.** The `value` property will contain a comma-separated string of the checked options.
 {% endhint %}
 
 Here's an example that outlines how you can interact with the `element` property in your reflexes.
 
 {% code title="app/templates/show.html" %}
-```html
+```markup
 <checkbox id="example" label="Example" checked
   data-reflex="ExampleReflex#work" data-value="123" />
 ```
@@ -131,3 +131,4 @@ When Sockpuppet is rendering your template, a context variable named **stimulus\
 
 You can use this flag to create branching logic to control how the template might look different if it's a Reflex vs normal page refresh.
 {% endhint %}
+

@@ -35,7 +35,7 @@ StimulusReflex controllers can define up to four generic lifecycle callback meth
 4. `afterReflex`
 
 {% code title="templates/show.html" %}
-```html
+```markup
 <div data-controller="example">
   <a href="#" data-reflex="ExampleReflex#update">Update</a>
   <a href="#" data-reflex="ExampleReflex#delete">Delete</a>
@@ -74,7 +74,7 @@ StimulusReflex controllers can define up to four custom lifecycle callback metho
 4. `afterUpdate`
 
 {% code title="templates/show.html" %}
-```html
+```markup
 <div data-controller="example">
   <a href="#" data-reflex="ExampleReflex#update">Update</a>
   <a href="#" data-reflex="ExampleReflex#delete">Delete</a>

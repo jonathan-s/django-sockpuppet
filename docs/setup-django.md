@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     ...
 ]
 ```
+
 {% hint style="danger" %}
 Instead of using redis as a channel layer you can use the in-memory channel layer. But that should **ONLY** be used for development purposes or tests.
 
@@ -79,7 +80,7 @@ npm i -D fs path sockpuppet-js stimulus_reflex webpack webpack-cli
 
 We also need to build and watch any changes that we make in our project. For this we add two script options into `package.json`
 
-```json
+```javascript
 "scripts": {
     "build": "webpack --mode production",
     "watch": "webpack --watch --info-verbosity verbose"
@@ -132,7 +133,7 @@ The configuration above will look for javascript files in the folder `your_app/j
 
 If you add that folder to `STATICFILES_DIRS` in settings it will pick that compiled javascript and you can use it in templates.
 
-```
+```text
 STATICFILES_DIRS = [
     ("js", "/dist/js"),
 ]
@@ -140,13 +141,9 @@ STATICFILES_DIRS = [
 
 And that's it! **You can start using Sockpuppet in your application.**
 
-{% page-ref page="quickstart.md" %}
-
-
 ## Session storage
 
 By default django is using the database as a backend for sessions. Examples in the quickstart will be using sessions as a way to persist data between page loads.
 
 This may cause more strain on your database in high-traffic scenarios than would you like. Since you are already using redis for `django-channels` you could use redis as a session storage. The library [`django-redis`](https://github.com/jazzband/django-redis) has instructions to set that up.
-
 

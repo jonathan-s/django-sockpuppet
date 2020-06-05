@@ -24,14 +24,14 @@ Bringing your first Reflex to life couldn't be simpler:
 
 1. Declare the appropriate data attributes in HTML together with a python view.
 2. Initialize a stimulus application in javascript.
-2. Create a server side reflex object with python.
+3. Create a server side reflex object with python.
 
 ### Call Reflex methods on the server without defining a Stimulus controller
 
 This example will automatically update the page with the latest count whenever the anchor is clicked.
 
-{% code title="your_app/templates/index.html" %}
-```html
+{% code title="your\_app/templates/index.html" %}
+```markup
 <body>
     <a href="#"
     data-reflex="click->CounterReflex#increment"
@@ -46,7 +46,8 @@ We use data attributes to declaratively tell Sockpuppet to pay special attention
 
 We are also assuming that we have a view that renders this template. The view looks like this.
 
-{% code title="your_app/view.py"}
+{% code title="your\_app/view.py"}
+
 ```python
 from django.views.generic.base import TemplateView
 
@@ -58,7 +59,6 @@ class CountView(TemplateView):
         context['count'] = 0
         return context
 ```
-{% endcode %}
 
 We also need to start a Stimulus application in javascript
 
@@ -77,7 +77,7 @@ StimulusReflex.initialize(application, { consumer })
 
 Next up is defining a reflex in python.
 
-{% code title="your_app/reflexes/counter\_reflex.py" %}
+{% code title="your\_app/reflexes/counter\_reflex.py" %}
 ```python
 from sockpuppet.reflex import Reflex
 
@@ -87,7 +87,6 @@ class CounterReflex(Reflex):
             int(self.element.dataset['count']) +
             int(self.element.dataset['step'])
         )
-
 ```
 {% endcode %}
 
@@ -111,7 +110,7 @@ Let's build on our increment counter example by adding a Stimulus Controller and
 4. Create a server side Example view with Python.
 
 {% code title="app/views/pages/index.html.erb" %}
-```html
+```markup
 <body>
     <a  href="#"
         data-controller="counter"
@@ -143,7 +142,7 @@ export default class extends Controller {
 
 This controller needs to be registered together with the StimulusReflex application.
 
-{% code title="frontend/src/js/index.js %}
+{% code title="" %}
 ```javascript
 import { Application } from 'stimulus'
 import StimulusReflex from 'stimulus_reflex'
@@ -166,7 +165,7 @@ When the user clicks the anchor, Stimulus calls the `increment` method. All Stim
 If you're responding to an event like click on an element that would have a default action \(such as an `a` or a `button` element\) it's very important that you call preventDefault\(\) on that event, or else you will experience undesirable side effects such as page navigation.
 {% endhint %}
 
-{% code title="your_app/reflexes/counter\_reflex.py" %}
+{% code title="your\_app/reflexes/counter\_reflex.py" %}
 ```ruby
 class CounterReflex < StimulusReflex::Reflex
   def increment(step = 1)
@@ -174,20 +173,11 @@ class CounterReflex < StimulusReflex::Reflex
   end
 end
 ```
-
-```python
-from sockpuppet.reflex import Reflex
-
-class CounterReflex(Reflex):
-    def increment(self, step = 1):
-        self.session['count'] = self.session['count'] + step
-
-```
 {% endcode %}
 
 Here, you can see how we accept an optional `step` argument to our `increment` Reflex action. We're also now switching to using the Rails session object to persist our values across multiple page load operations.
 
-{% code title="your_app/views.py.py" %}
+{% code title="your\_app/views.py.py" %}
 ```python
 from django.views.generic.base import TemplateView
 
@@ -206,3 +196,4 @@ Finally, we set the value of the `self.count` instance variable in the view. Whe
 {% hint style="info" %}
 Instead of using sessions to persist data you could store the data in django models. To keep this example we use django sessions to store our counter value.
 {% endhint %}
+

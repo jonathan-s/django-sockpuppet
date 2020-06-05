@@ -30,7 +30,7 @@ Here is a simple example: the user is presented with a text box. Anything they t
 {% tab title="index.html" %}
 ```text
 <div data-controller="example" data-reflex-root="[forward],[backward]">
-  <input type="text" value="{{ words }}" data-reflex="keyup->ExampleReflex#words">
+  <input type="text" value="{{ words }}" data-reflex="keyup->ExampleReflex#words">
   <div forward>{{ words }}</div>
   <!-- provided there you have created a template tag that handles the reverse scenario -->
   <div backward>{{ words|reverse }}</div>
@@ -38,7 +38,6 @@ Here is a simple example: the user is presented with a text box. Anything they t
 ```
 {% endtab %}
 {% endtabs %}
-
 
 {% tabs %}
 {% tab title="example\_reflex.py" %}
@@ -99,3 +98,4 @@ We've worked really hard to make sure that developers can update other aspects o
 If you need to filter or constrain the contents of a text input, consider using a client-side library such as [Cleave.js](https://nosir.github.io/cleave.js/) instead of trying to circumvent the Single Source of Truth mechanisms, which are there to protect your users from their fellow collaborators.
 
 Note that this concept only applies to the active text input element. Any elements which are marked with `data-reflex-permanent` will not be morphed in any way.
+

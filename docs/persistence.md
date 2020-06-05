@@ -60,7 +60,7 @@ def get_context_data(self, *args, **kwargs):
 
 {% tabs %}
 {% tab title="index.html" %}
-```html
+```markup
 <div data-controller="example">
   <input type="text" data-reflex-permanent
     data-reflex="input->ExampleReflex#updateValue">
@@ -113,7 +113,6 @@ We can update our earlier example to use the session object, and it will now per
 ```python
 def update_value(self):
     self.request.session['value'] = self.element['value']
-
 ```
 {% endtab %}
 {% endtabs %}
@@ -131,7 +130,7 @@ def get(self, *args, **kwargs):
 
 {% tabs %}
 {% tab title="index.html" %}
-```html
+```markup
 <div data-controller="example">
   <input type="text" data-reflex-permanent
     data-reflex="input->ExampleReflex#updateValue">
@@ -140,3 +139,4 @@ def get(self, *args, **kwargs):
 ```
 {% endtab %}
 {% endtabs %}
+

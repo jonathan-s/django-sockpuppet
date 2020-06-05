@@ -17,7 +17,7 @@ We are indebted to the the work done in [StimulusReflex](https://docs.stimulusre
 {% hint style="success" %}
 **Get Involved.** We are stronger together! Please join us on [Discord.![](https://img.shields.io/discord/629472241427415060)](https://discord.gg/XveN625)
 
- [![GitHub stars](https://img.shields.io/github/stars/jonathan-s/sockpuppet?style=social)](https://github.com/jonathan-s/sockpuppet) [![GitHub forks](https://img.shields.io/github/forks/jonathan-s/sockpuppet?style=social)](https://github.com/jonathan-s/sockpuppet) [![Twitter follow](https://img.shields.io/twitter/follow/argparse?style=social)](https://twitter.com/argparse)
+[![GitHub stars](https://img.shields.io/github/stars/jonathan-s/sockpuppet?style=social)](https://github.com/jonathan-s/sockpuppet) [![GitHub forks](https://img.shields.io/github/forks/jonathan-s/sockpuppet?style=social)](https://github.com/jonathan-s/sockpuppet) [![Twitter follow](https://img.shields.io/twitter/follow/argparse?style=social)](https://twitter.com/argparse)
 {% endhint %}
 
 ## Why should I use Sockpuppet?
@@ -34,7 +34,8 @@ Wouldn't it be great if you could **focus on your product** instead of the techn
 ## Build the next Twitter in just 9 minutes \(or less\) 😉
 
 Our friends at StimulusReflex proves that you can build things fast.
-{% embed url="https://www.youtube.com/watch?v=F5hA79vKE\_E" %}
+
+{% embed url="https://www.youtube.com/watch?v=F5hA79vKE\_E" caption="" %}
 
 ## How we got here
 
@@ -50,4 +51,5 @@ We love Elixir and Phoenix. Elixir hits a sweet spot for people who want Rails-l
 
 Also, we just really enjoy using **Django**.
 
-Sockpuppet was originally inspired by StimulusReflex which was inspired by LiveView, but we are charting our own course together with StimulusReflex. Our goal has always been to make building modern apps with Django  the most productive and enjoyable option available. We want to inspire our friends working with other tools and technologies to evaluate how concepts like Sockpuppet could work in their ecosystems and communities.
+Sockpuppet was originally inspired by StimulusReflex which was inspired by LiveView, but we are charting our own course together with StimulusReflex. Our goal has always been to make building modern apps with Django the most productive and enjoyable option available. We want to inspire our friends working with other tools and technologies to evaluate how concepts like Sockpuppet could work in their ecosystems and communities.
+

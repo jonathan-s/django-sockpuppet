@@ -202,7 +202,6 @@ class Notification(models.Model):
             'html': html
         })
         channel.broadcast()
-
 ```
 
 ### Triggering custom events and forcing DOM updates
@@ -214,7 +213,6 @@ One of the things you can do is to dispatch an event. You can do that with the m
 {% tabs %}
 {% tab title="Python" %}
 ```python
-
 from sockpuppet.reflex import Reflex
 from sockpuppet.channel import Channel
 
@@ -237,7 +235,7 @@ class NotificationReflex(Reflex):
 
 {% tabs %}
 {% tab title="index.html" %}
-```html
+```markup
 <div data-action="force:update@document->notification#reload">
   <button data-action="notification#forceUpdate">
 </div>

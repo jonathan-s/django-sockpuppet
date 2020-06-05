@@ -1,5 +1,7 @@
 ---
-description: the javascript library StimulusReflex rocks because it stands on the shoulders of Stimulus
+description: >-
+  the javascript library StimulusReflex rocks because it stands on the shoulders
+  of Stimulus
 ---
 
 # Working with Events
@@ -72,7 +74,7 @@ class EventReflex(Reflex):
 {% endtab %}
 
 {% tab title="index.html" %}
-```html
+```markup
 <div
   data-controller="event"
   data-action="scroll@window->event#scroll"
@@ -220,10 +222,11 @@ class EventReflex(Reflex):
 {% endtab %}
 
 {% tab title="index.html" %}
-```html
+```markup
 <div data-controller="event">
   <input type="text" data-action="keydown->event#keydown">
 </div>
 ```
 {% endtab %}
 {% endtabs %}
+
