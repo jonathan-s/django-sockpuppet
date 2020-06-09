@@ -5,6 +5,7 @@ from importlib import import_module
 from functools import wraps
 import inspect
 from os import walk, path
+import sys
 from urllib.parse import urlparse
 
 from asgiref.sync import async_to_sync
@@ -17,7 +18,7 @@ from django.conf import settings
 from .channel import Channel
 from .reflex import PROTECTED_VARIABLES
 from .element import Element
-from .utils import classify, camelize_value
+from .utils import classify
 
 
 logger = logging.getLogger('sockpuppet')
@@ -154,7 +155,9 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                 target=target, url=url, message=error
             )
             self.broadcast_error(msg, data)
-            raise SockpuppetError(msg)
+            _, _, traceback = sys.exc_info()
+            exc = SockpuppetError(msg)
+            raise exc.with_traceback(traceback)
 
         try:
             self.render_page_and_broadcast_morph(reflex, selectors, data)
@@ -164,7 +167,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                 url=url, message=error
             )
             self.broadcast_error(message, data)
-            raise SockpuppetError(message)
+            _, _, traceback = sys.exc_info()
+            exc = SockpuppetError(msg)
+            raise exc.with_traceback(traceback)
+
         logger.debug('Reflex took %6.2fms', (time.time() - start) * 1000)
 
     def render_page_and_broadcast_morph(self, reflex, selectors, data):
