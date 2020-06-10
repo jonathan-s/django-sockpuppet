@@ -1,29 +1,6 @@
+import StimulusReflex from "stimulus_reflex"
 import ReconnectingWebSocket from "reconnecting-websocket"
 import CableReady from "cable_ready"
-
-// read up on the default options that actioncable has for websockets.
-
-const options = {
-    maxRetries: 3,
-    debug: true
-}
-
-function createWebSocketURL(url) {
-    if (typeof url === "function") {
-      url = url()
-    }
-
-    if (url && !/^wss?:/i.test(url)) {
-      const a = document.createElement("a")
-      a.href = url
-      // Fix populating Location properties in IE. Otherwise, protocol will be blank.
-      a.href = a.href
-      a.protocol = a.protocol.replace("http", "ws")
-      return a.href
-    } else {
-      return url
-    }
-}
 
 const extend = function(object, properties) {
     if (properties != null) {
@@ -80,47 +57,83 @@ class Subscriptions {
     }
 }
 
-export default class WebsocketConsumer {
-    constructor(url) {
-        this._url = url
-        this.subscriptions = new Subscriptions(this)
 
-        this.connection = new ReconnectingWebSocket(url, [], options)
-        this.connection.isOpen = function open() {
-            return this.readyState === ReconnectingWebSocket.OPEN;
-        }
+class Consumer {
+  constructor(url, options) {
+    this.connection = new ReconnectingWebSocket(url, [], options || {})
+    this.subscriptions = new Subscriptions(this)
+  }
 
-        this.connection.addEventListener("message", (event) => {
-            let data = JSON.parse(event.data)
-            if (!data.cableReady) return
-            if (!data.operations.morph || !data.operations.morph.length) return
-            const urls = Array.from(
-                new Set(data.operations.morph.map(m => m.stimulusReflex.url))
-            )
-            if (urls.length !== 1 || urls[0] !== (location.href)) return
-            CableReady.perform(data.operations)
-        })
+  send(data) {
+    this.connection.send(data)
+  }
+}
 
-        this.connection.addEventListener("message", (event) => {
-            let data = JSON.parse(event.data)
-            if (data.meta_type !== 'cookie') return
-            document.cookie = `${data.key}=${data.value||""}; max-age=${data.max_age}; path=/`;
-        })
-    }
+const getConsumer = (url) => {
+  // read up on the default options that actioncable has for websockets.
+  let options = {
+    maxRetries: 3,
+    debug: true
+  }
 
-    get url() {
-        return createWebSocketURL(this._url)
-    }
+  return new Consumer(url, options)
+}
 
-    send(data) {
-        return this.connection.send(JSON.stringify(data))
-    }
+const AbstractConsumerAdapter = StimulusReflex.getAbstractClass()
 
-    connect() {
-        return this.connection.open()
-    }
+class WebsocketConsumer extends AbstractConsumerAdapter{
+  constructor(consumer) {
+    super(consumer)
 
-    disconnect() {
-        return this.connection.close()
-    }
+    this.consumer.connection.addEventListener("message", (event) => {
+      let data = JSON.parse(event.data)
+      if (!data.cableReady) return
+      if (!data.operations.morph || !data.operations.morph.length) return
+
+      const urls = Array.from(
+        new Set(data.operations.morph.map(m => m.stimulusReflex.url))
+      )
+
+      if (urls.length !== 1 || urls[0] !== (location.href)) return
+      CableReady.perform(data.operations)
+    })
+
+    this.consumer.connection.addEventListener("message", (event) => {
+      let data = JSON.parse(event.data)
+      if (data.meta_type !== "cookie") return
+      document.cookie = `${data.key}=${data.value||""}; max-age=${data.max_age}; path=/`
+    })
+  }
+
+  find_subscription(identifier) {
+    return this.consumer.subscriptions.findAll(identifier)[0]
+  }
+
+  create_subscription(channel) {
+    this.consumer.subscriptions.create(channel)
+  }
+
+  connect() {
+    return this.consumer.connection.open()
+  }
+
+  disconnect() {
+    return this.consumer.connection.close()
+  }
+
+  isConnected() {
+    return this.consumer.connection.readyState == ReconnectingWebSocket.OPEN
+  }
+
+  send(identifier, data, options) {
+    let subscription = this.find_subscription(identifier)
+    subscription.send(JSON.stringify(data))
+    // return this.consumer.connection.send(JSON.stringify(data))
+  }
+
+}
+
+export {
+  WebsocketConsumer,
+  getConsumer
 }
