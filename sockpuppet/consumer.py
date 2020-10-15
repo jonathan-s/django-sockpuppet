@@ -136,7 +136,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
     def receive_json(self, data, **kwargs):
         logger.debug('Json: %s', data)
         logger.debug('kwargs: %s', kwargs)
-        start = time.time()
+        start = time.perf_counter()
 
         url = data['url']
         selectors = data['selectors'] if data['selectors'] else ['body']
@@ -154,7 +154,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             msg = 'SockpuppetConsumer failed to invoke {target}, with url {url}, {message}'.format(
                 target=target, url=url, message=error
             )
-            self.broadcast_error(msg, data)
+            self.broadcast_error(msg, data, reflex)
             _, _, traceback = sys.exc_info()
             exc = SockpuppetError(msg)
             raise exc.with_traceback(traceback)
@@ -166,17 +166,17 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             message = 'SockpuppetConsumer failed to re-render {url} {message}'.format(
                 url=url, message=error
             )
-            self.broadcast_error(message, data)
+            self.broadcast_error(message, data, reflex)
             _, _, traceback = sys.exc_info()
             exc = SockpuppetError(msg)
             raise exc.with_traceback(traceback)
 
-        logger.debug('Reflex took %6.2fms', (time.time() - start) * 1000)
+        logger.debug('Reflex took %6.2fms', (time.perf_counter() - start) * 1000)
 
     def render_page_and_broadcast_morph(self, reflex, selectors, data):
         html = self.render_page(reflex)
         if html:
-            self.broadcast_morphs(selectors, data, html)
+            self.broadcast_morphs(selectors, data, html, reflex)
 
     def render_page(self, reflex):
         parsed_url = urlparse(reflex.url)
@@ -201,12 +201,12 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         reflex.session.save()
         return response.rendered_content
 
-    def broadcast_morphs(self, selectors, data, html):
+    def broadcast_morphs(self, selectors, data, html, reflex):
         document = BeautifulSoup(html)
         selectors = [selector for selector in selectors if document.select(selector)]
 
-        channel = Channel(self.scope['session'].session_key)
-        logger.debug('Broadcasting to %s', self.scope['session'].session_key)
+        channel = Channel(reflex.get_channel_id())
+        logger.debug('Broadcasting to %s', reflex.get_channel_id())
 
         for selector in selectors:
             channel.morph({
@@ -226,8 +226,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         else:
             getattr(reflex, method_name)(*arguments)
 
-    def broadcast_error(self, message, data):
-        channel = Channel(self.scope['session'].session_key)
+    def broadcast_error(self, message, data, reflex):
+        # We may have a sitation where we weren't able to get a reflex
+        session_key = reflex.get_channel_id() if reflex else self.scope['session'].session_key
+        channel = Channel(session_key)
         data.update({'error': 'message'})
         channel.dispatch_event({
             'name': 'stimulus-reflex:500',

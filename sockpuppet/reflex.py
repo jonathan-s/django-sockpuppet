@@ -17,6 +17,13 @@ class Reflex:
         self.selectors = selectors
         self.session = consumer.scope['session']
 
+    def get_channel_id(self):
+        '''
+        Override this to make the reflex send to a different channel
+        other than the session_key of the user
+        '''
+        return self.session.session_key
+
     @property
     def request(self):
         factory = RequestFactory()
