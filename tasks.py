@@ -9,6 +9,8 @@ coverage: ## check code coverage quickly with the default Python
 
 """
 from invoke import task
+from pathlib import Path
+import json
 
 
 @task
@@ -73,16 +75,30 @@ def release(c, bumpsize=''):
     """
     Package and upload a release
     """
+    path = Path.cwd()
+    package_json = path / 'package.json'
+    with package_json.open() as f:
+        contents = json.loads(f.read())
+
     clean(c)
     if bumpsize:
         bumpsize = '--' + bumpsize
 
     c.run("bumpversion {bump} --no-input".format(bump=bumpsize))
-
     import sockpuppet
+    version = sockpuppet.__version__
+
+    contents['version'] = version
+    with package_json.open(mode='w+') as f:
+        f.write(contents)
+
+    c.run("git add package.json")
+    c.run("git commit --amend --no-edit")
+
+    c.run("npm publish")
     c.run("python setup.py sdist bdist_wheel")
     c.run("twine upload dist/*")
 
-    c.run('git tag -a {version} -m "New version: {version}"'.format(version=sockpuppet.__version__))
+    c.run('git tag -a {version} -m "New version: {version}"'.format(version=version))
     c.run("git push --tags")
     c.run("git push origin master")
