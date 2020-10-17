@@ -220,7 +220,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                 'html': ''.join([e.decode_contents() for e in document.select(selector)]),
                 'children_only': True,
                 'permanent_attribute_name': data['permanent_attribute_name'],
-                'stimulus_reflex': {**data, 'last': selector == selectors[-1]}
+                'stimulus_reflex': {**data}
             })
         channel.broadcast()
 
