@@ -7,4 +7,5 @@ class ExampleView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['count'] = self.request.session.get('count', 0)
+        context['otherCount'] = self.request.session.get('otherCount', 0)
         return context
