@@ -5,7 +5,7 @@ import WebsocketConsumer from '../../../javascript/stimulus-websocket/index'
 import ExampleController from './controllers/example_controller'
 
 const application = Application.start()
-const consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync')
+const consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync', {debug: true})
 
 application.register("example", ExampleController)
 StimulusReflex.initialize(application, { consumer })

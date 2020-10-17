@@ -3,11 +3,6 @@ import CableReady from "cable_ready"
 
 // read up on the default options that actioncable has for websockets.
 
-const options = {
-    maxRetries: 3,
-    debug: true
-}
-
 function createWebSocketURL(url) {
     if (typeof url === "function") {
       url = url()
@@ -112,10 +107,11 @@ class Subscriptions {
 }
 
 export default class WebsocketConsumer {
-    constructor(url) {
+    constructor(url, options = {}) {
         this._url = url
         this.subscriptions = new Subscriptions(this)
 
+        options = {maxRetries: 3, ...options}
         this.connection = new ReconnectingWebSocket(url, [], options)
         this.connection.isOpen = function open() {
             return this.readyState === ReconnectingWebSocket.OPEN;
