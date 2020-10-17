@@ -78,7 +78,7 @@ Try out a minimal example manually
 ```
 git clone git@github.com:jonathan-s/django-sockpuppet.git
 npm install
-npm run build_test
+npm run build:test
 python manage.py runserver
 # visit https://localhost:8000/test
 ```
