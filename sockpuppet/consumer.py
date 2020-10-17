@@ -52,6 +52,9 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                 self.load_reflexes_from_config(config)
 
     def connect(self):
+        '''
+        We use the user session key as a default channel to publish any events
+        '''
         super().connect()
         session = self.scope['session']
         has_session_key = session.session_key
@@ -83,6 +86,9 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         )
 
     def disconnect(self, *args, **kwargs):
+        '''
+        When we disconnect we unsubscribe from the user session key.
+        '''
         session = self.scope['session']
         async_to_sync(self.channel_layer.group_discard)(
             session.session_key,
