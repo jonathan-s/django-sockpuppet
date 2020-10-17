@@ -18,10 +18,9 @@ entryFiles.forEach(function(file){
         entryObj[fileName] = `./${file}`;
     }
 });
-console.log(entryObj)
 
 module.exports = function(env, argv) {
-  console.log(env)
+  isProd = process.env.NODE_ENV === 'production'
   let config = {
     mode: process.env.NODE_ENV,
     entry: entryObj,
@@ -29,12 +28,14 @@ module.exports = function(env, argv) {
       path: __dirname + '/jsdist/js',
       filename: '[name].js'
     },
+    optimization: {
+      minimize: isProd
+    },
     plugins: []
   }
 
   if (env.analyze) {
     config.plugins.push(new BundleAnalyzerPlugin())
   }
-  console.log(env)
   return config
 }

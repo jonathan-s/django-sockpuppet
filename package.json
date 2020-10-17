@@ -43,7 +43,7 @@
   "scripts": {
     "build": "rollup --config rollup.config.js",
     "build:test": "webpack --env.NODE_ENV production",
-    "build:watch": "webpack --env.NODE_ENV production --watch --info-verbosity verbose",
+    "build:watch": "webpack --env.NODE_ENV development --watch --info-verbosity verbose",
     "build:analyze": "webpack --env.NODE_ENV production --env.analyze",
     "lint": "eslint javascript",
     "cypress:open": "cypress open",
