@@ -100,6 +100,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         )
         super().disconnect(*args, **kwargs)
 
+    def message(self, event):
+        logger.debug('Sending data: %s', event)
+        self.send(json.dumps(event))
+
     def group_send(self, recipient, message):
         send = async_to_sync(self.channel_layer.group_send)
         send(recipient, message)
@@ -134,12 +138,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
 
                     append_reflex(module)
 
-    def message(self, event):
-        session_key = self.scope['session'].session_key
-        logger.debug('Sending data to session: %s, %s', session_key, event)
-        self.send(json.dumps(event))
-
-    def receive_json(self, data, **kwargs):
+    def reflex_message(self, data, **kwargs):
         logger.debug('Json: %s', data)
         logger.debug('kwargs: %s', kwargs)
         start = time.perf_counter()
@@ -179,6 +178,41 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
 
         logger.debug('Reflex took %6.2fms', (time.perf_counter() - start) * 1000)
 
+    def _get_channelname(self, channel_name):
+        try:
+            # StimulusReflex sends the channel name in the format
+            # of a json blob for name.
+            name = json.loads(channel_name)
+            name = name['channel'].replace('::', '-')
+        except json.decoder.JSONDecodeError:
+            name = channel_name
+        return name
+
+    def subscribe(self, data, **kwargs):
+        name = self._get_channelname(data['channelName'])
+        async_to_sync(self.channel_layer.group_add)(
+            name,
+            self.channel_name
+        )
+
+    def unsubscribe(self, data, **kwargs):
+        name = self._get_channelname(data['channelName'])
+        async_to_sync(self.channel_layer.group_discard)(
+            name,
+            self.channel_name
+        )
+
+    def receive_json(self, data, **kwargs):
+        message_type = data.get('type')
+        if message_type is None and data.get('target'):
+            self.reflex_message(data, **kwargs)
+        elif message_type == 'subscribe':
+            self.subscribe(data, **kwargs)
+        elif message_type == 'unsubscribe':
+            self.unsubscribe(data, **kwargs)
+        else:
+            print('Unsupported')
+
     def render_page_and_broadcast_morph(self, reflex, selectors, data):
         html = self.render_page(reflex)
         if html:
@@ -211,7 +245,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         document = BeautifulSoup(html)
         selectors = [selector for selector in selectors if document.select(selector)]
 
-        channel = Channel(reflex.get_channel_id())
+        channel = Channel(reflex.get_channel_id(), identifier=data['identifier'])
         logger.debug('Broadcasting to %s', reflex.get_channel_id())
 
         for selector in selectors:
