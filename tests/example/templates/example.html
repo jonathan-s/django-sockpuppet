@@ -2,13 +2,26 @@
 
 <body>
   <script src="{% static 'js/example.js' %}"></script>
-  <a
-    id="link"
-    href="#"
-    data-controller="example"
-    data-action="click->example#increment"
-    data-count="{{ count }}">
-    Increment
-  </a>
-  <div id="counter">{{ count }}</div>
+  <div>
+    <a
+      id="link"
+      href="#"
+      data-controller="example"
+      data-action="click->example#increment"
+      data-count="{{ count }}">
+      Increment
+    </a>
+    <div id="counter">{{ count }}</div>
+  </div>
+
+  <div>
+    <!-- This reflex is never registered in javascript -->
+    <button
+      id="decrementor"
+      data-reflex="click->DecrementReflex#decrement"
+      data-step="1"
+      data-count="{{ otherCount }}"
+    >Decrement</button>
+    <div id="counter-2">{{ otherCount }}</div>
+  </div>
 </body>
