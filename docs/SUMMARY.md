@@ -8,6 +8,7 @@
 * [Scoping](scoping.md)
 * [Persistence](persistence.md)
 * [Useful Patterns](patterns.md)
+* [Morph mode](morph-mode.md)
 * [Working with Events](events.md)
 * [Working with Forms](working-with-form.md)
 * [Security & Authentication](security.md)
