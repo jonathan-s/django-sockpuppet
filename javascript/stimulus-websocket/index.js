@@ -43,7 +43,7 @@ class Subscription {
     }
 
     send(data) {
-        return this.consumer.send(data)
+        return this.consumer.send(data, this.identifier)
       }
 
     unsubscribe() {
@@ -63,12 +63,10 @@ class Subscriptions {
 
     add(subscription) {
         this.subscriptions.push(subscription)
-        // below functionality is not implemented
-        // this.consumer.ensureActiveConnection()
-        // this.notify(subscription, "initialized")
-
-        // TODO we needo a subscribe command
-        // this.sendCommand(subscription, "subscribe")
+        this.consumer.connection.send(JSON.stringify({
+            type: 'subscribe',
+            channelName: subscription.identifier
+        }))
         return subscription
     }
 
@@ -77,6 +75,39 @@ class Subscriptions {
         const params = typeof channel === "object" ? channel : {channel}
         const subscription = new Subscription(this.consumer, params, mixin)
         return this.add(subscription)
+    }
+
+    forget(subscription) {
+      this.subscriptions = (this.subscriptions.filter((s) => s !== subscription))
+      return subscription
+    }
+
+    remove(subscription) {
+      this.forget(subscription)
+      if (this.findAll(subscription.identifier).length == 0) {
+        this.consumer.connection.send(JSON.stringify({
+            type: 'unsubscribe',
+            channelName: subscription.identifier
+        }))
+      }
+      return subscription
+    }
+
+    notify(subscription, callbackName, ...args) {
+      let subscriptions
+      if (typeof subscription === "string") {
+        subscriptions = this.findAll(subscription)
+      } else {
+        subscriptions = [subscription]
+      }
+
+      return subscriptions.map((subscription) =>
+        (typeof subscription[callbackName] === "function" ? subscription[callbackName](...args) : undefined))
+    }
+
+    notifyAll(callbackName, ...args) {
+      return this.subscriptions.map((subscription) =>
+        this.notify(subscription, callbackName, ...args))
     }
 }
 
@@ -90,21 +121,17 @@ export default class WebsocketConsumer {
             return this.readyState === ReconnectingWebSocket.OPEN;
         }
 
-        this.connection.addEventListener("message", (event) => {
-            let data = JSON.parse(event.data)
-            if (!data.cableReady) return
-            if (!data.operations.morph || !data.operations.morph.length) return
-            const urls = Array.from(
-                new Set(data.operations.morph.map(m => m.stimulusReflex.url))
-            )
-            if (urls.length !== 1 || urls[0] !== (location.href)) return
-            CableReady.perform(data.operations)
+        this.connection.addEventListener('open', (event) => {
+          this.subscriptions.notifyAll('connected')
         })
 
         this.connection.addEventListener("message", (event) => {
             let data = JSON.parse(event.data)
-            if (data.meta_type !== 'cookie') return
-            document.cookie = `${data.key}=${data.value||""}; max-age=${data.max_age}; path=/`;
+            if (data.meta_type === 'cookie') {
+              document.cookie = `${data.key}=${data.value||""}; max-age=${data.max_age}; path=/`;
+              return
+            }
+            this.subscriptions.notify(data.identifier, 'received', data)
         })
     }
 
@@ -112,7 +139,8 @@ export default class WebsocketConsumer {
         return createWebSocketURL(this._url)
     }
 
-    send(data) {
+    send(data, identifier) {
+        data.identifier = identifier
         return this.connection.send(JSON.stringify(data))
     }
 

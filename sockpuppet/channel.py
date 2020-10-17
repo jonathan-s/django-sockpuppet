@@ -9,7 +9,8 @@ class Channel:
     to which the content will be broadcast to.
     '''
 
-    def __init__(self, name):
+    def __init__(self, name, identifier=''):
+        self.identifier = identifier
         self.name = name
         self.operations = self.stub()
 
@@ -48,6 +49,7 @@ class Channel:
         group_send(
             self.name,
             {
+                "identifier": self.identifier,
                 "type": "message",
                 "cableReady": True,
                 "operations": operations
