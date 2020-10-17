@@ -1,3 +1,4 @@
+import unittest
 import subprocess
 
 from django.test import TestCase
@@ -7,10 +8,10 @@ from git import Repo
 
 class JavascriptCommittedTest(TestCase):
 
+    @unittest.skip("The reflex-websocket.js isn't used anywhere")
     def test_all_javascript_is_committed_to_source_code(self):
         subprocess.check_call('npm run-script build'.split(' '))
         repo = Repo(settings.BASE_DIR)
         diff_result = repo.git.diff('sockpuppet/static/js/reflex-websocket.js')
 
         self.assertEqual(diff_result, '', 'Not all changes have been committed')
-
