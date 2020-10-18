@@ -1,5 +1,4 @@
 import ReconnectingWebSocket from "reconnecting-websocket"
-import CableReady from "cable_ready"
 
 // read up on the default options that actioncable has for websockets.
 
