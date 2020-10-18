@@ -90,7 +90,7 @@ def release(c, bumpsize=''):
 
     contents['version'] = version
     with package_json.open(mode='w+') as f:
-        f.write(contents)
+        f.write(json.dumps(contents, indent=4))
 
     c.run("git add package.json")
     c.run("git commit --amend --no-edit")
