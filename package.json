@@ -39,6 +39,9 @@
     "dependencies": {
         "reconnecting-websocket": "^4.4.0"
     },
+    "files": [
+        "./javascript/stimulus-websocket/index.js"
+    ],
     "scripts": {
         "build": "rollup --config rollup.config.js",
         "build:test": "webpack --env.NODE_ENV production",
