@@ -166,12 +166,13 @@ If you're responding to an event like click on an element that would have a defa
 {% endhint %}
 
 {% code title="your\_app/reflexes/counter\_reflex.py" %}
-```ruby
-class CounterReflex < StimulusReflex::Reflex
-  def increment(step = 1)
-    session[:count] = session[:count].to_i + step
-  end
-end
+```python
+from sockpuppet import reflex
+
+class CounterReflex(reflex.Reflex):
+  def increment(step=1)
+    self.session['count'] = int(session['count']) + step
+  
 ```
 {% endcode %}
 
