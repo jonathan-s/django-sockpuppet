@@ -58,6 +58,7 @@ class CountView(TemplateView):
         context['count'] = 0
         return context
 ```
+{% endcode %}
 
 We also need to start a Stimulus application in javascript
 
