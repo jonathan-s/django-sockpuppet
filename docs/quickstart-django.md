@@ -47,7 +47,6 @@ We use data attributes to declaratively tell Sockpuppet to pay special attention
 We are also assuming that we have a view that renders this template. The view looks like this.
 
 {% code title="your\_app/view.py"}
-
 ```python
 from django.views.generic.base import TemplateView
 
@@ -109,13 +108,13 @@ Let's build on our increment counter example by adding a Stimulus Controller and
 3. Create a server side Reflex object with Python.
 4. Create a server side Example view with Python.
 
-{% code title="app/views/pages/index.html.erb" %}
+{% code title="your\_app/templates/index.html" %}
 ```markup
 <body>
     <a  href="#"
         data-controller="counter"
         data-action="click->counter#increment"
-    >Increment <%= @count %></a>
+    >Increment {{ count }}</a>
 </body>
 ```
 {% endcode %}
@@ -172,7 +171,6 @@ from sockpuppet import reflex
 class CounterReflex(reflex.Reflex):
   def increment(step=1)
     self.session['count'] = int(session['count']) + step
-  
 ```
 {% endcode %}
 
