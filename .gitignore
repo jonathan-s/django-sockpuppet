@@ -18,6 +18,7 @@ develop-eggs
 .installed.cfg
 lib
 lib64
+*.tgz
 
 # Installer logs
 pip-log.txt
@@ -65,3 +66,4 @@ dist/
 jsdist/
 cypress/videos/
 cypress/screenshots/
+slides
