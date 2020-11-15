@@ -6,11 +6,13 @@
     "no-unused-vars": ["error", { "vars": "all", "args": "none" }]
   },
   "plugins": [
-    "import"
+    "import",
+    "cypress"
   ],
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "cypress/globals": true
   },
   "parserOptions": {
     "ecmaVersion": 6,

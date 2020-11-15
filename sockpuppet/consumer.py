@@ -7,6 +7,7 @@ import inspect
 from os import walk, path
 import sys
 from urllib.parse import urlparse
+from urllib.parse import parse_qsl
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import JsonWebsocketConsumer
@@ -150,10 +151,11 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         reflex_name, method_name = target.split('#')
         reflex_name = classify(reflex_name)
         arguments = data['args'] if data.get('args') else []
+        params = dict(parse_qsl(data['formData']))
         element = Element(data['attrs'])
         try:
             ReflexClass = self.reflexes.get(reflex_name)
-            reflex = ReflexClass(self, url=url, element=element, selectors=selectors)
+            reflex = ReflexClass(self, url=url, element=element, selectors=selectors, params=params)
             self.delegate_call_to_reflex(reflex, method_name, arguments)
         except Exception as e:
             error = '{}: {}'.format(e.__class__.__name__, str(e))
