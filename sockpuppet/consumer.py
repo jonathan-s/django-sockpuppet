@@ -248,12 +248,18 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         channel = Channel(reflex.get_channel_id(), identifier=data['identifier'])
         logger.debug('Broadcasting to %s', reflex.get_channel_id())
 
+        # TODO can be removed once stimulus-reflex has increased a couple of versions
+        permanent_attribute_name = data.get('permanent_attribute_name')
+        if not permanent_attribute_name:
+            # Used in stimulus-reflex >= 3.4
+            permanent_attribute_name = data['permanentAttributeName']
+
         for selector in selectors:
             channel.morph({
                 'selector': selector,
                 'html': ''.join([e.decode_contents() for e in document.select(selector)]),
                 'children_only': True,
-                'permanent_attribute_name': data['permanent_attribute_name'],
+                'permanent_attribute_name': permanent_attribute_name,
                 'stimulus_reflex': {**data}
             })
         channel.broadcast()
