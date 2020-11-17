@@ -60,7 +60,6 @@ You're almost there, read about how to tie it all together in the [quickstart do
 
 ## 💙 Community
 
-- [Discourse](https://stimulus-reflex.discourse.group) - long form async communication
 - [Discord](https://discord.gg/XveN625) - We share the discord together with stimulus-reflex, and there is a channel dedicated for python/django discussions.
 
 
