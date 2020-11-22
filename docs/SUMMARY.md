@@ -9,5 +9,6 @@
 * [Persistence](persistence.md)
 * [Useful Patterns](patterns.md)
 * [Working with Events](events.md)
+* [Working with Forms](working-with-forms.md)
 * [Troubleshooting](troubleshooting.md)
 
