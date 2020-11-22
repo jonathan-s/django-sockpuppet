@@ -1,6 +1,10 @@
 [run]
 branch = true
 
+[paths]
+source =
+    sockpuppet/
+
 [report]
 omit =
     *site-packages*
