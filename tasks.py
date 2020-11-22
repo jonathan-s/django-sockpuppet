@@ -47,11 +47,37 @@ def integration(c):
     """
     Run integration tests
     """
+    import shlex
+    import subprocess
+    import os
     c.run("npm install")
-    c.run("npm run build_test")
+    c.run("npm remove stimulus_reflex")
+    c.run("npm install stimulus_reflex")
+    c.run("npm install cable_ready")
+    c.run("npm install @rails/actioncable")
+
+    c.run("npm run build:test")
     c.run("python manage.py migrate")
-    c.run("python manage.py runserver 2>&1 > /dev/null &")
-    c.run("npm run cypress:run")
+
+    # env = os.environ.copy()
+    # cmd = "coverage run manage.py runserver --noreload"
+    # cmd = shlex.split(cmd)
+    # subprocess.Popen(cmd, env=env)
+    # c.run("npm run cypress:run")
+    # result = c.run("ps | grep manage.py | grep -v grep | awk '{print $1}'")
+    # pid = result.stdout.strip()
+    # c.run("kill -HUP {}".format(pid))
+
+
+@task
+def kill_devserver(c):
+    result = c.run("ps | grep manage.py | grep -v grep | awk '{print $1}'")
+    pid = result.stdout.strip()
+    if not pid:
+        print('No devserver to hangup')
+        return
+    print('PID: ', pid)
+    c.run("kill -s HUP {}".format(pid))
 
 
 @task

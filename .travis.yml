@@ -16,7 +16,7 @@ matrix:
     python: "3.6"
   fast_finish: true
 
-install: "pip install -r requirements_test.txt"
+install: "pip install tox"
 before_script: "npm install"
 script:
     - "tox -e $TOX_ENV"
