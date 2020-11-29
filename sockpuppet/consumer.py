@@ -190,6 +190,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
 
     def subscribe(self, data, **kwargs):
         name = self._get_channelname(data['channelName'])
+        logger.debug('Subscribe %s to %s', self.channel_name, name)
         async_to_sync(self.channel_layer.group_add)(
             name,
             self.channel_name

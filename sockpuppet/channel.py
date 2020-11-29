@@ -1,6 +1,10 @@
+import json
+import logging
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from .utils import camelize, camelize_value
+
+logger = logging.getLogger(__name__)
 
 
 class Channel:
@@ -10,6 +14,8 @@ class Channel:
     '''
 
     def __init__(self, name, identifier=''):
+        if not identifier:
+            identifier = json.dumps({'channel': name}).replace(' ', '')
         self.identifier = identifier
         self.name = name
         self.operations = self.stub()
