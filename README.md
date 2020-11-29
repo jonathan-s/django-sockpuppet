@@ -61,6 +61,7 @@ You're almost there, read about how to tie it all together in the [quickstart do
 ## 💙 Community
 
 - [Discord](https://discord.gg/XveN625) - We share the discord together with stimulus-reflex, and there is a channel dedicated for python/django discussions.
+- [django-sockpuppet-expo](https://github.com/zodman/django-sockpuppet-expo) - Do you want more examples? There code examples of chats, book search, etc ... We accept PRs :)
 
 
 ## 🛠 Development in the repo
