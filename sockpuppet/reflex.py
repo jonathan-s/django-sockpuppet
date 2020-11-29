@@ -31,3 +31,7 @@ class Reflex:
         request.session = self.consumer.scope['session']
         request.user = self.consumer.scope['user']
         return request
+
+    def reload(self):
+        """A default reflex to force a refresh"""
+        pass
