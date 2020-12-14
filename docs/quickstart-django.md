@@ -152,7 +152,7 @@ import CounterController from './controller/counter_controller.js'
 const application = Application.start()
 const consumer = new WebsocketConsumer('ws://localhost:8000/sockpuppet-sync')
 
-application.register('counter', CounterContreller)
+application.register('counter', CounterController)
 StimulusReflex.initialize(application, { consumer })
 ```
 {% endcode %}
