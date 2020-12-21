@@ -40,7 +40,7 @@
         "@rails/actioncable": "^6.0.3-4",
         "cable_ready": "^4.4.0-pre3",
         "reconnecting-websocket": "^4.4.0",
-        "stimulus_reflex": "^3.4.0-pre4"
+        "stimulus_reflex": ">=3.4.0"
     },
     "files": [
         "javascript/stimulus-websocket/index.js"
