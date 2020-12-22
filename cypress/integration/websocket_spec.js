@@ -12,12 +12,21 @@ describe("Integration tests", () => {
     cy.get('#counter').should('have.text', '1')
   }),
 
-  it("able to use reflex which isn't registered", () => {
+  it("are able to use reflex which isn't registered", () => {
     cy.visit('/test/')
     cy.get('#counter-2').should('have.text', '0')
     cy.wait(200)
 
     cy.get('#decrementor').click()
     cy.get('#counter-2').should('have.text', '-1')
+  })
+
+  it("get parameters won't throw exceptions when triggering reflex", () => {
+    cy.visit('/param/?word=world')
+    cy.get('#word').should('have.text', 'world')
+    cy.wait(200)
+
+    cy.get('#button').click()
+    cy.get('#word').should('have.text', 'space')
   })
 })

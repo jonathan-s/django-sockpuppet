@@ -9,3 +9,8 @@ class ExampleReflex(Reflex):
 class DecrementReflex(Reflex):
     def decrement(self, step=1):
         self.session['otherCount'] = int(self.element.dataset['count']) - step
+
+
+class ParamReflex(Reflex):
+    def change_word(self):
+        self.word = 'space'

@@ -221,8 +221,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
 
     def render_page(self, reflex):
         parsed_url = urlparse(reflex.url)
-        url_path = parsed_url.path + parsed_url.query
-        resolved = resolve(url_path)
+        resolved = resolve(parsed_url.path)
         view = resolved.func
 
         instance_variables = [
