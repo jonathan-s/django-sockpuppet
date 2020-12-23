@@ -10,7 +10,9 @@ class Command(BaseGenerateCommand):
     help = "Generate scaffolding to compile javascript."
 
     def handle(self, *args, **options):
+        init = 'npm init -y'
         install = 'npm install -g add-project-script'
+        subprocess.check_call(init, shell=True)
         subprocess.check_call(install, shell=True)
         try:
             build = 'add-project-script -n "build" -v "webpack --mode production"'
