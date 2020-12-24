@@ -51,7 +51,7 @@ document.addEventListener('stimulus-reflex:before', event => {
 
 At the time of this writing, **forms that upload files are unsupported by django-sockpuppet**. We suggest that you design your UI in such a way that files can be uploaded directly, making use of the standard django-form upload techniques. You might need to use `data-reflex-permanent` so that you don't lose UI state when a Reflex is triggered.
 
-As websockets is a text-based protocol that doesn't guarantee packet delivery or the order of packet arrival, it is not well-suited to uploading binary files. This is an example of a problem best solved with vanilla Rails.
+As websockets is a text-based protocol that doesn't guarantee packet delivery or the order of packet arrival, it is not well-suited to uploading binary files. This is an example of a problem best solved with vanilla Django.
 
 #### Resetting a Submitted Form
 
@@ -60,19 +60,16 @@ If you submit a form via django-sockpuppet, and the resulting DOM diff doesn't t
 One simple technique is to use a Stimulus controller to reset the form after the Reflex completes successfully. We'll call this controller `reflex-form` and we'll use it to set a target on the first text field, as well as an action on the submit button:
 
 ```html
-<form
-    data-controller="reflex-form"
-    data-reflex="Exam"
->
-    <input type="text" data-target="reflex-form.focus">
-    <button data-action="click->ExampleReflex#submit"></button>
+<form data-controller="form">
+    <input type="text" data-form-target="focus">
+    <button data-action="click->form#submit"></button>
 </form>
 ```
 
 This controller will make use of the [Promise](https://sockpuppet.argpar.se/lifecycle#promises) returned by the `stimulate` method:
 
 ```javascript
-// my_app/javascript/reflex_form_controller.js
+// my_app/javascript/form_controller.js
 import { Controller } from 'stimulus';
 
 export default class extends Controller {
