@@ -16,7 +16,7 @@ from django.urls import resolve
 from django.conf import settings
 
 from .channel import Channel
-from .reflex import PROTECTED_VARIABLES
+from .reflex import PROTECTED_VARIABLES, Reflex
 from .element import Element
 from .utils import classify
 
@@ -109,12 +109,13 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         send(recipient, message)
 
     def load_reflexes_from_config(self, config):
-        def append_reflex(module):
-            # TODO only import classes that are actually that inherits Reflex
-            for classname in dir(module):
-                if 'reflex' in classname.lower():
-                    ReflexClass = getattr(module, classname)
-                    self.reflexes[ReflexClass.__name__] = ReflexClass
+        def append_reflex():
+            self.reflexes.update(
+                {
+                    ReflexClass.__name__: ReflexClass
+                    for ReflexClass in Reflex.__subclasses__()
+                }
+            )
 
         modpath = config.module.__path__[0]
 
@@ -122,21 +123,22 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             if dirpath == modpath and 'reflexes.py' in filenames:
                 # classes in reflexes.py
                 import_path = '{}.reflexes'.format(config.name)
-                module = import_module(import_path)
+                import_module(import_path)
+                append_reflex()
 
-                append_reflex(module)
             elif dirpath == path.join(modpath, 'reflexes'):
                 # assumes reflexes folder is placed directly in app.
                 import_path = '{config_name}.reflexes.{reflex_file}'
 
                 for filename in filenames:
-                    name = filename.split('.')[0]
+                    # eliminates empty values in the filename before getting the
+                    # module name from the filename.
+                    name = [file for file in filename.split('.') if file][0]
                     full_import_path = import_path.format(
                         config_name=config.name, reflex_file=name
                     )
-                    module = import_module(full_import_path)
-
-                    append_reflex(module)
+                    import_module(full_import_path)
+                    append_reflex()
 
     def reflex_message(self, data, **kwargs):
         logger.debug('Json: %s', data)
