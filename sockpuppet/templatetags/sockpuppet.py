@@ -1,5 +1,6 @@
 from django import template
 from django.template import Template
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -25,7 +26,19 @@ class RawNode(template.Node):
             elif node.token.token_type.name == 'VAR':
                 raw = '{{ ' + node.token.contents + ' }}'
             else:
-                msg ='{} is not yet handled'.format(node.token.token_type.name)
+                msg = '{} is not yet handled'.format(node.token.token_type.name)
                 raise Exception(msg)
             output = output + raw
         return output
+
+
+@register.simple_tag
+def stimulus(reflex, **kwargs):
+    """
+    Adds the necessary data-reflex tag to handle a click element on the respective element
+    :param reflex: Name of the Reflex Controller and Method ({controller}#{handler}).
+    :param kwargs: Further data- attributes that should be passed to the handler
+    """
+    # TODO Validate that the reflex is present and can be handled
+    data = ' '.join([f'data-{key}="{val}"' for key, val in kwargs.items()])
+    return mark_safe(f'data-reflex="click->{reflex}" {data}')
