@@ -1,5 +1,6 @@
 from django import template
 from django.template import Template
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 register = template.Library()
@@ -40,5 +41,5 @@ def reflex(controller, **kwargs):
     :param kwargs: Further data- attributes that should be passed to the handler
     """
     # TODO Validate that the reflex is present and can be handled
-    data = ' '.join([f'data-{key}="{val}"' for key, val in kwargs.items()])
+    data = ' '.join([f'data-{key}="{escape(val)}"' for key, val in kwargs.items()])
     return mark_safe(f'data-reflex="click->{controller}" {data}')

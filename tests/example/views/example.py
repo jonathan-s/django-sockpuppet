@@ -22,3 +22,9 @@ class ParamView(TemplateView):
 
 class TagExampleView(TemplateView):
     template_name = 'tag_example.html'
+
+    def get(self, request, *args, **kwargs):
+        kwargs.update({"parameter": "I am a parameter"})
+        kwargs.update(dict(self.request.GET.items()))
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
