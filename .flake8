@@ -1,0 +1,5 @@
+
+[flake8]
+max-line-length = 100
+ignore = E501,W503
+exclude = .git,__pycache__,docs/source/conf.py,build,dist,venv,node_modules,.tox,scaffolds
