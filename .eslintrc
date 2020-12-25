@@ -2,7 +2,7 @@
   "extends": "eslint:recommended",
   "rules": {
     "semi": ["error", "never"],
-    "quotes": ["error", "double"],
+    "quotes": ["error", "double", "single"],
     "no-unused-vars": ["error", { "vars": "all", "args": "none" }]
   },
   "plugins": [

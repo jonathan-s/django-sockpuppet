@@ -16,9 +16,10 @@ Including another URLconf
 
 from django.urls import path
 
-from .views.example import ExampleView, ParamView
+from .views.example import ExampleView, ParamView, StaticView
 
 urlpatterns = [
     path('test/', ExampleView.as_view(), name='example'),
-    path('param/', ParamView.as_view(), name='param')
+    path('param/', ParamView.as_view(), name='param'),
+    path('test-static/', StaticView.as_view(), name='static')
 ]

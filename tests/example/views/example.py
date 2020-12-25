@@ -18,3 +18,12 @@ class ParamView(TemplateView):
         kwargs.update(dict(self.request.GET.items()))
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
+
+
+class StaticView(TemplateView):
+    template_name = 'static.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['otherCount'] = self.request.session.get('otherCount', 0)
+        return context

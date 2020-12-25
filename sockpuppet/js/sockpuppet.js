@@ -1,13 +1,11 @@
 import { Application } from 'stimulus'
 import StimulusReflex from 'stimulus_reflex'
 // because travis had issues with 'sockpuppet-js' we had to do this.
-import WebsocketConsumer from '../../../javascript/stimulus-websocket/index'
-import ExampleController from './controllers/example_controller'
+import WebsocketConsumer from '../../javascript/stimulus-websocket/index'
 
 const application = Application.start()
 const consumer = new WebsocketConsumer(
-  `ws://${window.location.host}/ws/sockpuppet-sync`, {debug: true}
+  `ws://${window.location.host}/ws/sockpuppet-sync`, {debug: false}
 )
 
-application.register("example", ExampleController)
 StimulusReflex.initialize(application, { consumer })

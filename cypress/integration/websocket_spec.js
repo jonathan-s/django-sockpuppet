@@ -29,4 +29,13 @@ describe("Integration tests", () => {
     cy.get('#button').click()
     cy.get('#word').should('have.text', 'space')
   })
+
+  it("is able to use the generated static thing without issues", () => {
+    cy.visit('/test-static/')
+    cy.get('#decrementor-counter').should('have.text', '0')
+    cy.wait(200)
+
+    cy.get('#decrementor').click()
+    cy.get('#decrementor-counter').should('have.text', '-1')
+  })
 })
