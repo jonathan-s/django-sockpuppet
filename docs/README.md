@@ -53,3 +53,12 @@ Also, we just really enjoy using **Django**.
 
 Sockpuppet was originally inspired by StimulusReflex which was inspired by LiveView, but we are charting our own course together with StimulusReflex. Our goal has always been to make building modern apps with Django the most productive and enjoyable option available. We want to inspire our friends working with other tools and technologies to evaluate how concepts like Sockpuppet could work in their ecosystems and communities.
 
+## Architecture
+
+So what is happening behind the scenes here? Sockpuppet works in three layers.
+
+It uses javascript; The javascript is re-used from StimulusReflex, which in itself is built upon stimulusjs. The javascript in StimulusReflex also uses something called cable_ready which has the responsibility of modifying the DOM. The javascript layer ensures that the data is being sent to the server layer through websockets. When a message is received from the server layer it will re-render the dom according to the server side instructions.
+
+The HTML layer has the responsibility of defining where and how a "reflex" is going to be triggered. Ie, a reflex could be triggered by an browser event or the click of a button. When building more complex applications the HTML layer may also be used to store state so that this state is accessible when doing some interactivity in a stimulus controller.
+
+The last layer is server layer. This is where a "Reflex" class is defined. The reflex knows what path and template was received and will re-render that template to contain any new information defined in the reflex. The reflex could also make database queries and such as well. Once the template is re-rendered it will send it back to frontend where javascript will modify the DOM to update everything.
