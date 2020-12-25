@@ -33,12 +33,12 @@ class RawNode(template.Node):
 
 
 @register.simple_tag
-def stimulus(reflex, **kwargs):
+def reflex(controller, **kwargs):
     """
     Adds the necessary data-reflex tag to handle a click element on the respective element
-    :param reflex: Name of the Reflex Controller and Method ({controller}#{handler}).
+    :param controller: Name of the Reflex Controller and Method ({controller}#{handler}).
     :param kwargs: Further data- attributes that should be passed to the handler
     """
     # TODO Validate that the reflex is present and can be handled
     data = ' '.join([f'data-{key}="{val}"' for key, val in kwargs.items()])
-    return mark_safe(f'data-reflex="click->{reflex}" {data}')
+    return mark_safe(f'data-reflex="click->{controller}" {data}')
