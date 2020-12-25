@@ -83,6 +83,21 @@ python manage.py runserver
 # visit https://localhost:8000/test
 ```
 
+## ⛑ Running tests locally
+The most important tests are integration tests that makes sure that frontend and backend work together in conjunction with each other.
+
+```
+# Install the cypress et al
+npm install
+
+# Spin up a dev server.
+python manage.py runserver
+
+# Run the cypress tests
+npm run cypress:run
+```
+
+
 ## 🔜 Release
 
 ```
