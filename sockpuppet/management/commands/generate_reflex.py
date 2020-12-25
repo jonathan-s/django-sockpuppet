@@ -49,7 +49,7 @@ class Command(BaseGenerateCommand):
             template_name = TEMPLATES[suffix]
             template = get_template(template_name)
             rendered = template.render({'class_name': classify(reflex_name), 'reflex_name': reflex_name})
-            self.create_file(path, '{}{}'.format(reflex_name, suffix), rendered)
+            self.create_file(path, '{}{}'.format(reflex_name.lower(), suffix), rendered)
 
         self.create_file('views', '__init__.py', '')
         self.create_file('reflexes', '__init__.py', '')
