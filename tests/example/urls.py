@@ -16,10 +16,11 @@ Including another URLconf
 
 from django.urls import path
 
-from .views.example import ExampleView, ParamView, TagExampleView
+from .views.example import ExampleView, ParamView, TagExampleView, SecondTagExampleView
 
 urlpatterns = [
     path('test/', ExampleView.as_view(), name='example'),
     path('param/', ParamView.as_view(), name='param'),
-    path('tag/', TagExampleView.as_view(), name='tag')
+    path('tag/', TagExampleView.as_view(), name='tag'),
+    path('second/', SecondTagExampleView.as_view(), name='second_tag')
 ]
