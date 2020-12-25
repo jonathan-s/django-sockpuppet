@@ -1,5 +1,5 @@
 from django import template
-from django.template import Template
+from django.template import Template, RequestContext
 from django.template.base import Token, VariableNode, FilterExpression
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -67,14 +67,28 @@ class ReflexNode(template.Node):
         self.controller = controller
         self.parameters = parameters
 
-    def render(self, context):
+    def render(self, context: RequestContext):
+        # First, check if the "reflex" given is a VariableNode. We check to extract stuff from it
+        parameters = {}
+        if isinstance(self.reflex, VariableNode):
+            var_name = self.reflex.filter_expression.token
+            param = context.get(var_name)
+
+            if param is None:
+                raise Exception(f"The given Variable '{var_name}' was not found in the context!")
+
+            if 'controller' not in param or 'reflex' not in param:
+                raise Exception(f"The given object with name '{var_name}' needs to have attributes 'controller' and 'reflex'")
+            else:
+                self.controller = param['controller']
+                self.reflex = param['reflex']
+                parameters.update({k: param[k] for k in param.keys() if k not in ('controller', 'reflex')})
         if self.controller is None:
             raise Exception(
                 "A ClickReflex tag can only be used inside a stimulus controller or needs an explicit controller set!")
-        parameters = {}
+
         for k, v in self.parameters.items():
             if isinstance(v, VariableNode):
-                print(v.__class__)
                 value = v.render(context)
             else:
                 value = v

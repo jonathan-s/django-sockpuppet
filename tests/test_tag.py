@@ -52,7 +52,16 @@ class TestTagSupport(TestCase):
 
         content = response.content.decode('utf-8')
 
+        self.assertTrue(content.__contains__(
+            '<a href="#" data-reflex="click->example_reflex#increment" data-parameter="&lt;/a&gt;" data-param2="abc">click me</a>'))
+
+    def test_tag_by_dict(self):
+        c = Client()
+        response: TemplateResponse = c.get('/second/', data={"parameter": "</a>"})
+
+        content = response.content.decode('utf-8')
+
         print(content)
-        self.assertEqual(
-            '\n\n  <a href="#" data-reflex="click->example_reflex#increment" data-parameter="&lt;/a&gt;" data-param2="abc">click me</a>\n\n',
-            content)
+
+        self.assertTrue(content.__contains__(
+            '<a href="#" data-reflex="click->abc#increment" >I was done by object definition</a>'))
