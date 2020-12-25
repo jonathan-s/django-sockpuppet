@@ -1,4 +1,3 @@
-import unittest
 import subprocess
 
 from django.test import TestCase

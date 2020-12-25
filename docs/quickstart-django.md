@@ -20,15 +20,33 @@ Instead of "_Which Single Page App framework should I use?_" we believe that Sti
 
 ## Hello, Reflex
 
-Bringing your first Reflex to life couldn't be simpler:
+Bringing your first Reflex to life:
 
 1. Declare the appropriate data attributes in HTML together with a python view.
 2. Initialize a stimulus application in javascript.
 3. Create a server side reflex object with python.
 
+### Getting started quickly
+
+The following command will generate everything you need to see the reflex in action.
+
+```
+python manage.py generate_reflex your_app your_reflex_name
+# side note you can add --javascript if you want to generate a stimulus controller as well.
+```
+
+Hook up the view that was generated to urls.py, visit the url and click increment. Magic! ✨
+
+{% hint style="info" %}
+In the template you'll see the following `{% static 'sockpuppet/sockpuppet.js %}` if you don't want or need to build your own javascript with a build tool you can use that static tag.
+
+However, if you want to take advantage of things like [lifecycles](https://sockpuppet.argpar.se/lifecycle) you'll have to start defining your own stimulus controllers and build your own javascript.
+{% endhint %}
+
+
 ### Call Reflex methods on the server without defining a Stimulus controller
 
-This example will automatically update the page with the latest count whenever the anchor is clicked.
+The command that you just ran generated a reflex without defining a Stimulus controller. The example will automatically update the page with the latest count whenever the anchor is clicked.
 
 {% code title="your\_app/templates/index.html" %}
 ```markup
@@ -92,8 +110,6 @@ class CounterReflex(Reflex):
 
 Sockpuppet maps your requests to Reflex classes that live in your `your_app/reflexes` folder or reflexes that exist in the file `your_app/reflex.py`. In this example, the increment method is executed and the count is incremented by 1. The `self.count` instance variable is passed to the template when it is re-rendered.
 
-Yes, it really is that simple.
-
 {% hint style="success" %}
 **Concerns like managing state and rendering views are handled server side.** This technique works regardless of how complex the UI becomes. For example, we could render multiple instances of `self.count` in unrelated sections of the page and they will all update.
 {% endhint %}
@@ -101,6 +117,12 @@ Yes, it really is that simple.
 ### Manually call a Reflex from a Stimulus controller
 
 Real world applications will benefit from additional structure and more granular control. Building on the solid foundation that Stimulus provides, we can use Controllers to build complex functionality and respond to events.
+
+Manually calling a reflex from a stimulus controller also requires that you build your own javascript. The following command aims to help you setup a build flow using webpack.
+
+```
+python manage.py initial_sockpuppet
+```
 
 Let's build on our increment counter example by adding a Stimulus Controller and manually calling a Reflex action.
 
