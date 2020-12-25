@@ -3,7 +3,7 @@ from pathlib import Path
 from django.template.loader import get_template
 
 from ._base import BaseGenerateCommand
-
+from ...utils import classify
 
 TEMPLATES = {
     '_reflex.py': 'sockpuppet/scaffolds/reflex.py',
@@ -46,8 +46,8 @@ class Command(BaseGenerateCommand):
         for path, suffix in paths:
             template_name = TEMPLATES[suffix]
             template = get_template(template_name)
-            rendered = template.render({'reflex_name': reflex_name})
-            self.create_file(path, '{}{}'.format(reflex_name, suffix), rendered)
+            rendered = template.render({'class_name': classify(reflex_name), 'reflex_name': reflex_name})
+            self.create_file(path, '{}{}'.format(reflex_name.lower(), suffix), rendered)
 
         self.create_file('views', '__init__.py', '')
         self.create_file('reflexes', '__init__.py', '')

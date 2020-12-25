@@ -9,6 +9,6 @@ export default class extends Controller {
   increment(event) {
     console.log('increment')
     event.preventDefault()
-    this.stimulate('{{ reflex_name|title }}Reflex#increment', 1)
+    this.stimulate('{{ reflex_name }}Reflex#increment', 1)
   }
 }
