@@ -1,8 +1,8 @@
 from django.views.generic.base import TemplateView
 
 
-class {{ reflex_name|title }}View(TemplateView):
-    template_name = '{{ reflex_name }}.html'
+class {{ class_name }}View(TemplateView):
+    template_name = '{{ reflex_name|lower }}.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)

@@ -3,9 +3,10 @@ Django settings for example project.
 """
 
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path.cwd()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "a_not_so_secret_key"
 

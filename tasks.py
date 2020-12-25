@@ -47,9 +47,9 @@ def integration(c):
     """
     Run integration tests
     """
-    import shlex
-    import subprocess
-    import os
+    # import shlex
+    # import subprocess
+    # import os
     c.run("npm install")
     c.run("npm remove stimulus_reflex")
     c.run("npm install stimulus_reflex")
