@@ -1,0 +1,4 @@
+{% load sockpuppet %}
+<a href="#" {% click_reflex 'example_reflex' 'increment' parameter=parameter %}>click me</a>
+<a href="#" {% submit_reflex 'example_reflex' 'increment' parameter=parameter %}>click me</a>
+<input type="text" {% input_reflex 'example_reflex' 'increment' parameter=parameter %}/>
