@@ -90,7 +90,9 @@ class CounterReflex(Reflex):
 ```
 {% endcode %}
 
-Sockpuppet maps your requests to Reflex classes that live in your `your_app/reflexes` folder or reflexes that exist in the file `your_app/reflex.py`. In this example, the increment method is executed and the count is incremented by 1. The `self.count` instance variable is passed to the template when it is re-rendered.
+Sockpuppet maps your requests to Reflex classes that live in your `your_app/reflexes.py` module, or in a `your_app/reflexes` package with an `__init__.py` file that imports all the Reflex subclasses in that directory (similar to [organizing Django models in a package](https://docs.djangoproject.com/en/3.1/topics/db/models/#organizing-models-in-a-package)).
+
+In this example, the increment method is executed and the count is incremented by 1. The `self.count` instance variable is passed to the template when it is re-rendered.
 
 Yes, it really is that simple.
 

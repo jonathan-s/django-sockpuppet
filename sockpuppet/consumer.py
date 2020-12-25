@@ -4,7 +4,6 @@ import logging
 from importlib import import_module
 from functools import wraps
 import inspect
-from os import walk, path
 import sys
 from urllib.parse import urlparse
 
@@ -117,28 +116,13 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                 }
             )
 
-        modpath = config.module.__path__[0]
-
-        for dirpath, dirnames, filenames in walk(modpath):
-            if dirpath == modpath and 'reflexes.py' in filenames:
-                # classes in reflexes.py
-                import_path = '{}.reflexes'.format(config.name)
-                import_module(import_path)
-                append_reflex()
-
-            elif dirpath == path.join(modpath, 'reflexes'):
-                # assumes reflexes folder is placed directly in app.
-                import_path = '{config_name}.reflexes.{reflex_file}'
-
-                for filename in filenames:
-                    # eliminates empty values in the filename before getting the
-                    # module name from the filename.
-                    name = [file for file in filename.split('.') if file][0]
-                    full_import_path = import_path.format(
-                        config_name=config.name, reflex_file=name
-                    )
-                    import_module(full_import_path)
-                    append_reflex()
+        reflex_module_path = f'{config.name}.reflexes'
+        try:
+            import_module(reflex_module_path)
+            append_reflex()
+        except ModuleNotFoundError:
+            # No reflexes.py or reflexes module was found in the app
+            pass
 
     def reflex_message(self, data, **kwargs):
         logger.debug('Json: %s', data)
