@@ -42,6 +42,10 @@ Hit me up on twitter if you have any questions.  [![Twitter follow](https://img.
 ```bash
 pip install django-sockpuppet
 
+# If performance is important you can take advantage lxml parsing
+# It will typically speed up the round trip by 30-90ms depending on the html
+pip install django-sockpuppet[lxml]
+
 # Add these into INSTALLED_APPS in settings.py
 INSTALLED_APPS = [
     'channels',
