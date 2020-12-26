@@ -54,11 +54,13 @@ StimulusReflex makes the following properties available to the developer inside 
 
 {% tabs %}
 {% tab title="Python" %}
-* `consumer` - The websocket connection from `django-channels`.
-* `request` - A Django request object.
-* `session` - The Django session store for the current visitor.
-* `url` - The URL of the page that triggered the reflex.
-* `element` - A dictionary-like object that represents the HTML element that triggered the Reflex.
+* `consumer` - the Websocket connection from django channels.
+* `request` - a django request object
+* `request.post` - If the page contains a form, this will find the closest form.
+* `session` - the Django session store for the current visitor
+* `url` - the URL of the page that triggered the reflex
+* `element` - a dictionary like object that represents the HTML element that triggered the reflex
+* `params` - Contains the form parameters for the closest form
 {% endtab %}
 {% endtabs %}
 
@@ -112,3 +114,35 @@ When Sockpuppet is rendering your template, a context variable named **stimulus\
 
 You can use this flag to create branching logic to control how the template might look different if it's a Reflex versus a normal page refresh.
 {% endhint %}
+
+
+### Inheriting data-attributes from parent elements
+
+You might design your interface such that you have a deeply nested structure of data attributes on parent elements. Instead of writing code to travel your DOM and access those values, you can use the `data-reflex-dataset="combined"` directive to scoop all data attributes up the hierarchy and pass them as part of the Reflex payload.
+
+```html
+<div data-post-id="{{ @post.id }}">
+  <div data-category-id="{{ @category.id }}">
+    <button data-reflex="click->Comment#create" data-reflex-dataset="combined">Create</button>
+  </div>
+</div>
+```
+
+This Reflex action will have `post-id` and `category-id` accessible:
+
+```python
+from sockpuppet import reflex
+
+class CommentReflex(reflex.Reflex):
+  def create(self)
+    print(element.dataset["post-id"])
+    print(element.dataset["category-id"])
+```
+
+If a data attribute appears several times, the deepest one in the DOM tree is taken. In the following example, `data-id` would be **2**.
+
+```html
+<div data-id="1">
+  <button data-id="2" data-reflex="Example#whatever" data-reflex-dataset="combined">Click me</button>
+</div>
+```

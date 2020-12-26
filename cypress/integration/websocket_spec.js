@@ -19,6 +19,15 @@ describe("Integration tests", () => {
 
     cy.get('#decrementor').click()
     cy.get('#counter-2').should('have.text', '-1')
+  }),
+
+  it('is able to submit and get form parameters', () => {
+    cy.visit('/test/')
+    cy.get('#text-input').type('Hello world')
+    cy.get('#submit').click()
+    cy.wait(200)
+
+    cy.get('#text-output').should('have.text', 'Hello world')
   })
 
   it("get parameters won't throw exceptions when triggering reflex", () => {

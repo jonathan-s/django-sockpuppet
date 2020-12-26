@@ -10,12 +10,13 @@ PROTECTED_VARIABLES = [
 
 
 class Reflex:
-    def __init__(self, consumer, url, element, selectors):
+    def __init__(self, consumer, url, element, selectors, params):
         self.consumer = consumer
         self.url = url
         self.element = element
         self.selectors = selectors
         self.session = consumer.scope['session']
+        self.params = params
 
     def get_channel_id(self):
         '''
@@ -30,6 +31,7 @@ class Reflex:
         request = factory.get(self.url)
         request.session = self.consumer.scope['session']
         request.user = self.consumer.scope['user']
+        request.POST = self.params
         return request
 
     def reload(self):

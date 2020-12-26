@@ -14,3 +14,8 @@ class DecrementReflex(Reflex):
 class ParamReflex(Reflex):
     def change_word(self):
         self.word = 'space'
+
+
+class FormReflex(Reflex):
+    def submit(self):
+        self.text_output = self.request.POST['text-input']
