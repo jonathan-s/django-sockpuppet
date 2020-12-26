@@ -27,7 +27,13 @@ python manage.py generate_reflex app_name name_of_reflex
 
 The terminal commands above will ensure that Sockpuppet is installed. It creates an example to get you started.
 
-However you will need to make some further configurations in `settings.py` and you need some way to build the javascript. We will detail what `initial_sockpuppet` does behind the scenes below.
+If you want or need to build your own javascript you need to make some more adjustments. The `initial_sockpuppet` command helps you to set up a javascript build flow with webpack. If you don't want to do this you can use the following in your templates to load the required javascript.
+
+```
+{% static 'sockpuppet/sockpuppet.js %}
+```
+
+You also need to make some further configurations in `settings.py` to configure Channels.
 
 ## Configuration
 

@@ -48,25 +48,6 @@ It's also possible to trigger this global Reflex by passing nothing but a browse
 <button data-reflex="click">Refresh</button>
 ```
 
-### Scanning for new data-reflex attributes
-
-The javascript library [StimulusReflex](https://www.npmjs.com/package/stimulus_reflex) scans the DOM looking for instances of the `data-reflex` attribute. When it finds one, it attaches a `stimulus-reflex` Stimulus controller to that element.
-
-By default, scans happen in response to four events:
-
-| Object | Event |
-| :--- | :--- |
-| window | load |
-| document | turbolinks:load |
-| document | cable-ready:after-morph |
-| document | ajax:complete |
-
-While those should cover the vast majority of cases, there are scenarios such as client JSX or Handlebars template rendering which require a re-scan of the DOM to pick up new `data-reflex` instances. You can manually request a re-scan in any Stimulus controller that has **already called** `StimulusReflex.register(this)`.
-
-```javascript
-StimulusReflex.setupDeclarativeReflexes()
-```
-
 ## Reflex Classes
 
 StimulusReflex makes the following properties available to the developer inside Reflex actions:

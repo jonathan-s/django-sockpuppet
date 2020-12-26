@@ -78,7 +78,7 @@ class CountView(TemplateView):
 ```
 {% endcode %}
 
-We also need to start a Stimulus application in javascript
+If you are building your own javascript this is what you need to wire up the javascript behind django-sockpuppet. If not, you can use the `{% static 'sockpuppet/sockpuppet.js %}` in the template instead to include the required javascript.
 
 {% code title="frontend/src/js/index.js" %}
 ```javascript
@@ -87,7 +87,7 @@ import StimulusReflex from 'stimulus_reflex'
 import WebsocketConsumer from 'sockpuppet-js'
 
 const application = Application.start()
-const consumer = new WebsocketConsumer('ws://localhost:8000/sockpuppet-sync')
+const consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync')
 
 StimulusReflex.initialize(application, { consumer })
 ```
@@ -172,7 +172,7 @@ import WebsocketConsumer from 'sockpuppet-js'
 import CounterController from './controller/counter_controller.js'
 
 const application = Application.start()
-const consumer = new WebsocketConsumer('ws://localhost:8000/sockpuppet-sync')
+const consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync')
 
 application.register('counter', CounterController)
 StimulusReflex.initialize(application, { consumer })
