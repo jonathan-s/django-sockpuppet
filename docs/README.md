@@ -12,17 +12,17 @@ We extend the capabilities of both [Django](https://www.djangoproject.com/) and 
 
 This architecture eliminates the complexity imposed by full-stack frontend frameworks without abandoning [high-performance reactive user experiences](https://www.youtube.com/watch?v=SWEts0rlezA&t=214s). With Sockpuppet, small teams can do big things faster than ever before. We invite you to explore **a fresh alternative to the Single Page App** \(SPA\).
 
-We are indebted to the the work done in [StimulusReflex](https://docs.stimulusreflex.com). Without them Sockpuppet wouldn't exist, it's our bigger sibling who prefers to play in the rails world.
+We are indebted to the work done in [StimulusReflex](https://docs.stimulusreflex.com). Without them Sockpuppet wouldn't exist; it's our bigger sibling who prefers to play in the Rails world.
 
 {% hint style="success" %}
-**Get Involved.** We are stronger together! Please join us on [Discord.![](https://img.shields.io/discord/629472241427415060)](https://discord.gg/XveN625)
+**Get Involved.** We are stronger together! Please join us on [Discord![Discord shield](https://img.shields.io/discord/629472241427415060)](https://discord.gg/XveN625)
 
 [![GitHub stars](https://img.shields.io/github/stars/jonathan-s/sockpuppet?style=social)](https://github.com/jonathan-s/sockpuppet) [![GitHub forks](https://img.shields.io/github/forks/jonathan-s/sockpuppet?style=social)](https://github.com/jonathan-s/sockpuppet) [![Twitter follow](https://img.shields.io/twitter/follow/argparse?style=social)](https://twitter.com/argparse)
 {% endhint %}
 
 ## Why should I use Sockpuppet?
 
-Wouldn't it be great if you could **focus on your product** instead of the technical noise introduced by modern JavaScript. With Sockpuppet, you'll **ship projects faster, with smaller teams** and re-discover the joy of programming.
+Wouldn't it be great if you could **focus on your product** instead of the technical noise introduced by modern JavaScript? With Sockpuppet, you'll **ship projects faster, with smaller teams** and re-discover the joy of programming.
 
 ### Goals
 
@@ -39,7 +39,7 @@ Our friends at StimulusReflex proves that you can build things fast.
 
 ## How we got here
 
-Applications nowadays pursue native UI speeds which spawned a new breed of increasingly complex technologies. Modern **Single Page Apps** have pushed much of the server's responsibilities to the client. Unfortunately this new approach trades _a developer experience_ that was once **fun and productive** for an alternative of high complexity and only marginal gains.
+Applications nowadays pursue native UI speeds which spawned a new breed of increasingly complex technologies. Modern **Single Page Apps** have pushed much of the server's responsibilities to the client. Unfortunately, this new approach trades _a developer experience_ that was once **fun and productive** for an alternative of high complexity and only marginal gains.
 
 **There must be a better way.**
 
@@ -57,8 +57,8 @@ Sockpuppet was originally inspired by StimulusReflex which was inspired by LiveV
 
 So what is happening behind the scenes here? Sockpuppet works in three layers.
 
-It uses javascript; The javascript is re-used from StimulusReflex, which in itself is built upon stimulusjs. The javascript in StimulusReflex also uses something called cable_ready which has the responsibility of modifying the DOM. The javascript layer ensures that the data is being sent to the server layer through websockets. When a message is received from the server layer it will re-render the dom according to the server side instructions.
+It uses JavaScript; The JavaScript is re-used from StimulusReflex, which in itself is built upon StimulusJS. The JavaScript in StimulusReflex also uses something called `morphdom` which has the responsibility of modifying the DOM. The JavaScript layer ensures that the data is being sent to the server layer through websockets. When a message is received from the server layer it will re-render the dom according to the server-side instructions.
 
-The HTML layer has the responsibility of defining where and how a "reflex" is going to be triggered. Ie, a reflex could be triggered by an browser event or the click of a button. When building more complex applications the HTML layer may also be used to store state so that this state is accessible when doing some interactivity in a stimulus controller.
+The HTML layer has the responsibility of defining where and how a "Reflex" is going to be triggered. Ie, a Reflex could be triggered by a browser event or the click of a button. When building more complex applications the HTML layer may also be used to store state so that this state is accessible when doing some interactivity in a stimulus controller.
 
-The last layer is server layer. This is where a "Reflex" class is defined. The reflex knows what path and template was received and will re-render that template to contain any new information defined in the reflex. The reflex could also make database queries and such as well. Once the template is re-rendered it will send it back to frontend where javascript will modify the DOM to update everything.
+The last layer is the server layer. This is where a Reflex class is defined. The Reflex knows what path and template was received and will re-render that template to contain any new information defined in the Reflex. The Reflex could also make database queries or initiate long-running processes. Once the template is re-rendered it will send it back to the frontend where JavaScript will modify the DOM to update everything.

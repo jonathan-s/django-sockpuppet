@@ -4,7 +4,7 @@ description: How to prepare your app to use Sockpuppet
 
 # Setup
 
-Sockpuppet is ultimately a port of rails' library StimulusReflex and thus also relies on [Stimulus](https://stimulusjs.org/), an excellent library from the creators of Rails. But nonetheless completely independent from Rails.
+Sockpuppet is ultimately a port of Rails' library StimulusReflex and thus also relies on [Stimulus](https://stimulusjs.org/), an excellent library from the creators of Rails (though it has no dependency on Rails and can be used entirely by itself).
 
 You can easily install Sockpuppet to new and existing Django projects.
 
@@ -32,9 +32,9 @@ python manage.py generate_reflex app_name name_of_reflex
 
 The terminal commands above will ensure that Sockpuppet is installed. It creates an example to get you started.
 
-If you want or need to build your own javascript you need to make some more adjustments. The `initial_sockpuppet` command helps you to set up a javascript build flow with webpack. If you don't want to do this you can use the following in your templates to load the required javascript.
+If you want or need to build your own JavaScript you need to make some more adjustments. The `initial_sockpuppet` command helps you to set up a JavaScript build flow with Webpack. If you don't want to do this you can use the following in your templates to load the required JavaScript.
 
-```
+```python
 {% static 'sockpuppet/sockpuppet.js %}
 ```
 
@@ -75,15 +75,15 @@ CHANNEL_LAYERS = {
 ```
 {% endhint %}
 
-If you already are using django-channels in your project you can take a look at the source code of the routing file in sockpuppet and amend your routing as needed.
+If you already are using `django-channels` in your project you can take a look at the source code of the routing file in Sockpuppet and amend your routing as needed.
 
 ### Javascript configuration
 
-You may already have a working build system in javascript for your django project. If you don't we've got you covered.
+You may already have a working build system in javascript for your Django project. If you don't we've got you covered.
 
-There isn't an particularly strong convention on javascript should be handled in django, so below is a proposal on how you could organize your build setup.
+There isn't a particularly strong convention on javascript should be handled in Django, so below is a proposal on how you could organize your build setup.
 
-So let's first install all the dependencies we need for the most minimal webpack configuration to work.
+So let's first install all the dependencies we need for the most minimal Webpack configuration to work.
 
 ```bash
 npm i -D fs path sockpuppet-js stimulus_reflex webpack webpack-cli
@@ -98,7 +98,7 @@ We also need to build and watch any changes that we make in our project. For thi
 },
 ```
 
-The last part is the configuration for webpack itself.
+The last part is the configuration for Webpack itself.
 
 {% tabs %}
 {% tab title="webpack.config.js" %}
@@ -140,9 +140,9 @@ module.exports = config
 {% endtab %}
 {% endtabs %}
 
-The configuration above will look for javascript files in the folder `your_app/javascript`, compile them and place the output in the folder `dist/js/`.
+The configuration above will look for JavaScript files in the folder `your_app/javascript`, compile them and place the output in the folder `dist/js/`.
 
-If you add that folder to `STATICFILES_DIRS` in settings it will pick that compiled javascript and you can use it in templates.
+If you add that folder to `STATICFILES_DIRS` in settings it will pick that compiled JavaScript and you can use it in templates.
 
 ```python
 from pathlib import Path
@@ -156,7 +156,6 @@ And that's it! **You can start using Sockpuppet in your application.**
 
 ## Session storage
 
-By default django is using the database as a backend for sessions. Examples in the quickstart will be using sessions as a way to persist data between page loads.
+By default, Django is using the database as a backend for sessions. Examples in the quickstart will be using sessions as a way to persist data between page loads.
 
-This may cause more strain on your database in high-traffic scenarios than would you like. Since you are already using redis for `django-channels` you could use redis as a session storage. The library [`django-redis`](https://github.com/jazzband/django-redis) has instructions to set that up.
-
+This may cause more strain on your database in high-traffic scenarios than would you like. Since you are already using Redis for `django-channels` you could use Redis as a session storage. The library [`django-redis`](https://github.com/jazzband/django-redis) has instructions to set that up.

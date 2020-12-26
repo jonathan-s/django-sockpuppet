@@ -4,9 +4,9 @@ description: How to restrict DOM updates
 
 # Scoping
 
-By default, the javascript library StimulusReflex updates your entire page. It uses the amazing [morphdom](https://github.com/patrick-steele-idem/morphdom) library to do the smallest number of DOM modifications necessary to refresh your UI in just a few milliseconds. For many developers, this will be a perfect solution and they can stop reading here.
+By default, the JavaScript library StimulusReflex updates your entire page. It uses the amazing [`morphdom`](https://github.com/patrick-steele-idem/morphdom) library to do the smallest number of DOM modifications necessary to refresh your UI in just a few milliseconds. For many developers, this will be a perfect solution and they can stop reading here.
 
-Some applications are more sophisticated. You might want to think of your site in terms of components, or you might need to interact with legacy JavaScript plugins on your page that don't play nicely with modern techniques. Heck, you might just need to make sure we don't reload the same 3rd party ad tracker every time someone clicks a button.
+Some applications are more sophisticated. You might want to think of your site in terms of components, or you might need to interact with legacy JavaScript plugins on your page that don't play nicely with modern techniques. Heck, you might just need to make sure we don't reload the same third-party ad tracker every time someone clicks a button.
 
 Great news: we have you covered.
 
@@ -24,7 +24,7 @@ StimulusReflex will decide which element's children to replace by evaluating thr
 2. Is there a `data-reflex-root` on an ancestor element with a `data-controller` above the element in the DOM? It could be the element's immediate parent, but it doesn't have to be.
 3. Just use the `body` element.
 
-Here is a simple example: the user is presented with a text box. Anything they type into the text box will be echoed back in two div elements, forwards and backwards.
+Here is a simple example: the user is presented with a text box. Anything they type into the text box will be echoed back in two div elements, forward and backward.
 
 {% tabs %}
 {% tab title="index.html" %}
@@ -51,19 +51,19 @@ class ExampleReflex(Reflex):
 {% endtabs %}
 
 {% hint style="info" %}
-One interesting detail of this example is that by assigning the root to `[forward],[backward]` we are implicitly telling the javascript library StimulusReflex to **not** update the text input itself. This prevents resetting the input value while the user is typing.
+One interesting detail of this example is that by assigning the root to `[forward],[backward]` we are implicitly telling StimulusReflex to **not** update the text input itself. This prevents resetting the input value while the user is typing.
 {% endhint %}
 
 {% hint style="warning" %}
-In StimulusReflex, morphdom is called with the **childrenOnly** flag set to _true_.
+In StimulusReflex, `morphdom` is called with the **childrenOnly** flag set to _true_.
 
-This means that &lt;body&gt; or the custom parent selector\(s\) you specify are not updated. For this reason, it's necessary to wrap anything you need to be updated in a div, span or other bounding tag so that it can be swapped out without confusion.
+This means that `<body>` or the custom parent selector\(s\) you specify are not updated. For this reason, it's necessary to wrap anything you need to be updated in a `<div>`, `<span>`, or other bounding tag so that it can be swapped out without confusion.
 
-If you're stuck with an element that just won't update, make sure that you're not attempting to update the attributes on an &lt;a&gt;.
+If you're stuck with an element that just won't update, make sure that you're not attempting to update the attributes on an `<a>`.
 {% endhint %}
 
 {% hint style="info" %}
-It's completely valid to for an element with a data-reflex-root attribute to reference itself via a CSS class or other mechanism. Just always remember that the parent itself will not be replaced! Only the children of the parent are modified.
+It's completely valid for an element with a `data-reflex-root` attribute to reference itself via a CSS class or other mechanism. Just always remember that the parent itself will not be replaced! Only the children of the parent are modified.
 {% endhint %}
 
 ## Persisting Elements
@@ -82,7 +82,7 @@ Just add `data-reflex-permanent` to any element in your DOM, and it will be left
 {% endcode %}
 
 {% hint style="warning" %}
-This is especially important for 3rd-party elements such as ad tracking scripts, Google Analytics, and any other widget that renders itself such as a React component or legacy jQuery plugin.
+This is especially important for third-party elements such as ad tracking scripts, Google Analytics, and any other widget that renders itself such as a React component or legacy jQuery plugin.
 {% endhint %}
 
 ## Single Source of Truth
@@ -98,4 +98,3 @@ We've worked really hard to make sure that developers can update other aspects o
 If you need to filter or constrain the contents of a text input, consider using a client-side library such as [Cleave.js](https://nosir.github.io/cleave.js/) instead of trying to circumvent the Single Source of Truth mechanisms, which are there to protect your users from their fellow collaborators.
 
 Note that this concept only applies to the active text input element. Any elements which are marked with `data-reflex-permanent` will not be morphed in any way.
-

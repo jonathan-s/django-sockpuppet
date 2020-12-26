@@ -31,7 +31,7 @@ if (process.env.ENVIRONMENT === 'development') StimulusReflex.debug = true
 
 ### Server-Side
 
-To get debug logging for Sockpuppet you need to make some modifications to `LOGGING` in `settings.py`. Below you can see an example logging configuration that enables debug level logging Sockpuppet.
+To get debug logging for Sockpuppet you need to make some modifications to `LOGGING` in `settings.py`. Below you can see an example logging configuration that enables debug-level logging Sockpuppet.
 
 ```python
 LOGGING = {
@@ -61,4 +61,3 @@ LOGGING = {
     }
 }
 ```
-
