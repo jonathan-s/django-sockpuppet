@@ -1,0 +1,15 @@
+{% load static %}
+
+<body>
+  <script src="{% static 'sockpuppet/sockpuppet.js' %}"></script>
+  <div>
+    <!-- This reflex is never registered in javascript -->
+    <button
+      id="decrementor"
+      data-reflex="click->DecrementReflex#decrement"
+      data-step="1"
+      data-count="{{ otherCount }}"
+    >Decrement</button>
+    <div id="decrementor-counter">{{ otherCount }}</div>
+  </div>
+</body>

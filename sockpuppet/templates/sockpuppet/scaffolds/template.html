@@ -1,6 +1,7 @@
 {% load sockpuppet %}
 {% raw %}{% load static %}{% endraw %}
 <body>
+    {% if using_javascript %}
     {# You'll need to make sure that the javascript is compiled and placed in the static files dirs.  #}
     <script src="{% raw %}{% static 'js/{{ reflex_name }}.js' %}{% endraw %}"></script>
 
@@ -8,5 +9,14 @@
         data-controller="{{ reflex_name }}"
         data-action="click->{{ reflex_name }}#increment"
         data-count="{% raw %}{{ count }}{% endraw %}"
-    >Increment {% raw %}{{ count }}{% endraw %}</a>
+    >Increment </a><span>{% raw %}{{ count }}{% endraw %}</span>
+    {% else %}
+    {# The line below is only ever needed if you don't build your own javascript. #}
+    {% raw %}<script src="{% static 'sockpuppet/sockpuppet.js' %}"></script>{% endraw %}
+    <a
+      href="#"
+      data-reflex="click->{{ reflex_name }}#increment"
+      data-count="{% raw %}{{ count }}{% endraw %}"
+    >Increment </a><span>{% raw %}{{ count }}{% endraw %}</span>
+    {% endif %}
 </body>
