@@ -65,7 +65,7 @@ We are also assuming that we have a view that renders this template. The view lo
 
 {% code title="your\_app/view.py" %}
 ```python
-from Django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView
 
 class CountView(TemplateView):
     template_name = 'index.html'
@@ -200,7 +200,7 @@ Here, you can see how we accept an optional `step` argument to our `increment` R
 
 {% code title="your\_app/views.py.py" %}
 ```python
-from Django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView
 
 class CountView(TemplateView):
     template_name = 'index.html'
@@ -217,4 +217,3 @@ Finally, we set the value of the `self.count` instance variable in the view. Whe
 {% hint style="info" %}
 Instead of using sessions to persist data, you could store the data in Django models. To keep this example we use Django sessions to store our counter value.
 {% endhint %}
-
