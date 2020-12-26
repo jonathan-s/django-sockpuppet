@@ -146,7 +146,7 @@ By capturing the **cable-ready:after-morph** event, we can run code after every 
 
 ### Capture jQuery events with DOM event listeners
 
-Don't hate jQuery: it was a life-saver 12 years ago, and many of its best ideas are now part of the Javascript language. However, one of the uglier realities of jQuery in a contemporary context is that it has its' own entirely proprietary system for managing events, and it's not compatible with the now-standard DOM events API.
+Don't hate jQuery: it was a life-saver 12 years ago, and many of its best ideas are now part of the JavaScript language. However, one of the uglier realities of jQuery in a contemporary context is that it has its' own entirely proprietary system for managing events, and it's not compatible with the now-standard DOM Events API.
 
 Sometimes you still need to be able to interface with legacy components, but you don't want to have to write two event handling systems.
 
@@ -174,13 +174,11 @@ If your controller's identifier doesn't obey the rules of JavaScript variable na
 For example, if your controller is named _list-item_ you might consider **this.element.listItem = this** for that controller**.**
 {% endhint %}
 
-## Server Side
+## Server-Side
 
 ### Rendering views inside of an ActiveRecord model or ActiveJob class
 
-If you plan to broadcast an update of a html template from somewhere outside a reflex you can draw from the example below.
-
-**It's not a complete working example**, but it should set you on the right path.
+If you plan to broadcast an update of an html template from somewhere outside a reflex you can draw from the example below.
 
 **The following isn't a complete working example**, but it should set you on the right path.
 
@@ -206,7 +204,7 @@ class Notification(models.Model):
 
 ### Triggering custom events and forcing DOM updates
 
-You can trigger out of band updates with the `Channel` class, it is the workhorse behind sockpuppet. Take a look at the [source code](https://github.com/jonathan-s/django-sockpuppet/blob/master/sockpuppet/channel.py) to learn more about what kind of updates you can do.
+You can trigger out of band updates with the `Channel` class, it is the workhorse behind Sockpuppet. Take a look at the [source code](https://github.com/jonathan-s/django-sockpuppet/blob/master/sockpuppet/channel.py) to learn more about what kind of updates you can do.
 
 One of the things you can do is to dispatch an event. You can do that with the method `dispatch_event`, which allows you to trigger any event in the client, including custom events and jQuery events.
 
@@ -268,9 +266,8 @@ export default class extends Controller {
 
 By passing a randomized number to the Reflex as an argument, we allow ourselves to return before triggering a reload if we were the ones that initiated the operation.
 
-#### Coming Soon: Notifications with ActiveJob / Sidekiq
+#### Coming Soon: Notifications
 
 ## Anti-Patterns
 
 #### Coming Soon: How to change the URL rendered by a reflex
-

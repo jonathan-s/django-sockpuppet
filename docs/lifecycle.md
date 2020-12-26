@@ -9,8 +9,8 @@ description: How to hook into Reflex activity... aka callbacks
 StimulusReflex gives you the ability to inject custom Javascript at four distinct moments **around** sending an event to the server and updating the DOM. These hooks allow you to improve the user experience and handle edge cases.
 
 1. **`before`** - prior to sending a request over the web socket
-2. **`success`** - after the server side Reflex succeeds and the DOM has been updated
-3. **`error`** - whenever the server side Reflex raises an error
+2. **`success`** - after the server-side Reflex succeeds and the DOM has been updated
+3. **`error`** - whenever the server-side Reflex raises an error
 4. **`after`** - after both `success` and `error`
 
 {% hint style="info" %}
@@ -131,7 +131,7 @@ Both generic and custom lifecycle callback methods share the same arguments:
 
 **element** - the DOM element that triggered the Reflex _this may not be the same as the controller's `this.element`_
 
-**reflex** - the name of the server side Reflex
+**reflex** - the name of the server-side Reflex
 
 **error** - the error message if an error occurred, otherwise `null`
 

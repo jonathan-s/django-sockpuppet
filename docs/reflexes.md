@@ -4,17 +4,17 @@ description: "Reflex classes are full of Reflex actions. Reflex actions? Full of
 
 # Reflexes
 
-Server side reflexes inherit from `sockpuppet.Reflex`. They hold logic responsible for performing operations like writing to your backend data stores. Reflexes are not concerned with rendering because rendering is delegated to the Rails controller or Django view and action that originally rendered the page.
+Server-side Reflexes inherit from `sockpuppet.Reflex`. They hold logic responsible for performing operations like writing to your backend data stores. Reflexes are not concerned with rendering because rendering is delegated to the Rails controller or Django view and action that originally rendered the page.
 
 ## Glossary
 
-* Sockpuppet: the name of this project, which has a JS websocket client and a django based server component, which is based on django-channels.
-* Stimulus: an incredibly simple yet powerful JS framework by the creators of Rails
-* "a Reflex": used to describe the full, round-trip life-cycle of a Sockpuppet operation, from client to server and back again
-* Reflex class: a python class that inherits from `sockpuppet.Reflex` and lives in your `reflexes` folder or `reflex.py`, this is where your Reflex actions are implemented.
-* Reflex action: a method in a Reflex class, called in response to activity in the browser. It has access to several special accessors containing all of the Reflex controller element's attributes
-* Reflex controller: a Stimulus controller that imports the StimulusReflex client library. It has a `stimulate` method for triggering Reflexes and like all Stimulus controllers, it's aware of the element it is attached to - as well as any Stimulus [targets](https://stimulusjs.org/reference/targets) in its DOM hierarchy
-* Reflex controller element: the DOM element upon which the `data-reflex` attribute is placed, which often has data attributes intended to be delivered to the server during a Reflex action
+* Sockpuppet: The name of this project, which has a JS websocket client and a Django-based server component, which is based on `django-channels`.
+* Stimulus: An incredibly simple yet powerful JS framework by the creators of Rails.
+* "a Reflex": Used to describe the full, round-trip life-cycle of a Sockpuppet operation, from client to server and back again
+* Reflex class: A Python class that inherits from `sockpuppet.Reflex` and lives in your `reflexes` folder or `reflex.py`, this is where your Reflex actions are implemented.
+* Reflex action: A method in a Reflex class, called in response to activity in the browser. It has access to several special accessors containing all of the Reflex controller element's attributes
+* Reflex controller: A Stimulus controller that imports the StimulusReflex client library. It has a `stimulate` method for triggering Reflexes and like all Stimulus controllers, it's aware of the element it is attached to - as well as any Stimulus [targets](https://stimulusjs.org/reference/targets) in its DOM hierarchy
+* Reflex controller element: The DOM element upon which the `data-reflex` attribute is placed, which often has data attributes intended to be delivered to the server during a Reflex action
 
 ## Calling a Reflex
 
@@ -26,11 +26,11 @@ All Stimulus controllers that have had `StimulusReflex.register(this)` called in
 this.stimulate(string target, [DOMElement element], ...[JSONObject argument])
 ```
 
-**target**, required \(exception: see "Requesting a Refresh" below\): a string containing the server Reflex class and method, in the form "ExampleReflex\#increment".
+**target**, required \(exception: see "Requesting a Refresh" below\): A string containing the server Reflex class and method, in the form "ExampleReflex\#increment".
 
-**element**, optional: a reference to a DOM element which will provide both attributes and scoping selectors. Frequently pointed to `event.target` in Javascript. **Defaults to the DOM element of the controller in scope**.
+**element**, optional: A reference to a DOM element which will provide both attributes and scoping selectors. Frequently pointed to `event.target` in JavaScript. **Defaults to the DOM element of the controller in scope**.
 
-**argument**, optional: a **splat** of JSON-compliant Javascript datatypes - array, object, string, numeric or boolean - can be received by the server Reflex action as one or many ordered arguments. Defaults to no argument\(s\). **Note: the method signature has to match.** If the Reflex action is expecting two arguments and doesn't receive two arguments, it will raise an exception.
+**argument**, optional: A **splat** of JSON-compliant JavaScript datatypes - array, object, string, numeric or boolean - can be received by the server Reflex action as one or many ordered arguments. Defaults to no argument\(s\). **Note: the method signature has to match.** If the Reflex action is expecting two arguments and doesn't receive two arguments, it will raise an exception.
 
 ### Requesting a "refresh"
 
@@ -54,11 +54,11 @@ StimulusReflex makes the following properties available to the developer inside 
 
 {% tabs %}
 {% tab title="Python" %}
-* `consumer` - the websocket connection from django channels.
-* `request` - a django request object
-* `session` - the django session store for the current visitor
-* `url` - the URL of the page that triggered the reflex
-* `element` - a dictionary like object that represents the HTML element that triggered the reflex
+* `consumer` - The websocket connection from `django-channels`.
+* `request` - A Django request object.
+* `session` - The Django session store for the current visitor.
+* `url` - The URL of the page that triggered the reflex.
+* `element` - A dictionary-like object that represents the HTML element that triggered the Reflex.
 {% endtab %}
 {% endtabs %}
 
@@ -68,7 +68,7 @@ StimulusReflex makes the following properties available to the developer inside 
 
 ### `element`
 
-The `element` property contains all of the Stimulus controller's [DOM element attributes](https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes) as well as other properties like, `tagName`, `checked` and `value`.
+The `element` property contains all of the Reflex controller's [DOM element attributes](https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes) as well as other properties like, `tagName`, `checked` and `value`.
 
 {% hint style="info" %}
 **Most values are strings.** The only exceptions are `checked` and `selected` which are booleans.
@@ -76,7 +76,7 @@ The `element` property contains all of the Stimulus controller's [DOM element at
 Elements that support **multiple values** \(like `<select multiple>`, or a collection of checkboxes with equal `name`\), will emit an additional **`values` property.** The `value` property will contain a comma-separated string of the checked options.
 {% endhint %}
 
-Here's an example that outlines how you can interact with the `element` property in your reflexes.
+Here's an example that outlines how you can interact with the `element` property in your Reflexes.
 
 {% code title="app/templates/show.html" %}
 ```markup
@@ -108,8 +108,7 @@ class ExampleReflex(Reflex):
 {% endtabs %}
 
 {% hint style="success" %}
-When Sockpuppet is rendering your template, a context variable named **stimulus\_reflex** is available to your django view and set to true.
+When Sockpuppet is rendering your template, a context variable named **stimulus\_reflex** is available to your Django view and set to true.
 
-You can use this flag to create branching logic to control how the template might look different if it's a Reflex vs normal page refresh.
+You can use this flag to create branching logic to control how the template might look different if it's a Reflex versus a normal page refresh.
 {% endhint %}
-

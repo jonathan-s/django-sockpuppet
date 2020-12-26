@@ -1,6 +1,6 @@
 ---
 description: >-
-  the javascript library StimulusReflex rocks because it stands on the shoulders
+  the JavaScript library StimulusReflex rocks because it stands on the shoulders
   of Stimulus
 ---
 
@@ -8,9 +8,9 @@ description: >-
 
 It's become progressively easier to work with events in a consistent way across all web browsers. There are still gotchas and awkward idiosyncrasies that would make Larry David squirm, but compared to the bad old days of IE6 - long a _nevergreen_ browser default on Windows - there's usually a correct answer to most problems.
 
-The team behind [StimulusReflex](https://docs.stimulusreflex.com) works hard to make sure that the javascript library has everything it needs to present a favorable alternative to using SPAs. They are also opinionated about what StimulusReflex shouldn't take on, and those decisions reflect some of the biggest differences from other solutions such as [LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#module-key-events).
+The team behind [StimulusReflex](https://docs.stimulusreflex.com) works hard to make sure that the JavaScript library has everything it needs to present a favorable alternative to using SPAs. They are also opinionated about what StimulusReflex shouldn't take on, and those decisions reflect some of the biggest differences from other solutions such as [LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#module-key-events).
 
-A big part of the reason they can keep the footprint of the javascript library so small without sacrificing functionality is that it is tightly integrated with [Stimulus](https://stimulusjs.org), a lightweight library that provides powerful event handling.
+A big part of the reason they can keep the footprint of the JavaScript library so small without sacrificing functionality is that it is tightly integrated with [Stimulus](https://stimulusjs.org), a lightweight library that provides powerful event handling.
 
 They also draw upon proven libraries such as [Lodash](https://lodash.com) when necessary to craft flexible solutions to common problems.
 
