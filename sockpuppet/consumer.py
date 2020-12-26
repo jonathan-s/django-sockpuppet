@@ -9,7 +9,6 @@ import sys
 from urllib.parse import urlparse
 
 from asgiref.sync import async_to_sync
-from bs4 import BeautifulSoup
 from channels.generic.websocket import JsonWebsocketConsumer
 from django.apps import apps
 from django.urls import resolve
@@ -18,7 +17,7 @@ from django.conf import settings
 from .channel import Channel
 from .reflex import PROTECTED_VARIABLES, Reflex
 from .element import Element
-from .utils import classify
+from .utils import classify, get_document_and_selectors, parse_out_html
 
 
 logger = logging.getLogger('sockpuppet')
@@ -244,8 +243,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         return response.rendered_content
 
     def broadcast_morphs(self, selectors, data, html, reflex):
-        document = BeautifulSoup(html)
-        selectors = [selector for selector in selectors if document.select(selector)]
+        document, selectors = get_document_and_selectors(html, selectors)
 
         channel = Channel(reflex.get_channel_id(), identifier=data['identifier'])
         logger.debug('Broadcasting to %s', reflex.get_channel_id())
@@ -257,9 +255,11 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             permanent_attribute_name = data['permanentAttributeName']
 
         for selector in selectors:
+            # cssselect has an attribute css
+            plain_selector = getattr(selector, 'css', selector)
             channel.morph({
-                'selector': selector,
-                'html': ''.join([e.decode_contents() for e in document.select(selector)]),
+                'selector': plain_selector,
+                'html': parse_out_html(document, selector),
                 'children_only': True,
                 'permanent_attribute_name': permanent_attribute_name,
                 'stimulus_reflex': {**data}

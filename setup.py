@@ -35,6 +35,9 @@ setup(
     packages=[
         'sockpuppet',
     ],
+    extras_require={
+        "lxml": ["lxml", "cssselect"],
+    },
     include_package_data=True,
     install_requires=requirements,
     long_description_content_type="text/markdown",
