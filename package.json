@@ -1,6 +1,6 @@
 {
     "name": "sockpuppet-js",
-    "version": "0.3.7",
+    "version": "0.3.8",
     "description": "Websocket consumer to support django-sockpuppet / stimulus-reflex.",
     "main": "./javascript/stimulus-websocket/index.js",
     "repository": {
