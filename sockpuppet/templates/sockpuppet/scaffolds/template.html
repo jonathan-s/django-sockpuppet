@@ -11,6 +11,7 @@
         data-count="{% raw %}{{ count }}{% endraw %}"
     >Increment </a><span>{% raw %}{{ count }}{% endraw %}</span>
     {% else %}
+    {# The line below is only ever needed if you don't build your own javascript. #}
     {% raw %}<script src="{% static 'sockpuppet/sockpuppet.js' %}"></script>{% endraw %}
     <a
       href="#"
