@@ -25,7 +25,6 @@ class RawNode(template.Node):
             elif node.token.token_type.name == 'VAR':
                 raw = '{{ ' + node.token.contents + ' }}'
             else:
-                msg = '{} is not yet handled'.format(node.token.token_type.name)
-                raise Exception(msg)
+                raw = node.token.contents
             output = output + raw
         return output
