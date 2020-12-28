@@ -2,7 +2,7 @@
 {% raw %}{% load static %}{% endraw %}
 <body>
     {# You'll need to make sure that the javascript is compiled and placed in the static files dirs.  #}
-    <script src="{% raw %}{% static 'js/{{ reflex_name }}.js' %}{% endraw %}"></script>
+    <script type="module" src="{% raw %}{% static 'js/{{ reflex_name }}.js' %}{% endraw %}"></script>
 
     <a  href="#"
         data-controller="{{ reflex_name }}"
