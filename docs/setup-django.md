@@ -35,7 +35,7 @@ The terminal commands above will ensure that Sockpuppet is installed. It creates
 If you want or need to build your own JavaScript you need to make some more adjustments. The `initial_sockpuppet` command helps you to set up a JavaScript build flow with Webpack. If you don't want to do this you can use the following in your templates to load the required JavaScript.
 
 ```python
-{% static 'sockpuppet/sockpuppet.js %}
+{% static 'sockpuppet/sockpuppet.js' %}
 ```
 
 You also need to make some further configurations in `settings.py` to configure Channels.
