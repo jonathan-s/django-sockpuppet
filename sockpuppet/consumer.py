@@ -171,10 +171,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             self.render_page_and_broadcast_morph(reflex, selectors, data)
         except Exception as e:
             error = '{}: {}'.format(e.__class__.__name__, str(e))
-            message = 'SockpuppetConsumer failed to re-render {url} {message}'.format(
+            msg = 'SockpuppetConsumer failed to re-render {url} {message}'.format(
                 url=url, message=error
             )
-            self.broadcast_error(message, data, reflex)
+            self.broadcast_error(msg, data, reflex)
             _, _, traceback = sys.exc_info()
             exc = SockpuppetError(msg)
             raise exc.with_traceback(traceback)
