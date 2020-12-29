@@ -159,10 +159,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             self.delegate_call_to_reflex(reflex, method_name, arguments)
         except Exception as e:
             error = '{}: {}'.format(e.__class__.__name__, str(e))
-            msg = 'SockpuppetConsumer failed to invoke {target}, with url {url}, {message}'.format(
+            msg = 'SockpuppetConsumer failed to invoke {target}, with url {url}. A TypeError here likely indicates that the Reflex is undiscoverable. {message}'.format(
                 target=target, url=url, message=error
             )
-            self.broadcast_error(msg, data, reflex)
+            self.broadcast_error(msg, data, None)
             _, _, traceback = sys.exc_info()
             exc = SockpuppetError(msg)
             raise exc.with_traceback(traceback)
