@@ -86,7 +86,7 @@ There isn't a particularly strong convention on javascript should be handled in 
 So let's first install all the dependencies we need for the most minimal Webpack configuration to work.
 
 ```bash
-npm i -D fs path sockpuppet-js stimulus_reflex webpack webpack-cli
+npm i -D fs path sockpuppet-js stimulus stimulus_reflex webpack webpack-cli
 ```
 
 We also need to build and watch any changes that we make in our project. For this we add two script options into `package.json`
