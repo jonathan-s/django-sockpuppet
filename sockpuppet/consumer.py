@@ -157,12 +157,17 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             ReflexClass = self.reflexes.get(reflex_name)
             reflex = ReflexClass(self, url=url, element=element, selectors=selectors, params=params)
             self.delegate_call_to_reflex(reflex, method_name, arguments)
+        except TypeError:
+            if not self.reflexes.get(reflex_name):
+                msg = f'Sockpuppet tried to find a reflex class called {reflex_name}. Are you sure such a class exists?' # noqa
+                raise SockpuppetError(msg)
+            raise
         except Exception as e:
             error = '{}: {}'.format(e.__class__.__name__, str(e))
-            msg = 'SockpuppetConsumer failed to invoke {target}, with url {url}, {message}'.format(
+            msg = 'SockpuppetConsumer failed to invoke {target}, with url {url}. {message}'.format(
                 target=target, url=url, message=error
             )
-            self.broadcast_error(msg, data, reflex)
+            self.broadcast_error(msg, data, None)
             _, _, traceback = sys.exc_info()
             exc = SockpuppetError(msg)
             raise exc.with_traceback(traceback)
@@ -171,10 +176,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             self.render_page_and_broadcast_morph(reflex, selectors, data)
         except Exception as e:
             error = '{}: {}'.format(e.__class__.__name__, str(e))
-            message = 'SockpuppetConsumer failed to re-render {url} {message}'.format(
+            msg = 'SockpuppetConsumer failed to re-render {url} {message}'.format(
                 url=url, message=error
             )
-            self.broadcast_error(message, data, reflex)
+            self.broadcast_error(msg, data, reflex)
             _, _, traceback = sys.exc_info()
             exc = SockpuppetError(msg)
             raise exc.with_traceback(traceback)
