@@ -38,7 +38,13 @@ python manage.py generate_reflex your_app your_reflex_name
 Hook up the view that was generated to `urls.py`, visit the URL and click increment. Magic! ✨
 
 {% hint style="info" %}
-In the template, you'll see the following `{% static 'sockpuppet/sockpuppet.js %}` if you don't want or need to build your own JavaScript with a build tool you can use that static tag.
+In the template, you'll see the following: 
+
+```markup
+{% static 'sockpuppet/sockpuppet.js %}
+```
+
+If you don't want or need to build your own JavaScript with a build tool you can use that static tag.
 
 However, if you want to take advantage of things like [lifecycle callbacks](https://sockpuppet.argpar.se/lifecycle) you'll have to start defining your own Stimulus controllers and build your own JavaScript.
 {% endhint %}
