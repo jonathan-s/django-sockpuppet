@@ -77,7 +77,14 @@ class CountView(TemplateView):
 ```
 {% endcode %}
 
-If you are building your own JavaScript this is what you need to wire up the JavaScript behind Sockpuppet. If not, you can use the `{% static 'sockpuppet/sockpuppet.js %}` in the template instead to include the required JavaScript.
+If you are building your own JavaScript this is what you need to wire up the JavaScript behind Sockpuppet. If not, you can use 
+
+```markup
+{% load static %}
+{% static 'sockpuppet/sockpuppet.js %}
+``` 
+
+in the template instead to include the required JavaScript.
 
 {% code title="frontend/src/js/index.js" %}
 ```javascript
