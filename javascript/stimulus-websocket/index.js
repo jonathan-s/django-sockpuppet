@@ -116,6 +116,11 @@ export default class WebsocketConsumer {
             return this.readyState === ReconnectingWebSocket.OPEN;
         }
 
+        // ensure socket is closed properly on full page unload
+        document.addEventListener('beforeunload', () => {
+          this.disconnect();
+        });
+
         this.connection.addEventListener('open', (event) => {
           this.subscriptions.notifyAll('connected')
         })
