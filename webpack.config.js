@@ -21,6 +21,11 @@ entryFiles.forEach(function(file){
 
 let sockpuppet = {sockpuppet: "./sockpuppet/js/sockpuppet.js"}
 
+let sourceMap = new webpack.SourceMapDevToolPlugin({
+  publicPath: '/static/',
+  filename: '[name].js.map'
+});
+
 module.exports = [
   function(env, argv) {
     isProd = process.env.NODE_ENV === 'production'
@@ -54,8 +59,7 @@ module.exports = [
       optimization: {
         minimize: isProd
       },
-      devtool: 'source-map',
-      plugins: []
+      plugins: [sourceMap]
     }
     return config
   }
