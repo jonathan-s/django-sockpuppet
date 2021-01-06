@@ -1,3 +1,5 @@
+from django.urls import resolve
+
 from django.test import RequestFactory
 
 PROTECTED_VARIABLES = [
@@ -17,6 +19,16 @@ class Reflex:
         self.selectors = selectors
         self.session = consumer.scope['session']
         self.params = params
+
+    def __repr__(self):
+        return f'<Reflex url: {self.url}, session: {self.get_channel_id()}>'
+
+    def get_context_data(self):
+        resolved = resolve(self.url)
+        view = resolved.func.view_class()
+        view.request = self.request
+        context = view.get_context_data()
+        return context
 
     def get_channel_id(self):
         '''
