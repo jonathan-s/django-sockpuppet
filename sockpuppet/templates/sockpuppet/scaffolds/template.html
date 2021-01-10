@@ -15,7 +15,7 @@
     {% raw %}<script src="{% static 'sockpuppet/sockpuppet.js' %}"></script>{% endraw %}
     <a
       href="#"
-      data-reflex="click->{{ reflex_name }}#increment"
+      data-reflex="click->{{ reflex_name|title}}Reflex#increment"
       data-count="{% raw %}{{ count }}{% endraw %}"
     >Increment </a><span>{% raw %}{{ count }}{% endraw %}</span>
     {% endif %}

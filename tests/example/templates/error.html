@@ -1,0 +1,14 @@
+
+{% load static %}
+<body>
+
+
+    <script src="{% static 'js/example.js' %}"></script>
+    <a
+      id="increment"
+      href="#"
+      data-reflex="click->ErrorReflex#increment"
+      data-count="{{ count }}"
+    >Increment </a><span>{{ count }}</span>
+
+</body>

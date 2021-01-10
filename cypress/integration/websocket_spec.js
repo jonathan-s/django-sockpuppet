@@ -47,4 +47,16 @@ describe("Integration tests", () => {
     cy.get('#decrementor').click()
     cy.get('#decrementor-counter').should('have.text', '-1')
   })
+  // TODO, use something like this https://github.com/cypress-io/cypress/issues/1922
+  // it("throws an error in frontend when using error reflex", () => {
+  //   cy.visit('/error/')
+  //   cy.wait(1000)
+
+  //   cy.get("#increment").click()
+  //   cy.window().then((win) => {
+  //     expect(win.console.log).to.have.callCount(2);
+  //     let secondCall = win.console.log.args[1][0]
+  //     expect(secondCall).to.contain('failed')
+  //   });
+  // })
 })

@@ -31,3 +31,12 @@ class StaticView(TemplateView):
 
 class ProgressView(TemplateView):
     template_name = 'progressbar.html'
+
+
+class ErrorView(TemplateView):
+    template_name = 'error.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['count'] = 0
+        return context
