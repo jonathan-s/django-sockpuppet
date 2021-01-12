@@ -19,3 +19,8 @@ class ParamReflex(Reflex):
 class FormReflex(Reflex):
     def submit(self):
         self.text_output = self.request.POST['text-input']
+
+
+class MorphReflex(Reflex):
+    def morph_me(self):
+        self.morph('#morph', 'I got morphed!')

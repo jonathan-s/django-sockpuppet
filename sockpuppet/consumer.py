@@ -148,14 +148,30 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         url = data['url']
         selectors = data['selectors'] if data['selectors'] else ['body']
         target = data['target']
+        identifier = data['identifier']
         reflex_name, method_name = target.split('#')
         reflex_name = classify(reflex_name)
         arguments = data['args'] if data.get('args') else []
         params = dict(parse_qsl(data['formData']))
         element = Element(data['attrs'])
+
+        # TODO can be removed once stimulus-reflex has increased a couple of versions
+        permanent_attribute_name = data.get('permanent_attribute_name')
+        if not permanent_attribute_name:
+            # Used in stimulus-reflex >= 3.4
+            permanent_attribute_name = data['permanentAttributeName']
+
         try:
             ReflexClass = self.reflexes.get(reflex_name)
-            reflex = ReflexClass(self, url=url, element=element, selectors=selectors, params=params)
+            reflex = ReflexClass(
+                self, url=url,
+                element=element,
+                selectors=selectors,
+                identifier=identifier,
+                params=params,
+                reflex_id=data['reflexId'],
+                permanent_attribute_name=permanent_attribute_name
+            )
             self.delegate_call_to_reflex(reflex, method_name, arguments)
         except TypeError:
             if not self.reflexes.get(reflex_name):
@@ -223,6 +239,10 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             print('Unsupported')
 
     def render_page_and_broadcast_morph(self, reflex, selectors, data):
+        if reflex.is_morph:
+            # The reflex has already sent a message so consumer doesn't need to.
+            return
+
         html = self.render_page(reflex)
         if html:
             self.broadcast_morphs(selectors, data, html, reflex)
@@ -252,7 +272,7 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
     def broadcast_morphs(self, selectors, data, html, reflex):
         document, selectors = get_document_and_selectors(html, selectors)
 
-        channel = Channel(reflex.get_channel_id(), identifier=data['identifier'])
+        broadcaster = Channel(reflex.get_channel_id(), identifier=data['identifier'])
         logger.debug('Broadcasting to %s', reflex.get_channel_id())
 
         # TODO can be removed once stimulus-reflex has increased a couple of versions
@@ -264,14 +284,14 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         for selector in selectors:
             # cssselect has an attribute css
             plain_selector = getattr(selector, 'css', selector)
-            channel.morph({
+            broadcaster.morph({
                 'selector': plain_selector,
                 'html': parse_out_html(document, selector),
                 'children_only': True,
                 'permanent_attribute_name': permanent_attribute_name,
                 'stimulus_reflex': {**data}
             })
-        channel.broadcast()
+        broadcaster.broadcast()
 
     def delegate_call_to_reflex(self, reflex, method_name, arguments):
         method = getattr(reflex, method_name)
