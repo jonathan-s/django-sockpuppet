@@ -1,6 +1,6 @@
 # These are supported funding model platforms
 
 github: [jonathan-s] # Replace with up to 4 GitHub Sponsors-enabled usernames e.g., [user1, user2]
-ethereum: ["https://etherscan.io/address/0x6af511722f036dfbfae4adfe8e3c252f1336646c"]
+custom: ["https://etherscan.io/address/0x6af511722f036dfbfae4adfe8e3c252f1336646c"]
 # custom: # Replace with up to 4 custom sponsorship URLs e.g., ['link1', 'link2']
 # patreon: # Replace with a single Patreon username
