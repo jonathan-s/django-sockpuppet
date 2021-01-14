@@ -38,17 +38,9 @@ def context_decorator(method, extra_context):
     return wrapped
 
 
-class SockpuppetConsumer(JsonWebsocketConsumer):
+class BaseConsumer(JsonWebsocketConsumer):
     reflexes = {}
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.subscriptions = set()
-
-        if not self.reflexes:
-            configs = apps.app_configs.values()
-            for config in configs:
-                self.load_reflexes_from_config(config)
+    subscriptions = set()
 
     def _get_channelname(self, channel_name):
         try:
@@ -302,3 +294,28 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             'detail': {'stimulus_reflex': data}
         })
         channel.broadcast()
+
+
+class SockpuppetConsumer(BaseConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if not self.reflexes:
+            configs = apps.app_configs.values()
+            for config in configs:
+                self.load_reflexes_from_config(config)
+
+
+class SockpuppetConsumerAsgi(BaseConsumer):
+    '''
+    This consumer supports the asgi standard now in django
+    This consumer should be used when using channels 3.0.0 and upwards
+    '''
+
+    async def __call__(self, scope, receive, send):
+        await super().__call__(scope, receive, send)
+
+        if not self.reflexes:
+            configs = apps.app_configs.values()
+            for config in configs:
+                self.load_reflexes_from_config(config)
