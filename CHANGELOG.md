@@ -19,6 +19,7 @@
 
 - Out of band example [\#78](https://github.com/jonathan-s/django-sockpuppet/pull/78) ([jonathan-s](https://github.com/jonathan-s))
 - Add changelog generator and changelog [\#73](https://github.com/jonathan-s/django-sockpuppet/pull/73) ([jonathan-s](https://github.com/jonathan-s))
+- A reflex can access the context of the view it came from [\#72](https://github.com/jonathan-s/django-sockpuppet/pull/72) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.4.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.4.2) (2020-12-28)
 
@@ -45,6 +46,8 @@
 **Merged pull requests:**
 
 - Proofreading pass [\#65](https://github.com/jonathan-s/django-sockpuppet/pull/65) ([DamnedScholar](https://github.com/DamnedScholar))
+- If lxml and cssselect is installed we use them for better perf. [\#48](https://github.com/jonathan-s/django-sockpuppet/pull/48) ([jonathan-s](https://github.com/jonathan-s))
+- Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.3.8](https://github.com/jonathan-s/django-sockpuppet/tree/0.3.8) (2020-12-26)
 
@@ -107,8 +110,6 @@
 
 **Merged pull requests:**
 
-- If lxml and cssselect is installed we use them for better perf. [\#48](https://github.com/jonathan-s/django-sockpuppet/pull/48) ([jonathan-s](https://github.com/jonathan-s))
-- Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
 - Always install the latest stimulus-reflex in CI [\#39](https://github.com/jonathan-s/django-sockpuppet/pull/39) ([jonathan-s](https://github.com/jonathan-s))
 - Introduce compatibility with stimulus-reflex 3.4 [\#38](https://github.com/jonathan-s/django-sockpuppet/pull/38) ([jonathan-s](https://github.com/jonathan-s))
 - The javascript in static js isn't used, so remove it. [\#37](https://github.com/jonathan-s/django-sockpuppet/pull/37) ([jonathan-s](https://github.com/jonathan-s))
