@@ -6,7 +6,9 @@
 
 **Fixed bugs:**
 
+- Fix sourcemap url [\#71](https://github.com/jonathan-s/django-sockpuppet/pull/71) ([jonathan-s](https://github.com/jonathan-s))
 - Closing socket on page reload [\#69](https://github.com/jonathan-s/django-sockpuppet/pull/69) ([jonathan-s](https://github.com/jonathan-s))
+- Bug fix: Better recovery when a Reflex isn't found. [\#68](https://github.com/jonathan-s/django-sockpuppet/pull/68) ([DamnedScholar](https://github.com/DamnedScholar))
 
 **Closed issues:**
 
@@ -17,13 +19,12 @@
 
 - Out of band example [\#78](https://github.com/jonathan-s/django-sockpuppet/pull/78) ([jonathan-s](https://github.com/jonathan-s))
 - Add changelog generator and changelog [\#73](https://github.com/jonathan-s/django-sockpuppet/pull/73) ([jonathan-s](https://github.com/jonathan-s))
-- Bug fix: Better recovery when a Reflex isn't found. [\#68](https://github.com/jonathan-s/django-sockpuppet/pull/68) ([DamnedScholar](https://github.com/DamnedScholar))
 
 ## [0.4.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.4.2) (2020-12-28)
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.4.1...0.4.2)
 
-**Merged pull requests:**
+**Fixed bugs:**
 
 - fix template syntax error [\#66](https://github.com/jonathan-s/django-sockpuppet/pull/66) ([kaozdl](https://github.com/kaozdl))
 
@@ -44,12 +45,14 @@
 **Merged pull requests:**
 
 - Proofreading pass [\#65](https://github.com/jonathan-s/django-sockpuppet/pull/65) ([DamnedScholar](https://github.com/DamnedScholar))
-- If lxml and cssselect is installed we use them for better perf. [\#48](https://github.com/jonathan-s/django-sockpuppet/pull/48) ([jonathan-s](https://github.com/jonathan-s))
-- Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.3.8](https://github.com/jonathan-s/django-sockpuppet/tree/0.3.8) (2020-12-26)
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.3.7...0.3.8)
+
+**Fixed bugs:**
+
+- Fixes to SocketpuppetConsumer for handling dotfiles [\#57](https://github.com/jonathan-s/django-sockpuppet/pull/57) ([mekhami](https://github.com/mekhami))
 
 **Closed issues:**
 
@@ -59,7 +62,6 @@
 
 - A lightweight alternative to using controllers [\#63](https://github.com/jonathan-s/django-sockpuppet/pull/63) ([jonathan-s](https://github.com/jonathan-s))
 - Replace travis with github actions [\#58](https://github.com/jonathan-s/django-sockpuppet/pull/58) ([jonathan-s](https://github.com/jonathan-s))
-- Fixes to SocketpuppetConsumer for handling dotfiles [\#57](https://github.com/jonathan-s/django-sockpuppet/pull/57) ([mekhami](https://github.com/mekhami))
 - Fixing correct path to staticfiles dirs [\#56](https://github.com/jonathan-s/django-sockpuppet/pull/56) ([jonathan-s](https://github.com/jonathan-s))
 - Classify name of Class in Python Template \(as this will be done with … [\#55](https://github.com/jonathan-s/django-sockpuppet/pull/55) ([JulianFeinauer](https://github.com/JulianFeinauer))
 - Explanation on the architecture to give an overview [\#53](https://github.com/jonathan-s/django-sockpuppet/pull/53) ([jonathan-s](https://github.com/jonathan-s))
@@ -105,6 +107,8 @@
 
 **Merged pull requests:**
 
+- If lxml and cssselect is installed we use them for better perf. [\#48](https://github.com/jonathan-s/django-sockpuppet/pull/48) ([jonathan-s](https://github.com/jonathan-s))
+- Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
 - Always install the latest stimulus-reflex in CI [\#39](https://github.com/jonathan-s/django-sockpuppet/pull/39) ([jonathan-s](https://github.com/jonathan-s))
 - Introduce compatibility with stimulus-reflex 3.4 [\#38](https://github.com/jonathan-s/django-sockpuppet/pull/38) ([jonathan-s](https://github.com/jonathan-s))
 - The javascript in static js isn't used, so remove it. [\#37](https://github.com/jonathan-s/django-sockpuppet/pull/37) ([jonathan-s](https://github.com/jonathan-s))
