@@ -135,6 +135,11 @@ class BaseConsumer(JsonWebsocketConsumer):
         send = async_to_sync(self.channel_layer.group_send)
         send(recipient, message)
 
+    def load_reflexes(self):
+        configs = apps.app_configs.values()
+        for config in configs:
+            self.load_reflexes_from_config(config)
+
     def load_reflexes_from_config(self, config):
         def append_reflex():
             self.reflexes.update(
@@ -180,6 +185,9 @@ class BaseConsumer(JsonWebsocketConsumer):
         arguments = data['args'] if data.get('args') else []
         params = dict(parse_qsl(data['formData']))
         element = Element(data['attrs'])
+        if not self.reflexes:
+            self.load_reflexes()
+
         try:
             ReflexClass = self.reflexes.get(reflex_name)
             reflex = ReflexClass(self, url=url, element=element, selectors=selectors, params=params)
@@ -301,9 +309,7 @@ class SockpuppetConsumer(BaseConsumer):
         super().__init__(*args, **kwargs)
 
         if not self.reflexes:
-            configs = apps.app_configs.values()
-            for config in configs:
-                self.load_reflexes_from_config(config)
+            self.load_reflexes()
 
 
 class SockpuppetConsumerAsgi(BaseConsumer):
@@ -316,6 +322,4 @@ class SockpuppetConsumerAsgi(BaseConsumer):
         await super().__call__(scope, receive, send)
 
         if not self.reflexes:
-            configs = apps.app_configs.values()
-            for config in configs:
-                self.load_reflexes_from_config(config)
+            self.load_reflexes()
