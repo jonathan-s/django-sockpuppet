@@ -4,6 +4,10 @@
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.4.2...HEAD)
 
+**Fixed bugs:**
+
+- Closing socket on page reload [\#69](https://github.com/jonathan-s/django-sockpuppet/pull/69) ([jonathan-s](https://github.com/jonathan-s))
+
 **Closed issues:**
 
 - More helpful error message when not finding reflex.  [\#52](https://github.com/jonathan-s/django-sockpuppet/issues/52)
@@ -56,6 +60,7 @@
 - A lightweight alternative to using controllers [\#63](https://github.com/jonathan-s/django-sockpuppet/pull/63) ([jonathan-s](https://github.com/jonathan-s))
 - Replace travis with github actions [\#58](https://github.com/jonathan-s/django-sockpuppet/pull/58) ([jonathan-s](https://github.com/jonathan-s))
 - Fixes to SocketpuppetConsumer for handling dotfiles [\#57](https://github.com/jonathan-s/django-sockpuppet/pull/57) ([mekhami](https://github.com/mekhami))
+- Fixing correct path to staticfiles dirs [\#56](https://github.com/jonathan-s/django-sockpuppet/pull/56) ([jonathan-s](https://github.com/jonathan-s))
 - Classify name of Class in Python Template \(as this will be done with … [\#55](https://github.com/jonathan-s/django-sockpuppet/pull/55) ([JulianFeinauer](https://github.com/JulianFeinauer))
 - Explanation on the architecture to give an overview [\#53](https://github.com/jonathan-s/django-sockpuppet/pull/53) ([jonathan-s](https://github.com/jonathan-s))
 
@@ -77,7 +82,6 @@
 
 **Merged pull requests:**
 
-- Fixing correct path to staticfiles dirs [\#56](https://github.com/jonathan-s/django-sockpuppet/pull/56) ([jonathan-s](https://github.com/jonathan-s))
 - Fix issue with resolving path [\#50](https://github.com/jonathan-s/django-sockpuppet/pull/50) ([jonathan-s](https://github.com/jonathan-s))
 - Bump ini from 1.3.5 to 1.3.8 [\#47](https://github.com/jonathan-s/django-sockpuppet/pull/47) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Update README.md [\#45](https://github.com/jonathan-s/django-sockpuppet/pull/45) ([zodman](https://github.com/zodman))
