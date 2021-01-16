@@ -2,8 +2,8 @@ import time
 import json
 import logging
 from importlib import import_module
-from functools import wraps
 import inspect
+from functools import wraps
 from os import walk, path
 import sys
 from urllib.parse import urlparse
@@ -240,9 +240,14 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         reflex_context['stimulus_reflex'] = True
 
         original_context_data = view.view_class.get_context_data
+        reflex.get_context_data(**reflex_context)
+        # monkey patch context method
+        view.view_class.get_context_data = reflex.get_context_data
+        # We also need to make sure that the last update from reflex context wins
         view.view_class.get_context_data = context_decorator(
             view.view_class.get_context_data, reflex_context
         )
+
         response = view(reflex.request, resolved.args, resolved.kwargs)
         # we've got the response, the function needs to work as normal again
         view.view_class.get_context_data = original_context_data

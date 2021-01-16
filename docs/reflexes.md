@@ -54,6 +54,7 @@ StimulusReflex makes the following properties available to the developer inside 
 
 {% tabs %}
 {% tab title="Python" %}
+## Properties
 * `consumer` - the Websocket connection from django channels.
 * `request` - a django request object
 * `request.post` - If the page contains a form, this will find the closest form.
@@ -61,6 +62,9 @@ StimulusReflex makes the following properties available to the developer inside 
 * `url` - the URL of the page that triggered the reflex
 * `element` - a dictionary like object that represents the HTML element that triggered the reflex
 * `params` - Contains the form parameters for the closest form
+
+## Methods
+* `get_context_data` - Accesses the context data from the view associated with the reflex. You will know that the method is triggered from the reflex because the context now contains `stimulus_reflex` which is equal to `True`. This will be available from `kwargs` so you can modify the context based on whether it is a reflex or not.
 {% endtab %}
 {% endtabs %}
 
@@ -105,6 +109,7 @@ class ExampleReflex(Reflex):
         self.element.dataset['reflex']   # => 'ExampleReflex#work'
         self.element['data-value']       # => '123'
         self.element.dataset['value']    # => '123'
+
 ```
 {% endtab %}
 {% endtabs %}
