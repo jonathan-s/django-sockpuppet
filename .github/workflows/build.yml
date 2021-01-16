@@ -34,6 +34,10 @@ jobs:
         tox -e $TOX_ENV
   integrationtests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        channels: ["2.4", "3.0"]
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python 3.x
@@ -47,6 +51,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run integration tests
         env:
-          TOX_ENV: py3.9-django3.1-cypress
+          TOX_ENV: py3.9-django3.1-channels${{ matrix.channels }}-cypress
         run: |
           tox -e $TOX_ENV
