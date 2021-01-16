@@ -6,6 +6,7 @@
 
 **Fixed bugs:**
 
+- Proper error logging for frontend and backend [\#74](https://github.com/jonathan-s/django-sockpuppet/pull/74) ([jonathan-s](https://github.com/jonathan-s))
 - Fix sourcemap url [\#71](https://github.com/jonathan-s/django-sockpuppet/pull/71) ([jonathan-s](https://github.com/jonathan-s))
 - Closing socket on page reload [\#69](https://github.com/jonathan-s/django-sockpuppet/pull/69) ([jonathan-s](https://github.com/jonathan-s))
 - Bug fix: Better recovery when a Reflex isn't found. [\#68](https://github.com/jonathan-s/django-sockpuppet/pull/68) ([DamnedScholar](https://github.com/DamnedScholar))
