@@ -27,3 +27,7 @@ class StaticView(TemplateView):
         context = super().get_context_data(*args, **kwargs)
         context['otherCount'] = self.request.session.get('otherCount', 0)
         return context
+
+
+class ProgressView(TemplateView):
+    template_name = 'progressbar.html'
