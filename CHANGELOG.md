@@ -14,11 +14,13 @@
 **Closed issues:**
 
 - More helpful error message when not finding reflex.  [\#52](https://github.com/jonathan-s/django-sockpuppet/issues/52)
+- Channels 3.0 Released \> Incompatibility [\#36](https://github.com/jonathan-s/django-sockpuppet/issues/36)
 - Look over the webpack config that we generate [\#31](https://github.com/jonathan-s/django-sockpuppet/issues/31)
 
 **Merged pull requests:**
 
 - Out of band example [\#78](https://github.com/jonathan-s/django-sockpuppet/pull/78) ([jonathan-s](https://github.com/jonathan-s))
+- WIP add http to router to be 3.0 compliant [\#75](https://github.com/jonathan-s/django-sockpuppet/pull/75) ([kaozdl](https://github.com/kaozdl))
 - Add changelog generator and changelog [\#73](https://github.com/jonathan-s/django-sockpuppet/pull/73) ([jonathan-s](https://github.com/jonathan-s))
 - A reflex can access the context of the view it came from [\#72](https://github.com/jonathan-s/django-sockpuppet/pull/72) ([jonathan-s](https://github.com/jonathan-s))
 
