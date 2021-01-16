@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased](https://github.com/jonathan-s/django-sockpuppet/tree/HEAD)
+0.5.0 (unreleased)
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.4.2...HEAD)
 

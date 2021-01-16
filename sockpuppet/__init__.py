@@ -6,4 +6,4 @@ if int(channels_version) >= 3:
 else:
     from sockpuppet.consumer import SockpuppetConsumer # noqa
 
-__version__ = '0.4.2'
+__version__ = '0.5.0'
