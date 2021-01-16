@@ -12,6 +12,7 @@
 **Merged pull requests:**
 
 - Out of band example [\#78](https://github.com/jonathan-s/django-sockpuppet/pull/78) ([jonathan-s](https://github.com/jonathan-s))
+- Add changelog generator and changelog [\#73](https://github.com/jonathan-s/django-sockpuppet/pull/73) ([jonathan-s](https://github.com/jonathan-s))
 - Bug fix: Better recovery when a Reflex isn't found. [\#68](https://github.com/jonathan-s/django-sockpuppet/pull/68) ([DamnedScholar](https://github.com/DamnedScholar))
 
 ## [0.4.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.4.2) (2020-12-28)
@@ -55,7 +56,6 @@
 - A lightweight alternative to using controllers [\#63](https://github.com/jonathan-s/django-sockpuppet/pull/63) ([jonathan-s](https://github.com/jonathan-s))
 - Replace travis with github actions [\#58](https://github.com/jonathan-s/django-sockpuppet/pull/58) ([jonathan-s](https://github.com/jonathan-s))
 - Fixes to SocketpuppetConsumer for handling dotfiles [\#57](https://github.com/jonathan-s/django-sockpuppet/pull/57) ([mekhami](https://github.com/mekhami))
-- Fixing correct path to staticfiles dirs [\#56](https://github.com/jonathan-s/django-sockpuppet/pull/56) ([jonathan-s](https://github.com/jonathan-s))
 - Classify name of Class in Python Template \(as this will be done with … [\#55](https://github.com/jonathan-s/django-sockpuppet/pull/55) ([JulianFeinauer](https://github.com/JulianFeinauer))
 - Explanation on the architecture to give an overview [\#53](https://github.com/jonathan-s/django-sockpuppet/pull/53) ([jonathan-s](https://github.com/jonathan-s))
 
@@ -77,6 +77,7 @@
 
 **Merged pull requests:**
 
+- Fixing correct path to staticfiles dirs [\#56](https://github.com/jonathan-s/django-sockpuppet/pull/56) ([jonathan-s](https://github.com/jonathan-s))
 - Fix issue with resolving path [\#50](https://github.com/jonathan-s/django-sockpuppet/pull/50) ([jonathan-s](https://github.com/jonathan-s))
 - Bump ini from 1.3.5 to 1.3.8 [\#47](https://github.com/jonathan-s/django-sockpuppet/pull/47) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Update README.md [\#45](https://github.com/jonathan-s/django-sockpuppet/pull/45) ([zodman](https://github.com/zodman))
@@ -138,7 +139,6 @@
 - Better exception handling [\#25](https://github.com/jonathan-s/django-sockpuppet/pull/25) ([jonathan-s](https://github.com/jonathan-s))
 - Docs improvement [\#24](https://github.com/jonathan-s/django-sockpuppet/pull/24) ([jonathan-s](https://github.com/jonathan-s))
 - Measure how fast a reflex executes in the backend [\#22](https://github.com/jonathan-s/django-sockpuppet/pull/22) ([jonathan-s](https://github.com/jonathan-s))
-- Docs update [\#16](https://github.com/jonathan-s/django-sockpuppet/pull/16) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.2.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.2.2) (2020-05-31)
 
@@ -154,6 +154,7 @@
 - Html should take the innerhtml to be correct [\#20](https://github.com/jonathan-s/django-sockpuppet/pull/20) ([jonathan-s](https://github.com/jonathan-s))
 - Add gitbook yaml [\#19](https://github.com/jonathan-s/django-sockpuppet/pull/19) ([jonathan-s](https://github.com/jonathan-s))
 - :pencil: Adds local quickstart reference [\#18](https://github.com/jonathan-s/django-sockpuppet/pull/18) ([jefftriplett](https://github.com/jefftriplett))
+- Docs update [\#16](https://github.com/jonathan-s/django-sockpuppet/pull/16) ([jonathan-s](https://github.com/jonathan-s))
 
 
 
