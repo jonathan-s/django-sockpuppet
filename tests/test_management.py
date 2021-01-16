@@ -15,6 +15,10 @@ class ManagementCommandTests(TestCase):
         )
         return out.getvalue()
 
+    def tearDown(self):
+        import subprocess
+        subprocess.run(["git", "clean", "-d", "-f", "-q"])
+
     def test_generate_reflex_command(self):
         result = self.call_command('generate_reflex', 'example', 'test_reflex')
         # TODO assert that files were created successfully
