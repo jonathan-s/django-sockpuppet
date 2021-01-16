@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="action-cable-url" content="/cable">
-    <script src="{% static 'js/cable_ready.js' %}"></script>
+    <script src="{% static 'js/example.js' %}"></script>
     <title>Hello world</title>
     <style>
          #progress-bar {
@@ -24,19 +24,6 @@
     </style>
 </head>
 <body>
-    <script>
-        let chatSocket = new WebSocket(
-            'ws://localhost:8000/ws/cable/'
-        )
-
-        chatSocket.onmessage = function(e) {
-            let data = JSON.parse(e.data);
-            console.log(data)
-            if (data.cableReady) {
-                CableReady.perform(data.operations)
-            }
-        }
-    </script>
     <h1>Progress Bar Demo</h1>
     <div id="progress-bar">
       <div></div>

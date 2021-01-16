@@ -8,14 +8,15 @@ class Command(BaseCommand):
     help = "Update the progressbar."
 
     def handle(self, *args, **options):
-        cable_ready = Channel('TestConsumer')
+        channel = Channel('progress')
         status = 0
         while status < 100:
             status += 10
-            cable_ready.set_attribute({
+            print(f'Status: {status}')
+            channel.set_attribute({
                 'selector': "#progress-bar>div",
                 'name': "style",
                 'value': "width:{status}%".format(status=status)
             })
-            cable_ready.broadcast()
+            channel.broadcast()
             time.sleep(1)  # fake some latency

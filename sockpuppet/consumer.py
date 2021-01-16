@@ -51,6 +51,16 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             for config in configs:
                 self.load_reflexes_from_config(config)
 
+    def _get_channelname(self, channel_name):
+        try:
+            # StimulusReflex sends the channel name in the format
+            # of a json blob for name.
+            name = json.loads(channel_name)
+            name = name['channel'].replace('::', '-')
+        except json.decoder.JSONDecodeError:
+            name = channel_name
+        return name
+
     def connect(self):
         '''
         We use the user session key as a default channel to publish any events
@@ -99,6 +109,32 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             self.channel_name, session.session_key
         )
         super().disconnect(*args, **kwargs)
+
+    def subscribe(self, data, **kwargs):
+        name = self._get_channelname(data['channelName'])
+        logger.debug('Subscribe %s to %s', self.channel_name, name)
+        async_to_sync(self.channel_layer.group_add)(
+            name,
+            self.channel_name
+        )
+
+    def unsubscribe(self, data, **kwargs):
+        name = self._get_channelname(data['channelName'])
+        async_to_sync(self.channel_layer.group_discard)(
+            name,
+            self.channel_name
+        )
+
+    def receive_json(self, data, **kwargs):
+        message_type = data.get('type')
+        if message_type is None and data.get('target'):
+            self.reflex_message(data, **kwargs)
+        elif message_type == 'subscribe':
+            self.subscribe(data, **kwargs)
+        elif message_type == 'unsubscribe':
+            self.unsubscribe(data, **kwargs)
+        else:
+            print('Unsupported')
 
     def message(self, event):
         logger.debug('Sending data: %s', event)
@@ -185,42 +221,6 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             raise exc.with_traceback(traceback)
 
         logger.debug('Reflex took %6.2fms', (time.perf_counter() - start) * 1000)
-
-    def _get_channelname(self, channel_name):
-        try:
-            # StimulusReflex sends the channel name in the format
-            # of a json blob for name.
-            name = json.loads(channel_name)
-            name = name['channel'].replace('::', '-')
-        except json.decoder.JSONDecodeError:
-            name = channel_name
-        return name
-
-    def subscribe(self, data, **kwargs):
-        name = self._get_channelname(data['channelName'])
-        logger.debug('Subscribe %s to %s', self.channel_name, name)
-        async_to_sync(self.channel_layer.group_add)(
-            name,
-            self.channel_name
-        )
-
-    def unsubscribe(self, data, **kwargs):
-        name = self._get_channelname(data['channelName'])
-        async_to_sync(self.channel_layer.group_discard)(
-            name,
-            self.channel_name
-        )
-
-    def receive_json(self, data, **kwargs):
-        message_type = data.get('type')
-        if message_type is None and data.get('target'):
-            self.reflex_message(data, **kwargs)
-        elif message_type == 'subscribe':
-            self.subscribe(data, **kwargs)
-        elif message_type == 'unsubscribe':
-            self.unsubscribe(data, **kwargs)
-        else:
-            print('Unsupported')
 
     def render_page_and_broadcast_morph(self, reflex, selectors, data):
         html = self.render_page(reflex)
