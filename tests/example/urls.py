@@ -16,11 +16,12 @@ Including another URLconf
 
 from django.urls import path
 
-from .views.example import ExampleView, ParamView, ProgressView, StaticView
+from .views import example
 
 urlpatterns = [
-    path('test/', ExampleView.as_view(), name='example'),
-    path('param/', ParamView.as_view(), name='param'),
-    path('test-static/', StaticView.as_view(), name='static'),
-    path('progress/', ProgressView.as_view(), name='progress')
+    path('test/', example.ExampleView.as_view(), name='example'),
+    path('param/', example.ParamView.as_view(), name='param'),
+    path('test-static/', example.StaticView.as_view(), name='static'),
+    path('progress/', example.ProgressView.as_view(), name='progress'),
+    path('error/', example.ErrorView.as_view(), name='error'),
 ]

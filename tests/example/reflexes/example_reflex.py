@@ -19,3 +19,8 @@ class ParamReflex(Reflex):
 class FormReflex(Reflex):
     def submit(self):
         self.text_output = self.request.POST['text-input']
+
+
+class ErrorReflex(Reflex):
+    def increment(self, step=1):
+        raise Exception('error happened')

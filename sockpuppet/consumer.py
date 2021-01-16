@@ -5,7 +5,6 @@ from importlib import import_module
 import inspect
 from functools import wraps
 from os import walk, path
-import sys
 from urllib.parse import urlparse
 from urllib.parse import parse_qsl
 
@@ -193,20 +192,23 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
             ReflexClass = self.reflexes.get(reflex_name)
             reflex = ReflexClass(self, url=url, element=element, selectors=selectors, params=params)
             self.delegate_call_to_reflex(reflex, method_name, arguments)
-        except TypeError:
+        except TypeError as exc:
             if not self.reflexes.get(reflex_name):
                 msg = f'Sockpuppet tried to find a reflex class called {reflex_name}. Are you sure such a class exists?' # noqa
-                raise SockpuppetError(msg)
-            raise
+                self.broadcast_error(msg, data)
+            else:
+                msg = str(exc)
+                self.broadcast_error(msg, data)
+            logging.exception(msg)
+            return
         except Exception as e:
             error = '{}: {}'.format(e.__class__.__name__, str(e))
             msg = 'SockpuppetConsumer failed to invoke {target}, with url {url}. {message}'.format(
                 target=target, url=url, message=error
             )
             self.broadcast_error(msg, data, None)
-            _, _, traceback = sys.exc_info()
-            exc = SockpuppetError(msg)
-            raise exc.with_traceback(traceback)
+            logging.exception(msg)
+            return
 
         try:
             self.render_page_and_broadcast_morph(reflex, selectors, data)
@@ -216,9 +218,8 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
                 url=url, message=error
             )
             self.broadcast_error(msg, data, reflex)
-            _, _, traceback = sys.exc_info()
-            exc = SockpuppetError(msg)
-            raise exc.with_traceback(traceback)
+            logging.exception(msg)
+            return
 
         logger.debug('Reflex took %6.2fms', (time.perf_counter() - start) * 1000)
 
@@ -286,13 +287,18 @@ class SockpuppetConsumer(JsonWebsocketConsumer):
         else:
             getattr(reflex, method_name)(*arguments)
 
-    def broadcast_error(self, message, data, reflex):
+    def broadcast_error(self, message, data, reflex=None):
         # We may have a sitation where we weren't able to get a reflex
         session_key = reflex.get_channel_id() if reflex else self.scope['session'].session_key
-        channel = Channel(session_key)
-        data.update({'error': 'message'})
+        channel = Channel(session_key, identifier=data['identifier'])
+        data.update({
+            'serverMessage': {
+                'subject': 'error',
+                'body': message,
+            }
+        })
         channel.dispatch_event({
-            'name': 'stimulus-reflex:500',
+            'name': 'stimulus-reflex:server-message',
             'detail': {'stimulus_reflex': data}
         })
         channel.broadcast()

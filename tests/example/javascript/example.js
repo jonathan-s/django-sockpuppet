@@ -7,7 +7,7 @@ import ExampleController from './controllers/example_controller'
 
 const application = Application.start()
 const consumer = new WebsocketConsumer(
-  `ws://${window.location.host}/ws/sockpuppet-sync`, {debug: true}
+  `ws://${window.location.host}/ws/sockpuppet-sync`, {debug: false}
 )
 
 consumer.subscriptions.create('progress', {
@@ -16,4 +16,4 @@ consumer.subscriptions.create('progress', {
   }
 })
 application.register("example", ExampleController)
-StimulusReflex.initialize(application, { consumer })
+StimulusReflex.initialize(application, { consumer, debug: true})
