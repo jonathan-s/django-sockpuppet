@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased](https://github.com/jonathan-s/django-sockpuppet/tree/HEAD)
+
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.0...HEAD)
+
+**Closed issues:**
+
+- Integration tests that should be created [\#21](https://github.com/jonathan-s/django-sockpuppet/issues/21)
+- Triggering a 500 error won't give frontend notice that such an error happened [\#3](https://github.com/jonathan-s/django-sockpuppet/issues/3)
+
 ## [0.5.0](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.0) (2021-01-16)
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.4.2...0.5.0)
@@ -20,7 +29,7 @@
 **Merged pull requests:**
 
 - Out of band example [\#78](https://github.com/jonathan-s/django-sockpuppet/pull/78) ([jonathan-s](https://github.com/jonathan-s))
-- WIP add http to router to be 3.0 compliant [\#75](https://github.com/jonathan-s/django-sockpuppet/pull/75) ([kaozdl](https://github.com/kaozdl))
+- Make it possible to use channels 3 and beyond [\#75](https://github.com/jonathan-s/django-sockpuppet/pull/75) ([kaozdl](https://github.com/kaozdl))
 - Add changelog generator and changelog [\#73](https://github.com/jonathan-s/django-sockpuppet/pull/73) ([jonathan-s](https://github.com/jonathan-s))
 - A reflex can access the context of the view it came from [\#72](https://github.com/jonathan-s/django-sockpuppet/pull/72) ([jonathan-s](https://github.com/jonathan-s))
 
