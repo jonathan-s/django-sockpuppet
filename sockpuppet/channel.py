@@ -15,6 +15,10 @@ class Channel:
     Frontend makes a lookup against the identifier, if the identifier
     exists it executes the reflex operations. If the identifier does not
     exist, nothing will happen.
+    
+    If you're using this and initializes this with the session key as a name.
+    You need to set the identifier to '{"channel":"StimulusReflex::Channel"}'
+    which is the default identifier in the frontend. 
     '''
 
     def __init__(self, name, identifier=''):
