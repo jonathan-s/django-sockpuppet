@@ -67,3 +67,6 @@ jsdist/
 cypress/videos/
 cypress/screenshots/
 slides
+
+# VS Code
+.vscode/
