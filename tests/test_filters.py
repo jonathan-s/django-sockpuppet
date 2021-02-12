@@ -28,6 +28,7 @@ class CamelcaseFilterTest(TestCase):
     def test_double_reverse_camelcase(self):
         self.assertEqual(camelcase("Foo_bar"), "fooBar")
 
+
 class PascalcaseFilterTest(TestCase):
     def test_pascalcase(self):
         self.assertEqual(pascalcase("foo"), "Foo")
