@@ -17,7 +17,7 @@ from django.conf import settings
 from .channel import Channel
 from .reflex import PROTECTED_VARIABLES, Reflex
 from .element import Element
-from .utils import classify, get_document_and_selectors, parse_out_html
+from .utils import pascalcase, get_document_and_selectors, parse_out_html
 
 
 logger = logging.getLogger('sockpuppet')
@@ -181,7 +181,7 @@ class BaseConsumer(JsonWebsocketConsumer):
         selectors = data['selectors'] if data['selectors'] else ['body']
         target = data['target']
         reflex_name, method_name = target.split('#')
-        reflex_name = classify(reflex_name)
+        reflex_name = pascalcase(reflex_name)
         arguments = data['args'] if data.get('args') else []
         params = dict(parse_qsl(data['formData']))
         element = Element(data['attrs'])

@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/jonathan-s/django-sockpuppet/tree/HEAD)
 
+- improved tests documentation
+- fixed camelcase/pascalcase tools for Reflex names
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.0...HEAD)
 
 **Closed issues:**

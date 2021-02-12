@@ -1,4 +1,3 @@
-import re
 try:
     from lxml import etree
     from io import StringIO
@@ -9,27 +8,27 @@ except ImportError:
     from bs4 import BeautifulSoup
 
 
-def camelize(word):
-    word = re.sub(
-        r'[\s_](.)',
-        lambda m: m.group(1).title(),
-        word, flags=re.DOTALL
-    )
-    return word
+def pascalcase(value: str) -> str:
+    """capitalize the first letter of each _-separated component"""
+    components = value.lower().split("_")
+    # We capitalize the first letter of each component
+    # with the 'capitalize' method and join them together.
+    return "".join(x.capitalize() if x else "_" for x in components)
+
+
+def camelcase(value: str) -> str:
+    """capitalize the first letter of each _-separated component except the first one"""
+    components = value.lower().split("_")
+    return components[0] + "".join(x.capitalize() if x else "_" for x in components[1:])
 
 
 def camelize_value(value):
+    """camelizes all keys/values in a given dict or list"""
     if isinstance(value, list):
         value = [camelize_value(val) for val in value]
     elif isinstance(value, dict):
-        value = {camelize(key): camelize_value(val) for key, val in value.items()}
+        value = {camelcase(key): camelize_value(val) for key, val in value.items()}
     return value
-
-
-def classify(word):
-    tail = camelize(word[1:])
-    head = word[:1].title()
-    return '{}{}'.format(head, tail)
 
 
 def _lxml_selectors(html, selectors):
