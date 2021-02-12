@@ -3,7 +3,7 @@ from pathlib import Path
 from django.template.loader import get_template
 
 from ._base import BaseGenerateCommand
-from ...utils import classify
+from ...utils import pascalcase
 
 TEMPLATES = {
     '_reflex.py': 'sockpuppet/scaffolds/reflex.py',
@@ -56,7 +56,7 @@ class Command(BaseGenerateCommand):
             template_name = TEMPLATES[suffix]
             template = get_template(template_name)
             rendered = template.render({
-                'class_name': classify(reflex_name),
+                'class_name': pascalcase(reflex_name),
                 'reflex_name': reflex_name,
                 'using_javascript': using_javascript
             })
