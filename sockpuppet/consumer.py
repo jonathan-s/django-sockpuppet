@@ -249,7 +249,7 @@ class BaseConsumer(JsonWebsocketConsumer):
             view.view_class.get_context_data, reflex_context
         )
 
-        response = view(reflex.request, resolved.args, resolved.kwargs)
+        response = view(reflex.request, *resolved.args, **resolved.kwargs)
         # we've got the response, the function needs to work as normal again
         view.view_class.get_context_data = original_context_data
         reflex.session.save()
