@@ -100,8 +100,9 @@ class Subscriptions {
     }
 
     notifyAll(callbackName, ...args) {
-      return this.subscriptions.map((subscription) =>
-        this.notify(subscription, callbackName, ...args))
+      return this.subscriptions.map(
+        (subscription) => this.notify(subscription, callbackName, ...args)
+      )
     }
 }
 
@@ -122,7 +123,19 @@ export default class WebsocketConsumer {
         });
 
         this.connection.addEventListener('open', (event) => {
-          this.subscriptions.notifyAll('connected')
+          var self = this
+          let notify = function() {
+            self.subscriptions.notifyAll('connected')
+          }
+          let identifiers = self.subscriptions.subscriptions.map(sub => sub.identifier).join()
+          if (!identifiers.includes('StimulusReflex::Channel')) {
+            // In chrome there was a race condition where connection is open
+            // and no subscriptions have yet to be created. So to fix this
+            // behaviour we wait for a bit. See PR for more details.
+            setTimeout(notify, 200);
+          } else {
+            notify()
+          }
         })
 
         this.connection.addEventListener("message", (event) => {
