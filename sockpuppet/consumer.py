@@ -17,7 +17,7 @@ from django.conf import settings
 from .channel import Channel
 from .reflex import PROTECTED_VARIABLES, Reflex
 from .element import Element
-from .utils import pascalcase, get_document_and_selectors, parse_out_html
+from .utils import get_document_and_selectors, parse_out_html
 
 
 logger = logging.getLogger('sockpuppet')
