@@ -6,7 +6,6 @@ from git import Repo
 
 
 class JavascriptCommittedTest(TestCase):
-
     def test_all_javascript_is_committed_to_source_code(self):
         subprocess.check_call('npm run build:prod'.split(' '))
         repo = Repo(settings.BASE_DIR)

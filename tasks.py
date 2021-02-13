@@ -112,6 +112,7 @@ def release(c, bumpsize=''):
 
     c.run("bumpversion {bump} --no-input".format(bump=bumpsize))
     import sockpuppet
+
     version = sockpuppet.__version__
 
     contents['version'] = version

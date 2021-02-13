@@ -1,4 +1,3 @@
-
 class Element:
     def __init__(self, attrs):
         self.attributes = attrs
@@ -9,7 +8,8 @@ class Element:
             return key.split('-')[1]
 
         _dataset = {
-            strip_data(key): value for key, value in self.attributes.items()
+            strip_data(key): value
+            for key, value in self.attributes.items()
             if key.startswith('data-')
         }
         return _dataset

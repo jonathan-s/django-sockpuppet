@@ -10,7 +10,7 @@ TEMPLATES = {
     '_controller.js': 'sockpuppet/scaffolds/controller.js',
     '.js': 'sockpuppet/scaffolds/application.js',
     '.py': 'sockpuppet/scaffolds/view.py',
-    '.html': 'sockpuppet/scaffolds/template.html'
+    '.html': 'sockpuppet/scaffolds/template.html',
 }
 
 
@@ -19,20 +19,24 @@ class Command(BaseGenerateCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'app_name', nargs=1, type=str,
-            help='The app where the generated files should be placed'
+            'app_name',
+            nargs=1,
+            type=str,
+            help='The app where the generated files should be placed',
         )
         parser.add_argument(
-            'reflex_name', nargs='?', type=str,
+            'reflex_name',
+            nargs='?',
+            type=str,
             help='The name of the reflex and javascript controller',
-            default='example'
+            default='example',
         )
 
         parser.add_argument(
             '--javascript',
             dest='javascript',
             action='store_true',
-            help='Include this to generate a setup than includes javascript with controllers'
+            help='Include this to generate a setup than includes javascript with controllers',
         )
         parser.set_defaults(javascript=False)
 
@@ -49,17 +53,19 @@ class Command(BaseGenerateCommand):
             (True, 'javascript', '.js'),
             (True, 'javascript/controllers', '_controller.js'),
             (False, 'views', '.py'),
-            (False, 'templates', '.html')
+            (False, 'templates', '.html'),
         ]
 
         for without_js, path, suffix in paths:
             template_name = TEMPLATES[suffix]
             template = get_template(template_name)
-            rendered = template.render({
-                'class_name': classify(reflex_name),
-                'reflex_name': reflex_name,
-                'using_javascript': using_javascript
-            })
+            rendered = template.render(
+                {
+                    'class_name': classify(reflex_name),
+                    'reflex_name': reflex_name,
+                    'using_javascript': using_javascript,
+                }
+            )
             if without_js and not using_javascript:
                 # skipping these templates
                 continue

@@ -1,1 +1,1 @@
-from .factory import reflex_factory # noqa
+from .factory import reflex_factory  # noqa

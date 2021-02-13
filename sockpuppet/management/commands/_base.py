@@ -5,7 +5,6 @@ from django.core.management.base import BaseCommand, CommandError
 
 
 class BaseGenerateCommand(BaseCommand):
-
     def lookup_app_path(self, app_name):
         try:
             config = apps.get_app_config(app_name)
@@ -28,7 +27,9 @@ class BaseGenerateCommand(BaseCommand):
         filepath = base_path / folder / filename
         if filepath.exists():
             partial_path = '/'.join(filepath.parts[-4:])
-            self.call_stdout('{} already exists, so it will be skipped'.format(partial_path))
+            self.call_stdout(
+                '{} already exists, so it will be skipped'.format(partial_path)
+            )
             return
 
         try:

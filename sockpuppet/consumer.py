@@ -35,6 +35,7 @@ def context_decorator(method, extra_context):
         # if context was picked from cache extra context needs to be added again
         context.update(extra_context)
         return context
+
     return wrapped
 
 
@@ -53,9 +54,9 @@ class BaseConsumer(JsonWebsocketConsumer):
         return name
 
     def connect(self):
-        '''
+        """
         We use the user session key as a default channel to publish any events
-        '''
+        """
         super().connect()
         session = self.scope['session']
         has_session_key = session.session_key
@@ -65,8 +66,7 @@ class BaseConsumer(JsonWebsocketConsumer):
             session.save()
 
         async_to_sync(self.channel_layer.group_add)(
-            session.session_key,
-            self.channel_name
+            session.session_key, self.channel_name
         )
 
         if not has_session_key:
@@ -77,44 +77,37 @@ class BaseConsumer(JsonWebsocketConsumer):
                     'meta_type': 'cookie',
                     'key': 'sessionid',
                     'value': session.session_key,
-                    'max_age': settings.SESSION_COOKIE_AGE
-                }
+                    'max_age': settings.SESSION_COOKIE_AGE,
+                },
             )
 
         logger.debug(
-            ':: CONNECT: Channel %s session: %s',
-            self.channel_name, session.session_key
+            ':: CONNECT: Channel %s session: %s', self.channel_name, session.session_key
         )
 
     def disconnect(self, *args, **kwargs):
-        '''
+        """
         When we disconnect we unsubscribe from the user session key.
-        '''
+        """
         session = self.scope['session']
         async_to_sync(self.channel_layer.group_discard)(
-            session.session_key,
-            self.channel_name
+            session.session_key, self.channel_name
         )
         logger.debug(
             ':: DISCONNECT: Channel %s session: %s',
-            self.channel_name, session.session_key
+            self.channel_name,
+            session.session_key,
         )
         super().disconnect(*args, **kwargs)
 
     def subscribe(self, data, **kwargs):
         name = self._get_channelname(data['channelName'])
         logger.debug('Subscribe %s to %s', self.channel_name, name)
-        async_to_sync(self.channel_layer.group_add)(
-            name,
-            self.channel_name
-        )
+        async_to_sync(self.channel_layer.group_add)(name, self.channel_name)
 
     def unsubscribe(self, data, **kwargs):
         name = self._get_channelname(data['channelName'])
-        async_to_sync(self.channel_layer.group_discard)(
-            name,
-            self.channel_name
-        )
+        async_to_sync(self.channel_layer.group_discard)(name, self.channel_name)
 
     def receive_json(self, data, **kwargs):
         message_type = data.get('type')
@@ -190,11 +183,13 @@ class BaseConsumer(JsonWebsocketConsumer):
 
         try:
             ReflexClass = self.reflexes.get(reflex_name)
-            reflex = ReflexClass(self, url=url, element=element, selectors=selectors, params=params)
+            reflex = ReflexClass(
+                self, url=url, element=element, selectors=selectors, params=params
+            )
             self.delegate_call_to_reflex(reflex, method_name, arguments)
         except TypeError as exc:
             if not self.reflexes.get(reflex_name):
-                msg = f'Sockpuppet tried to find a reflex class called {reflex_name}. Are you sure such a class exists?' # noqa
+                msg = f'Sockpuppet tried to find a reflex class called {reflex_name}. Are you sure such a class exists?'  # noqa
                 self.broadcast_error(msg, data)
             else:
                 msg = str(exc)
@@ -234,7 +229,8 @@ class BaseConsumer(JsonWebsocketConsumer):
         view = resolved.func
 
         instance_variables = [
-            name for (name, member) in inspect.getmembers(reflex)
+            name
+            for (name, member) in inspect.getmembers(reflex)
             if not name.startswith('__') and name not in PROTECTED_VARIABLES
         ]
         reflex_context = {key: getattr(reflex, key) for key in instance_variables}
@@ -270,13 +266,15 @@ class BaseConsumer(JsonWebsocketConsumer):
         for selector in selectors:
             # cssselect has an attribute css
             plain_selector = getattr(selector, 'css', selector)
-            channel.morph({
-                'selector': plain_selector,
-                'html': parse_out_html(document, selector),
-                'children_only': True,
-                'permanent_attribute_name': permanent_attribute_name,
-                'stimulus_reflex': {**data}
-            })
+            channel.morph(
+                {
+                    'selector': plain_selector,
+                    'html': parse_out_html(document, selector),
+                    'children_only': True,
+                    'permanent_attribute_name': permanent_attribute_name,
+                    'stimulus_reflex': {**data},
+                }
+            )
         channel.broadcast()
 
     def delegate_call_to_reflex(self, reflex, method_name, arguments):
@@ -289,18 +287,24 @@ class BaseConsumer(JsonWebsocketConsumer):
 
     def broadcast_error(self, message, data, reflex=None):
         # We may have a sitation where we weren't able to get a reflex
-        session_key = reflex.get_channel_id() if reflex else self.scope['session'].session_key
+        session_key = (
+            reflex.get_channel_id() if reflex else self.scope['session'].session_key
+        )
         channel = Channel(session_key, identifier=data['identifier'])
-        data.update({
-            'serverMessage': {
-                'subject': 'error',
-                'body': message,
+        data.update(
+            {
+                'serverMessage': {
+                    'subject': 'error',
+                    'body': message,
+                }
             }
-        })
-        channel.dispatch_event({
-            'name': 'stimulus-reflex:server-message',
-            'detail': {'stimulus_reflex': data}
-        })
+        )
+        channel.dispatch_event(
+            {
+                'name': 'stimulus-reflex:server-message',
+                'detail': {'stimulus_reflex': data},
+            }
+        )
         channel.broadcast()
 
 
@@ -313,10 +317,10 @@ class SockpuppetConsumer(BaseConsumer):
 
 
 class SockpuppetConsumerAsgi(BaseConsumer):
-    '''
+    """
     This consumer supports the asgi standard now in django
     This consumer should be used when using channels 3.0.0 and upwards
-    '''
+    """
 
     async def __call__(self, scope, receive, send):
         await super().__call__(scope, receive, send)

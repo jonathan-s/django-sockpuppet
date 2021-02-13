@@ -41,10 +41,10 @@ class Reflex:
         return self.context
 
     def get_channel_id(self):
-        '''
+        """
         Override this to make the reflex send to a different channel
         other than the session_key of the user
-        '''
+        """
         return self.session.session_key
 
     @property
