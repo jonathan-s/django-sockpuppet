@@ -9,7 +9,7 @@ except ImportError:
 
 
 def pascalcase(value: str) -> str:
-    """capitalize the first letter of each _-separated component"""
+    """capitalizes the first letter of each _-separated component"""
     components = value.lower().split("_")
     # We capitalize the first letter of each component
     # with the 'capitalize' method and join them together.
@@ -17,7 +17,7 @@ def pascalcase(value: str) -> str:
 
 
 def camelcase(value: str) -> str:
-    """capitalize the first letter of each _-separated component except the first one"""
+    """capitalizes the first letter of each _-separated component except the first one"""
     components = value.lower().split("_")
     return components[0] + "".join(x.capitalize() if x else "_" for x in components[1:])
 
