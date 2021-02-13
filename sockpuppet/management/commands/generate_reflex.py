@@ -1,5 +1,7 @@
+import keyword
 from pathlib import Path
 
+from django.core.management import CommandError
 from django.template.loader import get_template
 
 from ._base import BaseGenerateCommand
@@ -38,8 +40,14 @@ class Command(BaseGenerateCommand):
 
     def handle(self, *args, **options):
         app_name = options['app_name'][0]
-        reflex_name = options['reflex_name']
+        reflex_name = options['reflex_name'].lower()
         using_javascript = options['javascript']
+
+        if not reflex_name.isidentifier():
+            raise CommandError("The reflex name ({}) must be a valid Python identifier").format(reflex_name)
+
+        if reflex_name in keyword.kwlist:
+            raise CommandError("The reflex name ({}) can't be a Python keyword").format(reflex_name)
 
         module_path = self.lookup_app_path(app_name)
         self.module_path = Path(module_path)
@@ -63,7 +71,7 @@ class Command(BaseGenerateCommand):
             if without_js and not using_javascript:
                 # skipping these templates
                 continue
-            self.create_file(path, '{}{}'.format(reflex_name.lower(), suffix), rendered)
+            self.create_file(path, '{}{}'.format(reflex_name, suffix), rendered)
 
         self.create_file('views', '__init__.py', '')
         self.create_file('reflexes', '__init__.py', '')
