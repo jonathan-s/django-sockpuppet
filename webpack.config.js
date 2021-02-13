@@ -22,7 +22,7 @@ entryFiles.forEach(function(file){
 let sockpuppet = {sockpuppet: "./sockpuppet/js/sockpuppet.js"}
 
 let sourceMap = new webpack.SourceMapDevToolPlugin({
-  publicPath: '/static/',
+  publicPath: '/static/sockpuppet/',
   filename: '[name].js.map'
 });
 
