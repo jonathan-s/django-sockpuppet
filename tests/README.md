@@ -24,7 +24,7 @@ To run this example, follow these instructions:
 
 		python manage.py runserver
 
-4. Access from the browser at `http://127.0.0.1:8000`
+5. Access from the browser at `http://127.0.0.1:8000`
 
 ## Test suite
 
