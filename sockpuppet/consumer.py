@@ -181,7 +181,6 @@ class BaseConsumer(JsonWebsocketConsumer):
         selectors = data['selectors'] if data['selectors'] else ['body']
         target = data['target']
         reflex_name, method_name = target.split('#')
-        reflex_name = pascalcase(reflex_name)
         arguments = data['args'] if data.get('args') else []
         params = dict(parse_qsl(data['formData']))
         element = Element(data['attrs'])
