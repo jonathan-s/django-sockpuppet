@@ -69,4 +69,6 @@ describe("Integration tests", () => {
 
     cy.get('#success').should('have.text', 'True')
   })
+
+  // TODO Add an integration test that test variables in url. Such as detailview
 })
