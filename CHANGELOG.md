@@ -7,6 +7,7 @@
 **Fixed bugs:**
 
 - object\_list now works for ListView and similar views [\#93](https://github.com/jonathan-s/django-sockpuppet/pull/93) ([jonathan-s](https://github.com/jonathan-s))
+- Spread operators necessary on variables passed to the view function. [\#91](https://github.com/jonathan-s/django-sockpuppet/pull/91) ([DamnedScholar](https://github.com/DamnedScholar))
 - Separate linting from tests and fixes actioncable is rejected in Chrome [\#89](https://github.com/jonathan-s/django-sockpuppet/pull/89) ([jonathan-s](https://github.com/jonathan-s))
 
 **Closed issues:**
@@ -91,6 +92,7 @@
 
 **Merged pull requests:**
 
+- A lightweight alternative to using controllers [\#63](https://github.com/jonathan-s/django-sockpuppet/pull/63) ([jonathan-s](https://github.com/jonathan-s))
 - Replace travis with github actions [\#58](https://github.com/jonathan-s/django-sockpuppet/pull/58) ([jonathan-s](https://github.com/jonathan-s))
 - Fixing correct path to staticfiles dirs [\#56](https://github.com/jonathan-s/django-sockpuppet/pull/56) ([jonathan-s](https://github.com/jonathan-s))
 - Classify name of Class in Python Template \(as this will be done with … [\#55](https://github.com/jonathan-s/django-sockpuppet/pull/55) ([JulianFeinauer](https://github.com/JulianFeinauer))
@@ -114,7 +116,6 @@
 
 **Merged pull requests:**
 
-- A lightweight alternative to using controllers [\#63](https://github.com/jonathan-s/django-sockpuppet/pull/63) ([jonathan-s](https://github.com/jonathan-s))
 - Fix issue with resolving path [\#50](https://github.com/jonathan-s/django-sockpuppet/pull/50) ([jonathan-s](https://github.com/jonathan-s))
 - Bump ini from 1.3.5 to 1.3.8 [\#47](https://github.com/jonathan-s/django-sockpuppet/pull/47) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Update README.md [\#45](https://github.com/jonathan-s/django-sockpuppet/pull/45) ([zodman](https://github.com/zodman))
@@ -177,6 +178,8 @@
 
 - Get django-sockpuppet up to par with SR 3.3.0 [\#30](https://github.com/jonathan-s/django-sockpuppet/pull/30) ([jonathan-s](https://github.com/jonathan-s))
 - Better exception handling [\#25](https://github.com/jonathan-s/django-sockpuppet/pull/25) ([jonathan-s](https://github.com/jonathan-s))
+- Docs improvement [\#24](https://github.com/jonathan-s/django-sockpuppet/pull/24) ([jonathan-s](https://github.com/jonathan-s))
+- Measure how fast a reflex executes in the backend [\#22](https://github.com/jonathan-s/django-sockpuppet/pull/22) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.2.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.2.2) (2020-05-31)
 
@@ -189,7 +192,6 @@
 
 **Merged pull requests:**
 
-- Docs improvement [\#24](https://github.com/jonathan-s/django-sockpuppet/pull/24) ([jonathan-s](https://github.com/jonathan-s))
 - Html should take the innerhtml to be correct [\#20](https://github.com/jonathan-s/django-sockpuppet/pull/20) ([jonathan-s](https://github.com/jonathan-s))
 - Add gitbook yaml [\#19](https://github.com/jonathan-s/django-sockpuppet/pull/19) ([jonathan-s](https://github.com/jonathan-s))
 - :pencil: Adds local quickstart reference [\#18](https://github.com/jonathan-s/django-sockpuppet/pull/18) ([jefftriplett](https://github.com/jefftriplett))
