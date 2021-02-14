@@ -1,19 +1,34 @@
 # Changelog
 
-## [Unreleased](https://github.com/jonathan-s/django-sockpuppet/tree/HEAD)
+## [0.5.1](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.1) (2021-02-14)
 
-- improved tests documentation
-- fixed camelcase/pascalcase tools for Reflex names
-[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.0...HEAD)
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.0...0.5.1)
+
+**Fixed bugs:**
+
+- object\_list now works for ListView and similar views [\#93](https://github.com/jonathan-s/django-sockpuppet/pull/93) ([jonathan-s](https://github.com/jonathan-s))
+- Spread operators necessary on variables passed to the view function. [\#91](https://github.com/jonathan-s/django-sockpuppet/pull/91) ([DamnedScholar](https://github.com/DamnedScholar))
+- Separate linting from tests and fixes actioncable is rejected in Chrome [\#89](https://github.com/jonathan-s/django-sockpuppet/pull/89) ([jonathan-s](https://github.com/jonathan-s))
 
 **Closed issues:**
 
+- Can't dispatch event back to the user using Channel [\#81](https://github.com/jonathan-s/django-sockpuppet/issues/81)
 - Integration tests that should be created [\#21](https://github.com/jonathan-s/django-sockpuppet/issues/21)
 - Triggering a 500 error won't give frontend notice that such an error happened [\#3](https://github.com/jonathan-s/django-sockpuppet/issues/3)
+
+**Merged pull requests:**
+
+- Ignore .vscode [\#85](https://github.com/jonathan-s/django-sockpuppet/pull/85) ([DamnedScholar](https://github.com/DamnedScholar))
 
 ## [0.5.0](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.0) (2021-01-16)
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.4.2...0.5.0)
+
+**Implemented enhancements:**
+
+- Make it possible to use channels 3 and beyond [\#75](https://github.com/jonathan-s/django-sockpuppet/pull/75) ([kaozdl](https://github.com/kaozdl))
+- Add changelog generator and changelog [\#73](https://github.com/jonathan-s/django-sockpuppet/pull/73) ([jonathan-s](https://github.com/jonathan-s))
+- A reflex can access the context of the view it came from [\#72](https://github.com/jonathan-s/django-sockpuppet/pull/72) ([jonathan-s](https://github.com/jonathan-s))
 
 **Fixed bugs:**
 
@@ -31,9 +46,6 @@
 **Merged pull requests:**
 
 - Out of band example [\#78](https://github.com/jonathan-s/django-sockpuppet/pull/78) ([jonathan-s](https://github.com/jonathan-s))
-- Make it possible to use channels 3 and beyond [\#75](https://github.com/jonathan-s/django-sockpuppet/pull/75) ([kaozdl](https://github.com/kaozdl))
-- Add changelog generator and changelog [\#73](https://github.com/jonathan-s/django-sockpuppet/pull/73) ([jonathan-s](https://github.com/jonathan-s))
-- A reflex can access the context of the view it came from [\#72](https://github.com/jonathan-s/django-sockpuppet/pull/72) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.4.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.4.2) (2020-12-28)
 
@@ -51,6 +63,10 @@
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.3.8...0.4.0)
 
+**Implemented enhancements:**
+
+- If lxml and cssselect is installed we use them for better perf. [\#48](https://github.com/jonathan-s/django-sockpuppet/pull/48) ([jonathan-s](https://github.com/jonathan-s))
+
 **Closed issues:**
 
 - Update documentation to refer to Stimulus 2.0 syntax [\#61](https://github.com/jonathan-s/django-sockpuppet/issues/61)
@@ -60,7 +76,6 @@
 **Merged pull requests:**
 
 - Proofreading pass [\#65](https://github.com/jonathan-s/django-sockpuppet/pull/65) ([DamnedScholar](https://github.com/DamnedScholar))
-- If lxml and cssselect is installed we use them for better perf. [\#48](https://github.com/jonathan-s/django-sockpuppet/pull/48) ([jonathan-s](https://github.com/jonathan-s))
 - Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.3.8](https://github.com/jonathan-s/django-sockpuppet/tree/0.3.8) (2020-12-26)
@@ -150,11 +165,14 @@
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.2.2...0.3.0)
 
+**Implemented enhancements:**
+
+- Subscriptions for other things than sessionid [\#6](https://github.com/jonathan-s/django-sockpuppet/issues/6)
+
 **Closed issues:**
 
 - Trigger handler subscription handler on messages [\#28](https://github.com/jonathan-s/django-sockpuppet/issues/28)
 - Update Ruby examples to Django [\#23](https://github.com/jonathan-s/django-sockpuppet/issues/23)
-- Subscriptions for other things than sessionid [\#6](https://github.com/jonathan-s/django-sockpuppet/issues/6)
 
 **Merged pull requests:**
 

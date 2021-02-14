@@ -34,8 +34,12 @@ class Reflex:
         resolved = resolve(parsed_url.path)
         view = resolved.func.view_class()
         view.request = self.request
+        try:
+            context = view.get_context_data()
+        except AttributeError:
+            view.get(self.request)
+            context = view.get_context_data()
 
-        context = view.get_context_data()
         self.context = context
         self.context.update(**kwargs)
         return self.context
