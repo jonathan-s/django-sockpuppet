@@ -1,8 +1,8 @@
 # Changelog
 
-0.5.1 (unreleased)
+## [0.5.1](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.1) (2021-02-14)
 
-[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.0...HEAD)
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.0...0.5.1)
 
 **Fixed bugs:**
 
