@@ -1,4 +1,8 @@
 from django.views.generic.base import TemplateView
+from django.views.generic.list import ListView
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class ExampleView(TemplateView):
@@ -39,4 +43,14 @@ class ErrorView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['count'] = 0
+        return context
+
+
+class UserList(ListView):
+    model = User
+    template_name = 'param.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(self.object_list)
         return context

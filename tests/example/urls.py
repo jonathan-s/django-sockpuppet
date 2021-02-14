@@ -24,4 +24,5 @@ urlpatterns = [
     path('test-static/', example.StaticView.as_view(), name='static'),
     path('progress/', example.ProgressView.as_view(), name='progress'),
     path('error/', example.ErrorView.as_view(), name='error'),
+    path('users/', example.UserList.as_view(), name='user'),
 ]

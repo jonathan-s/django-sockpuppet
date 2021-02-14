@@ -1,4 +1,6 @@
 describe("Integration tests", () => {
+  // TODO, use something like this https://github.com/cypress-io/cypress/issues/1922
+  // Then we can replace the cy.wait(200)
   it("has session persistance for anonymous user!", () => {
     cy.visit('/test/')
     cy.get('#counter').should('have.text', '0')
@@ -47,16 +49,24 @@ describe("Integration tests", () => {
     cy.get('#decrementor').click()
     cy.get('#decrementor-counter').should('have.text', '-1')
   })
-  // TODO, use something like this https://github.com/cypress-io/cypress/issues/1922
-  // it("throws an error in frontend when using error reflex", () => {
-  //   cy.visit('/error/')
-  //   cy.wait(1000)
 
-  //   cy.get("#increment").click()
-  //   cy.window().then((win) => {
-  //     expect(win.console.log).to.have.callCount(2);
-  //     let secondCall = win.console.log.args[1][0]
-  //     expect(secondCall).to.contain('failed')
-  //   });
-  // })
+  it("throws an error in frontend when using error reflex", () => {
+    cy.visit('/error/')
+    cy.wait(200)
+
+    cy.get("#increment").click()
+    cy.window().then((win) => {
+      expect(win.console.log).to.have.callCount(2);
+      let secondCall = win.console.log.args[1][0]
+      expect(secondCall).to.contain('failed')
+    });
+  })
+
+  it("able to use a list view without errors", () => {
+    cy.visit('/users/')
+    cy.wait(200)
+    cy.get('#button').click()
+
+    cy.get('#success').should('have.text', 'True')
+  })
 })

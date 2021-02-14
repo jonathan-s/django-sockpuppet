@@ -14,6 +14,7 @@ class DecrementReflex(Reflex):
 class ParamReflex(Reflex):
     def change_word(self):
         self.word = 'space'
+        self.success = True
 
 
 class FormReflex(Reflex):
