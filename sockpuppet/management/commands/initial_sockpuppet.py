@@ -11,7 +11,7 @@ class Command(BaseGenerateCommand):
 
     def handle(self, *args, **options):
         init = 'npm init -y'
-        install = 'npm install -g add-project-script'
+        install = 'npm install -g --force add-project-script'
         subprocess.check_call(init, shell=True)
         subprocess.check_call(install, shell=True)
         try:
