@@ -1,5 +1,17 @@
 # Changelog
 
+## [Unreleased](https://github.com/jonathan-s/django-sockpuppet/tree/HEAD)
+
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.2...HEAD)
+
+**Closed issues:**
+
+- add-project-script missing in \(dev\) dependencies? [\#80](https://github.com/jonathan-s/django-sockpuppet/issues/80)
+
+**Merged pull requests:**
+
+- force npm install add-project-script [\#94](https://github.com/jonathan-s/django-sockpuppet/pull/94) ([nerdoc](https://github.com/nerdoc))
+
 ## [0.5.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.2) (2021-02-15)
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.1...0.5.2)
@@ -124,6 +136,7 @@
 
 **Merged pull requests:**
 
+- Fix issue with resolving path [\#50](https://github.com/jonathan-s/django-sockpuppet/pull/50) ([jonathan-s](https://github.com/jonathan-s))
 - Bump ini from 1.3.5 to 1.3.8 [\#47](https://github.com/jonathan-s/django-sockpuppet/pull/47) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Update README.md [\#45](https://github.com/jonathan-s/django-sockpuppet/pull/45) ([zodman](https://github.com/zodman))
 
@@ -137,7 +150,6 @@
 
 **Merged pull requests:**
 
-- Fix issue with resolving path [\#50](https://github.com/jonathan-s/django-sockpuppet/pull/50) ([jonathan-s](https://github.com/jonathan-s))
 - When using the channel separately to broadcast frontend should listen [\#44](https://github.com/jonathan-s/django-sockpuppet/pull/44) ([jonathan-s](https://github.com/jonathan-s))
 - Get coverage from dev server [\#42](https://github.com/jonathan-s/django-sockpuppet/pull/42) ([jonathan-s](https://github.com/jonathan-s))
 
