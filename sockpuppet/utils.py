@@ -9,17 +9,28 @@ except ImportError:
 
 
 def pascalcase(value: str) -> str:
-    """capitalizes the first letter of each _-separated component"""
-    components = value.lower().split("_")
-    # We capitalize the first letter of each component
-    # with the 'capitalize' method and join them together.
-    return "".join(x.capitalize() if x else "_" for x in components)
+    """capitalizes the first letter of each _-separated component.
+
+    This method preserves already pascalized strings."""
+    components = value.split("_")
+    if len(components) == 1:
+        return value[0].upper() + value[1:]
+    else:
+        components[0] = components[0][0].upper() + components[0][1:]
+    return "".join(x.title() for x in components)
 
 
 def camelcase(value: str) -> str:
-    """capitalizes the first letter of each _-separated component except the first one"""
-    components = value.lower().split("_")
-    return components[0] + "".join(x.capitalize() if x else "_" for x in components[1:])
+    """capitalizes the first letter of each _-separated component except the first one.
+
+    This method preserves already camelcased strings."""
+
+    components = value.split("_")
+    if len(components) == 1:
+        return value[0].lower() + value[1:]
+    else:
+        components[0] = components[0][0].lower() + components[0][1:]
+    return components[0].lower() + "".join(x.title() for x in components[1:])
 
 
 def camelize_value(value):

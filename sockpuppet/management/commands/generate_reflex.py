@@ -44,11 +44,17 @@ class Command(BaseGenerateCommand):
         using_javascript = options['javascript']
 
         if not reflex_name.isidentifier():
-            raise CommandError(f"The reflex name ({reflex_name}) must be a valid Python identifier")
+            raise CommandError(
+                f"The reflex name ({reflex_name}) must be a valid Python identifier."
+            )
+
+        if reflex_name == "_":
+            raise CommandError("The reflex name must not be a single underscore.")
 
         if reflex_name in keyword.kwlist:
-            raise CommandError(f"The reflex name ({reflex_name}) can't be a Python keyword")
-
+            raise CommandError(
+                f"The reflex name ({reflex_name}) can't be a Python keyword."
+            )
         module_path = self.lookup_app_path(app_name)
         self.module_path = Path(module_path)
 
