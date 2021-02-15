@@ -94,8 +94,8 @@ The most important tests are integration tests that makes sure that frontend and
 # Install the cypress et al
 npm install
 
-# Spin up a dev server.
-python manage.py runserver
+# Spin up a dev server that uses some fixtures
+inv test-server
 
 # Run the cypress tests
 npm run cypress:run

@@ -81,6 +81,14 @@ def kill_devserver(c):
 
 
 @task
+def test_server(c):
+    """
+    Run testserver for cypress
+    """
+    c.run('python manage.py testserver cypress/fixtures/user.json')
+
+
+@task
 def unittest(c):
     """
     Run unittests
