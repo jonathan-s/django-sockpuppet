@@ -35,6 +35,7 @@ class Reflex:
         view = resolved.func.view_class()
         view.request = self.request
         try:
+            view.kwargs = resolved.kwargs
             context = view.get_context_data()
         except AttributeError:
             view.get(self.request)

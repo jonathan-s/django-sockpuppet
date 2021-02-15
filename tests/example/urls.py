@@ -25,4 +25,5 @@ urlpatterns = [
     path('progress/', example.ProgressView.as_view(), name='progress'),
     path('error/', example.ErrorView.as_view(), name='error'),
     path('users/', example.UserList.as_view(), name='user'),
+    path('users/<int:pk>/', example.UserDetail.as_view(), name='user_detail'),
 ]

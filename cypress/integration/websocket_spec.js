@@ -70,5 +70,13 @@ describe("Integration tests", () => {
     cy.get('#success').should('have.text', 'True')
   })
 
+  it("able to use a detail view without errors", () => {
+    cy.visit('/users/1/')
+    cy.wait(200)
+    cy.get('#button').click()
+
+    cy.get('#success').should('have.text', 'True')
+  })
+
   // TODO Add an integration test that test variables in url. Such as detailview
 })
