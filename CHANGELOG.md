@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/jonathan-s/django-sockpuppet/tree/HEAD)
+
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.1...HEAD)
+
+**Fixed bugs:**
+
+- Fixed object not found error for detail view [\#95](https://github.com/jonathan-s/django-sockpuppet/pull/95) ([sampokuokkanen](https://github.com/sampokuokkanen))
+
 ## [0.5.1](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.1) (2021-02-14)
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.0...0.5.1)
