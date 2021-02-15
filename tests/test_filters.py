@@ -22,9 +22,6 @@ class CamelcaseFilterTest(TestCase):
     def test_pascalcase2camelcase(self):
         self.assertEqual(camelcase("FooBarBaz"), "fooBarBaz")
 
-    # def test_preserve_CAPITALS_camelcase(self):
-    #     self.assertEqual(camelcase("test_GUI_part"), "testGUIPart")
-
     def test_correct_CAPITALS_camelcase(self):
         self.assertEqual(camelcase("test_GUI_part"), "testGuiPart")
 
@@ -56,9 +53,6 @@ class PascalcaseFilterTest(TestCase):
 
     def test_camelcase2pascalcase(self):
         self.assertEqual(pascalcase("fooBarBaz"), "FooBarBaz")
-
-    # def test_preserve_CAPITALS_pascalcase(self):
-    #     self.assertEqual(pascalcase("test_GUI_part"), "TestGUIPart")
 
     def test_correct_CAPITALS_pascalcase(self):
         self.assertEqual(pascalcase("test_GUI_part"), "TestGuiPart")
