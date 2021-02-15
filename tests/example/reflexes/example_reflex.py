@@ -25,3 +25,9 @@ class FormReflex(Reflex):
 class ErrorReflex(Reflex):
     def increment(self, step=1):
         raise Exception('error happened')
+
+
+class UserReflex(Reflex):
+    def get_user(self):
+        context = self.get_context_data()
+        self.user_reveal = context['object']

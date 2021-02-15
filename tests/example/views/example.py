@@ -1,4 +1,5 @@
 from django.views.generic.base import TemplateView
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.contrib.auth import get_user_model
 
@@ -53,4 +54,13 @@ class UserList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         print(self.object_list)
+        return context
+
+
+class UserDetail(DetailView):
+    model = User
+    template_name = 'param.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         return context
