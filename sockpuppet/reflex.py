@@ -36,10 +36,11 @@ class Reflex:
         view.request = self.request
         try:
             view.kwargs = resolved.kwargs
-            context = view.get_context_data()
-        except AttributeError:
             view.get(self.request)
-            context = view.get_context_data()
+        except AttributeError:
+            pass
+
+        context = view.get_context_data()
 
         self.context = context
         self.context.update(**kwargs)
