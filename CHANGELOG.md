@@ -6,6 +6,7 @@
 
 **Closed issues:**
 
+- Mistakes in documentation. [\#97](https://github.com/jonathan-s/django-sockpuppet/issues/97)
 - add-project-script missing in \(dev\) dependencies? [\#80](https://github.com/jonathan-s/django-sockpuppet/issues/80)
 
 **Merged pull requests:**
@@ -96,7 +97,6 @@
 **Merged pull requests:**
 
 - Proofreading pass [\#65](https://github.com/jonathan-s/django-sockpuppet/pull/65) ([DamnedScholar](https://github.com/DamnedScholar))
-- Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.3.8](https://github.com/jonathan-s/django-sockpuppet/tree/0.3.8) (2020-12-26)
 
@@ -159,7 +159,7 @@
 
 **Merged pull requests:**
 
-- Always install the latest stimulus-reflex in CI [\#39](https://github.com/jonathan-s/django-sockpuppet/pull/39) ([jonathan-s](https://github.com/jonathan-s))
+- Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
 - Introduce compatibility with stimulus-reflex 3.4 [\#38](https://github.com/jonathan-s/django-sockpuppet/pull/38) ([jonathan-s](https://github.com/jonathan-s))
 - The javascript in static js isn't used, so remove it. [\#37](https://github.com/jonathan-s/django-sockpuppet/pull/37) ([jonathan-s](https://github.com/jonathan-s))
 - Sockpuppet not yet compatible with channels 3.0 [\#35](https://github.com/jonathan-s/django-sockpuppet/pull/35) ([jonathan-s](https://github.com/jonathan-s))
@@ -196,6 +196,7 @@
 
 **Merged pull requests:**
 
+- Always install the latest stimulus-reflex in CI [\#39](https://github.com/jonathan-s/django-sockpuppet/pull/39) ([jonathan-s](https://github.com/jonathan-s))
 - Get django-sockpuppet up to par with SR 3.3.0 [\#30](https://github.com/jonathan-s/django-sockpuppet/pull/30) ([jonathan-s](https://github.com/jonathan-s))
 - Better exception handling [\#25](https://github.com/jonathan-s/django-sockpuppet/pull/25) ([jonathan-s](https://github.com/jonathan-s))
 - Docs improvement [\#24](https://github.com/jonathan-s/django-sockpuppet/pull/24) ([jonathan-s](https://github.com/jonathan-s))
