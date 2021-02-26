@@ -42,7 +42,7 @@ One of the most common patterns in Sockpuppet is to pass instance variables from
 {% tab title="example\_reflex.py" %}
 ```python
 def updateValue
-  this.value = self.element['value']
+  self.value = self.element.attributes['value']
 ```
 {% endtab %}
 {% endtabs %}
