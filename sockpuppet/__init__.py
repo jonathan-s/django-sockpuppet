@@ -7,3 +7,4 @@ else:
     from sockpuppet.consumer import SockpuppetConsumer # noqa
 
 __version__ = '0.5.2'
+default_app_config = 'sockpuppet.apps.SockpuppetConfig'
