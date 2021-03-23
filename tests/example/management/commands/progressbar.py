@@ -13,10 +13,12 @@ class Command(BaseCommand):
         while status < 100:
             status += 10
             print(f'Status: {status}')
-            channel.set_attribute({
-                'selector': "#progress-bar>div",
-                'name': "style",
-                'value': "width:{status}%".format(status=status)
-            })
+            channel.set_attribute(
+                {
+                    'selector': "#progress-bar>div",
+                    'name': "style",
+                    'value': "width:{status}%".format(status=status),
+                }
+            )
             channel.broadcast()
             time.sleep(1)  # fake some latency

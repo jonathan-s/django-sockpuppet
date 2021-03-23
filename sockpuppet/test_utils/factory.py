@@ -20,6 +20,6 @@ def reflex_factory(url, client, user=None, attributes={}, selectors=None, params
         url=url,
         element=element,
         selectors=selectors,
-        params=params
+        params=params,
     )
     return reflex

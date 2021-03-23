@@ -1,8 +1,10 @@
 import re
+
 try:
     from lxml import etree
     from io import StringIO
     from lxml.cssselect import CSSSelector
+
     HAS_LXML = True
 except ImportError:
     HAS_LXML = False
@@ -10,11 +12,7 @@ except ImportError:
 
 
 def camelize(word):
-    word = re.sub(
-        r'[\s_](.)',
-        lambda m: m.group(1).title(),
-        word, flags=re.DOTALL
-    )
+    word = re.sub(r'[\s_](.)', lambda m: m.group(1).title(), word, flags=re.DOTALL)
     return word
 
 
@@ -56,6 +54,9 @@ def get_document_and_selectors(html, selectors):
 def parse_out_html(document, selector):
     if HAS_LXML:
         return ''.join(
-            [etree.tostring(e, method="html").decode('utf-8') for e in selector(document)]
+            [
+                etree.tostring(e, method="html").decode('utf-8')
+                for e in selector(document)
+            ]
         )
     return ''.join([e.decode_contents() for e in document.select(selector)])

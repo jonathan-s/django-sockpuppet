@@ -17,6 +17,7 @@ class ManagementCommandTests(TestCase):
 
     def tearDown(self):
         import subprocess
+
         subprocess.run(["git", "clean", "-d", "-f", "-q"])
 
     def test_generate_reflex_command(self):
@@ -25,6 +26,8 @@ class ManagementCommandTests(TestCase):
         self.assertIn('Last step is to add the view to urls.py', result)
 
     def test_generate_reflex_javascript(self):
-        result = self.call_command('generate_reflex', 'example', 'test_reflex', '--javascript')
+        result = self.call_command(
+            'generate_reflex', 'example', 'test_reflex', '--javascript'
+        )
         # TODO assert that files were created successfully
         self.assertIn('Last step is to add the view to urls.py', result)
