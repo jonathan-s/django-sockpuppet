@@ -2,6 +2,8 @@ from django.urls import resolve
 from urllib.parse import urlparse
 
 from django.test import RequestFactory
+from django.utils.functional import cached_property
+
 
 PROTECTED_VARIABLES = [
     'consumer',
@@ -36,7 +38,7 @@ class Reflex:
         view.request = self.request
         try:
             view.kwargs = resolved.kwargs
-            context = view.get_context_data()
+            context = view._patched_get_context_data()
         except AttributeError:
             view.get(self.request)
             context = view.get_context_data()
@@ -52,13 +54,14 @@ class Reflex:
         '''
         return self.session.session_key
 
-    @property
+    @cached_property
     def request(self):
         factory = RequestFactory()
         request = factory.get(self.url)
         request.session = self.consumer.scope['session']
         request.user = self.consumer.scope['user']
         request.POST = self.params
+        request.reflex = self
         return request
 
     def reload(self):
