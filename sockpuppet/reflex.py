@@ -36,10 +36,10 @@ class Reflex:
         view.request = self.request
         try:
             view.kwargs = resolved.kwargs
-            context = view.get_context_data()
+            context = view.get_context_data(**{'stimulus_reflex': True})
         except AttributeError:
             view.get(self.request)
-            context = view.get_context_data()
+            context = view.get_context_data(**{'stimulus_reflex': True})
 
         self.context = context
         self.context.update(**kwargs)
