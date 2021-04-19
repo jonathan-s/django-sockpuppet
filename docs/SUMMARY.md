@@ -10,5 +10,6 @@
 * [Useful Patterns](patterns.md)
 * [Working with Events](events.md)
 * [Working with Forms](working-with-form.md)
+* [Security & Authentication](security.md)
 * [Troubleshooting](troubleshooting.md)
 
