@@ -87,7 +87,7 @@ When Sockpuppet calls your Django view, it passes any active instance variables 
 ```python
 def get_context_data(self, *args, **kwargs):
     context = super().get_context_data(*args, **kwargs)
-    if not context['stimulus_reflex']:
+    if not context.get('stimulus_reflex'):
         self.request.session['balls_left'] = 3
     return context
 ```
@@ -95,6 +95,8 @@ def get_context_data(self, *args, **kwargs):
 {% endtabs %}
 
 In this example, the user is given three new balls every time they refresh the page in their browser, effectively restarting the game. If the page state is updated via the Sockpuppet Reflex, no new balls are allocated.
+
+Since the `stimulus_reflex` variable is only available during the reflex phase and _not_ when executing the view normally you'll have to use `context.get`, otherwise you'll get an error.
 
 This also means that `self.request.session['balls_left']` will be set to 3 before the initial HTML page has been rendered and transmitted.
 
