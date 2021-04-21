@@ -7,7 +7,7 @@
 
     <a  href="#"
         data-controller="{{ reflex_name }}"
-        data-action="click->{{ reflex_name }}#increment"
+        data-action="click->{{ class_name }}#increment"
         data-count="{% raw %}{{ count }}{% endraw %}"
     >Increment </a><span>{% raw %}{{ count }}{% endraw %}</span>
     {% else %}
@@ -15,7 +15,7 @@
     {% raw %}<script src="{% static 'sockpuppet/sockpuppet.js' %}"></script>{% endraw %}
     <a
       href="#"
-      data-reflex="click->{{ reflex_name|title}}Reflex#increment"
+      data-reflex="click->{{ class_name }}Reflex#increment"
       data-count="{% raw %}{{ count }}{% endraw %}"
     >Increment </a><span>{% raw %}{{ count }}{% endraw %}</span>
     {% endif %}

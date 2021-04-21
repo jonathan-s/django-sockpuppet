@@ -1,9 +1,11 @@
+import keyword
 from pathlib import Path
 
+from django.core.management import CommandError
 from django.template.loader import get_template
 
 from ._base import BaseGenerateCommand
-from ...utils import classify
+from ...utils import pascalcase
 
 TEMPLATES = {
     '_reflex.py': 'sockpuppet/scaffolds/reflex.py',
@@ -38,9 +40,21 @@ class Command(BaseGenerateCommand):
 
     def handle(self, *args, **options):
         app_name = options['app_name'][0]
-        reflex_name = options['reflex_name']
+        reflex_name = options['reflex_name'].lower()
         using_javascript = options['javascript']
 
+        if not reflex_name.isidentifier():
+            raise CommandError(
+                f"The reflex name ({reflex_name}) must be a valid Python identifier."
+            )
+
+        if reflex_name == "_":
+            raise CommandError("The reflex name must not be a single underscore.")
+
+        if reflex_name in keyword.kwlist:
+            raise CommandError(
+                f"The reflex name ({reflex_name}) can't be a Python keyword."
+            )
         module_path = self.lookup_app_path(app_name)
         self.module_path = Path(module_path)
 
@@ -56,14 +70,14 @@ class Command(BaseGenerateCommand):
             template_name = TEMPLATES[suffix]
             template = get_template(template_name)
             rendered = template.render({
-                'class_name': classify(reflex_name),
+                'class_name': pascalcase(reflex_name),
                 'reflex_name': reflex_name,
                 'using_javascript': using_javascript
             })
             if without_js and not using_javascript:
                 # skipping these templates
                 continue
-            self.create_file(path, '{}{}'.format(reflex_name.lower(), suffix), rendered)
+            self.create_file(path, '{}{}'.format(reflex_name, suffix), rendered)
 
         self.create_file('views', '__init__.py', '')
         self.create_file('reflexes', '__init__.py', '')

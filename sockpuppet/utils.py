@@ -1,4 +1,3 @@
-import re
 try:
     from lxml import etree
     from io import StringIO
@@ -9,27 +8,38 @@ except ImportError:
     from bs4 import BeautifulSoup
 
 
-def camelize(word):
-    word = re.sub(
-        r'[\s_](.)',
-        lambda m: m.group(1).title(),
-        word, flags=re.DOTALL
-    )
-    return word
+def pascalcase(value: str) -> str:
+    """capitalizes the first letter of each _-separated component.
+
+    This method preserves already pascalized strings."""
+    components = value.split("_")
+    if len(components) == 1:
+        return value[0].upper() + value[1:]
+    else:
+        components[0] = components[0][0].upper() + components[0][1:]
+    return "".join(x.title() for x in components)
+
+
+def camelcase(value: str) -> str:
+    """capitalizes the first letter of each _-separated component except the first one.
+
+    This method preserves already camelcased strings."""
+
+    components = value.split("_")
+    if len(components) == 1:
+        return value[0].lower() + value[1:]
+    else:
+        components[0] = components[0][0].lower() + components[0][1:]
+    return components[0].lower() + "".join(x.title() for x in components[1:])
 
 
 def camelize_value(value):
+    """camelizes all keys/values in a given dict or list"""
     if isinstance(value, list):
         value = [camelize_value(val) for val in value]
     elif isinstance(value, dict):
-        value = {camelize(key): camelize_value(val) for key, val in value.items()}
+        value = {camelcase(key): camelize_value(val) for key, val in value.items()}
     return value
-
-
-def classify(word):
-    tail = camelize(word[1:])
-    head = word[:1].title()
-    return '{}{}'.format(head, tail)
 
 
 def _lxml_selectors(html, selectors):

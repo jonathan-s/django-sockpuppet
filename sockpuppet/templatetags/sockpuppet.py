@@ -1,7 +1,11 @@
 from django import template
 from django.template import Template
+from sockpuppet.utils import camelcase, pascalcase
 
 register = template.Library()
+
+register.filter(name="camelcase", filter_func=camelcase)
+register.filter(name="pascalcase", filter_func=pascalcase)
 
 
 @register.tag(name="raw")
