@@ -145,10 +145,8 @@ The configuration above will look for JavaScript files in the folder `your_app/j
 If you add that folder to `STATICFILES_DIRS` in settings it will pick that compiled JavaScript and you can use it in templates.
 
 ```python
-from pathlib import Path
-BASE_DIR = Path.cwd()
 STATICFILES_DIRS = [
-    ("js", f"{BASE_DIR}/dist/js"),
+    ("js", BASE_DIR / "dist" / "js"),
 ]
 ```
 
