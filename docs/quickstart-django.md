@@ -99,9 +99,9 @@ import StimulusReflex from 'stimulus_reflex'
 import WebsocketConsumer from 'sockpuppet-js'
 
 const application = Application.start()
-const consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync')
+application.consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync')
 
-StimulusReflex.initialize(application, { consumer })
+StimulusReflex.initialize(application)
 ```
 {% endcode %}
 
@@ -184,10 +184,10 @@ import WebsocketConsumer from 'sockpuppet-js'
 import CounterController from './controller/counter_controller.js'
 
 const application = Application.start()
-const consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync')
+application.consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync')
 
 application.register('counter', CounterController)
-StimulusReflex.initialize(application, { consumer })
+StimulusReflex.initialize(application)
 ```
 {% endcode %}
 
