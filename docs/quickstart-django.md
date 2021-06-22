@@ -69,7 +69,7 @@ We use data attributes to declaratively tell Sockpuppet to pay special attention
 
 We are also assuming that we have a view that renders this template. The view looks like this.
 
-{% code title="your\_app/view.py" %}
+{% code title="your\_app/views.py" %}
 ```python
 from django.views.generic.base import TemplateView
 
