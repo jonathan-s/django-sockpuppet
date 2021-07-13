@@ -11,6 +11,7 @@
 
 **Merged pull requests:**
 
+- Minor fix [\#121](https://github.com/jonathan-s/django-sockpuppet/pull/121) ([tanrax](https://github.com/tanrax))
 - extract/const isProd [\#118](https://github.com/jonathan-s/django-sockpuppet/pull/118) ([nerdoc](https://github.com/nerdoc))
 - camelCase/PascalCase correction of reflex scaffolding [\#87](https://github.com/jonathan-s/django-sockpuppet/pull/87) ([nerdoc](https://github.com/nerdoc))
 
