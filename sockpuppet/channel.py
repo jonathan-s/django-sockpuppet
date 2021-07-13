@@ -2,7 +2,8 @@ import json
 import logging
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-from .utils import camelize, camelize_value
+
+from .utils import camelize_value, camelcase
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +56,7 @@ class Channel:
 
     def broadcast(self):
         operations = {
-            camelize(key): camelize_value(value)
+            camelcase(key): camelize_value(value)
             for key, value in self.operations.items() if value
         }
         channel_layer = get_channel_layer()

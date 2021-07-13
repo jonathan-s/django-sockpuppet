@@ -17,7 +17,7 @@ from django.conf import settings
 from .channel import Channel
 from .reflex import PROTECTED_VARIABLES, Reflex
 from .element import Element
-from .utils import classify, get_document_and_selectors, parse_out_html
+from .utils import get_document_and_selectors, parse_out_html
 
 
 logger = logging.getLogger('sockpuppet')
@@ -180,8 +180,7 @@ class BaseConsumer(JsonWebsocketConsumer):
         url = data['url']
         selectors = data['selectors'] if data['selectors'] else ['body']
         target = data['target']
-        reflex_name, method_name = target.split('#')
-        reflex_name = classify(reflex_name)
+        reflex_class_name, method_name = target.split('#')
         arguments = data['args'] if data.get('args') else []
         params = dict(parse_qsl(data['formData']))
         element = Element(data['attrs'])
@@ -189,12 +188,12 @@ class BaseConsumer(JsonWebsocketConsumer):
             self.load_reflexes()
 
         try:
-            ReflexClass = self.reflexes.get(reflex_name)
+            ReflexClass = self.reflexes.get(reflex_class_name)
             reflex = ReflexClass(self, url=url, element=element, selectors=selectors, params=params)
             self.delegate_call_to_reflex(reflex, method_name, arguments)
         except TypeError as exc:
-            if not self.reflexes.get(reflex_name):
-                msg = f'Sockpuppet tried to find a reflex class called {reflex_name}. Are you sure such a class exists?' # noqa
+            if not self.reflexes.get(reflex_class_name):
+                msg = f'Sockpuppet tried to find a reflex class called {reflex_class_name}. Are you sure such a class exists?' # noqa
                 self.broadcast_error(msg, data)
             else:
                 msg = str(exc)
