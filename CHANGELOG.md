@@ -7,10 +7,12 @@
 **Closed issues:**
 
 - Django message framework not usable from Reflex [\#101](https://github.com/jonathan-s/django-sockpuppet/issues/101)
+- scaffolding a reflex produces wrong class name when it contains a \_ [\#84](https://github.com/jonathan-s/django-sockpuppet/issues/84)
 
 **Merged pull requests:**
 
 - extract/const isProd [\#118](https://github.com/jonathan-s/django-sockpuppet/pull/118) ([nerdoc](https://github.com/nerdoc))
+- camelCase/PascalCase correction of reflex scaffolding [\#87](https://github.com/jonathan-s/django-sockpuppet/pull/87) ([nerdoc](https://github.com/nerdoc))
 
 ## [0.6.0](https://github.com/jonathan-s/django-sockpuppet/tree/0.6.0) (2021-04-19)
 
