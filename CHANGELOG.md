@@ -1,16 +1,41 @@
 # Changelog
 
-0.6.0 (unreleased)
+## [Unreleased](https://github.com/jonathan-s/django-sockpuppet/tree/HEAD)
 
-[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.2...HEAD)
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.6.0...HEAD)
 
 **Closed issues:**
 
+- Django message framework not usable from Reflex [\#101](https://github.com/jonathan-s/django-sockpuppet/issues/101)
+
+**Merged pull requests:**
+
+- extract/const isProd [\#118](https://github.com/jonathan-s/django-sockpuppet/pull/118) ([nerdoc](https://github.com/nerdoc))
+
+## [0.6.0](https://github.com/jonathan-s/django-sockpuppet/tree/0.6.0) (2021-04-19)
+
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.2...0.6.0)
+
+**Implemented enhancements:**
+
+- CSRF validator and documentation for security [\#110](https://github.com/jonathan-s/django-sockpuppet/pull/110) ([jonathan-s](https://github.com/jonathan-s))
+
+**Fixed bugs:**
+
+- Fix the omission of the stimulus\_reflex variable [\#108](https://github.com/jonathan-s/django-sockpuppet/pull/108) ([jonathan-s](https://github.com/jonathan-s))
+
+**Closed issues:**
+
+- context\['stimulus\_reflex'\] KeyError [\#107](https://github.com/jonathan-s/django-sockpuppet/issues/107)
+- Authentication and security documentation [\#104](https://github.com/jonathan-s/django-sockpuppet/issues/104)
 - Mistakes in documentation. [\#97](https://github.com/jonathan-s/django-sockpuppet/issues/97)
 - add-project-script missing in \(dev\) dependencies? [\#80](https://github.com/jonathan-s/django-sockpuppet/issues/80)
 
 **Merged pull requests:**
 
+- Bump ssri from 6.0.1 to 6.0.2 [\#109](https://github.com/jonathan-s/django-sockpuppet/pull/109) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump y18n from 4.0.0 to 4.0.1 [\#105](https://github.com/jonathan-s/django-sockpuppet/pull/105) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Enable secure websocket for secure sites [\#102](https://github.com/jonathan-s/django-sockpuppet/pull/102) ([fmalina](https://github.com/fmalina))
 - force npm install add-project-script [\#94](https://github.com/jonathan-s/django-sockpuppet/pull/94) ([nerdoc](https://github.com/nerdoc))
 
 ## [0.5.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.2) (2021-02-15)
@@ -20,26 +45,23 @@
 **Fixed bugs:**
 
 - Fixed object not found error for detail view [\#95](https://github.com/jonathan-s/django-sockpuppet/pull/95) ([sampokuokkanen](https://github.com/sampokuokkanen))
+- object\_list now works for ListView and similar views [\#93](https://github.com/jonathan-s/django-sockpuppet/pull/93) ([jonathan-s](https://github.com/jonathan-s))
+- Spread operators necessary on variables passed to the view function. [\#91](https://github.com/jonathan-s/django-sockpuppet/pull/91) ([DamnedScholar](https://github.com/DamnedScholar))
+- Separate linting from tests and fixes actioncable is rejected in Chrome [\#89](https://github.com/jonathan-s/django-sockpuppet/pull/89) ([jonathan-s](https://github.com/jonathan-s))
+
+**Merged pull requests:**
+
+- Ignore .vscode [\#85](https://github.com/jonathan-s/django-sockpuppet/pull/85) ([DamnedScholar](https://github.com/DamnedScholar))
 
 ## [0.5.1](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.1) (2021-02-14)
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.5.0...0.5.1)
-
-**Fixed bugs:**
-
-- object\_list now works for ListView and similar views [\#93](https://github.com/jonathan-s/django-sockpuppet/pull/93) ([jonathan-s](https://github.com/jonathan-s))
-- Spread operators necessary on variables passed to the view function. [\#91](https://github.com/jonathan-s/django-sockpuppet/pull/91) ([DamnedScholar](https://github.com/DamnedScholar))
-- Separate linting from tests and fixes actioncable is rejected in Chrome [\#89](https://github.com/jonathan-s/django-sockpuppet/pull/89) ([jonathan-s](https://github.com/jonathan-s))
 
 **Closed issues:**
 
 - Can't dispatch event back to the user using Channel [\#81](https://github.com/jonathan-s/django-sockpuppet/issues/81)
 - Integration tests that should be created [\#21](https://github.com/jonathan-s/django-sockpuppet/issues/21)
 - Triggering a 500 error won't give frontend notice that such an error happened [\#3](https://github.com/jonathan-s/django-sockpuppet/issues/3)
-
-**Merged pull requests:**
-
-- Ignore .vscode [\#85](https://github.com/jonathan-s/django-sockpuppet/pull/85) ([DamnedScholar](https://github.com/DamnedScholar))
 
 ## [0.5.0](https://github.com/jonathan-s/django-sockpuppet/tree/0.5.0) (2021-01-16)
 
@@ -53,10 +75,10 @@
 
 **Fixed bugs:**
 
-- Bug fix: Better recovery when a Reflex isn't found. [\#68](https://github.com/jonathan-s/django-sockpuppet/pull/68) ([DamnedScholar](https://github.com/DamnedScholar))
 - Proper error logging for frontend and backend [\#74](https://github.com/jonathan-s/django-sockpuppet/pull/74) ([jonathan-s](https://github.com/jonathan-s))
 - Fix sourcemap url [\#71](https://github.com/jonathan-s/django-sockpuppet/pull/71) ([jonathan-s](https://github.com/jonathan-s))
 - Closing socket on page reload [\#69](https://github.com/jonathan-s/django-sockpuppet/pull/69) ([jonathan-s](https://github.com/jonathan-s))
+- Bug fix: Better recovery when a Reflex isn't found. [\#68](https://github.com/jonathan-s/django-sockpuppet/pull/68) ([DamnedScholar](https://github.com/DamnedScholar))
 
 **Closed issues:**
 
@@ -72,9 +94,18 @@
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.4.1...0.4.2)
 
+**Implemented enhancements:**
+
+- If lxml and cssselect is installed we use them for better perf. [\#48](https://github.com/jonathan-s/django-sockpuppet/pull/48) ([jonathan-s](https://github.com/jonathan-s))
+
 **Fixed bugs:**
 
 - fix template syntax error [\#66](https://github.com/jonathan-s/django-sockpuppet/pull/66) ([kaozdl](https://github.com/kaozdl))
+
+**Merged pull requests:**
+
+- Proofreading pass [\#65](https://github.com/jonathan-s/django-sockpuppet/pull/65) ([DamnedScholar](https://github.com/DamnedScholar))
+- Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
 
 ## [0.4.1](https://github.com/jonathan-s/django-sockpuppet/tree/0.4.1) (2020-12-28)
 
@@ -84,19 +115,11 @@
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.3.8...0.4.0)
 
-**Implemented enhancements:**
-
-- If lxml and cssselect is installed we use them for better perf. [\#48](https://github.com/jonathan-s/django-sockpuppet/pull/48) ([jonathan-s](https://github.com/jonathan-s))
-
 **Closed issues:**
 
 - Update documentation to refer to Stimulus 2.0 syntax [\#61](https://github.com/jonathan-s/django-sockpuppet/issues/61)
 - Introduce an option of using lxml as parser.  [\#46](https://github.com/jonathan-s/django-sockpuppet/issues/46)
 - Verify serializing of form data [\#29](https://github.com/jonathan-s/django-sockpuppet/issues/29)
-
-**Merged pull requests:**
-
-- Proofreading pass [\#65](https://github.com/jonathan-s/django-sockpuppet/pull/65) ([DamnedScholar](https://github.com/DamnedScholar))
 
 ## [0.3.8](https://github.com/jonathan-s/django-sockpuppet/tree/0.3.8) (2020-12-26)
 
@@ -159,7 +182,7 @@
 
 **Merged pull requests:**
 
-- Serializing form data in reflexes [\#40](https://github.com/jonathan-s/django-sockpuppet/pull/40) ([jonathan-s](https://github.com/jonathan-s))
+- Always install the latest stimulus-reflex in CI [\#39](https://github.com/jonathan-s/django-sockpuppet/pull/39) ([jonathan-s](https://github.com/jonathan-s))
 - Introduce compatibility with stimulus-reflex 3.4 [\#38](https://github.com/jonathan-s/django-sockpuppet/pull/38) ([jonathan-s](https://github.com/jonathan-s))
 - The javascript in static js isn't used, so remove it. [\#37](https://github.com/jonathan-s/django-sockpuppet/pull/37) ([jonathan-s](https://github.com/jonathan-s))
 - Sockpuppet not yet compatible with channels 3.0 [\#35](https://github.com/jonathan-s/django-sockpuppet/pull/35) ([jonathan-s](https://github.com/jonathan-s))
@@ -196,7 +219,6 @@
 
 **Merged pull requests:**
 
-- Always install the latest stimulus-reflex in CI [\#39](https://github.com/jonathan-s/django-sockpuppet/pull/39) ([jonathan-s](https://github.com/jonathan-s))
 - Get django-sockpuppet up to par with SR 3.3.0 [\#30](https://github.com/jonathan-s/django-sockpuppet/pull/30) ([jonathan-s](https://github.com/jonathan-s))
 - Better exception handling [\#25](https://github.com/jonathan-s/django-sockpuppet/pull/25) ([jonathan-s](https://github.com/jonathan-s))
 - Docs improvement [\#24](https://github.com/jonathan-s/django-sockpuppet/pull/24) ([jonathan-s](https://github.com/jonathan-s))
@@ -204,12 +226,7 @@
 
 ## [0.2.2](https://github.com/jonathan-s/django-sockpuppet/tree/0.2.2) (2020-05-31)
 
-[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/77e740833a7a91e85bbf19f499a187ccf840ceec...0.2.2)
-
-**Closed issues:**
-
-- The example reflex isn't being picked up by consumer.py on Windows [\#9](https://github.com/jonathan-s/django-sockpuppet/issues/9)
-- Setup errors when there are already scripts in place. [\#7](https://github.com/jonathan-s/django-sockpuppet/issues/7)
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.2.1...0.2.2)
 
 **Merged pull requests:**
 
@@ -217,6 +234,26 @@
 - Add gitbook yaml [\#19](https://github.com/jonathan-s/django-sockpuppet/pull/19) ([jonathan-s](https://github.com/jonathan-s))
 - :pencil: Adds local quickstart reference [\#18](https://github.com/jonathan-s/django-sockpuppet/pull/18) ([jefftriplett](https://github.com/jefftriplett))
 - Docs update [\#16](https://github.com/jonathan-s/django-sockpuppet/pull/16) ([jonathan-s](https://github.com/jonathan-s))
+
+## [0.2.1](https://github.com/jonathan-s/django-sockpuppet/tree/0.2.1) (2020-05-08)
+
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.2.0...0.2.1)
+
+## [0.2.0](https://github.com/jonathan-s/django-sockpuppet/tree/0.2.0) (2020-05-03)
+
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.1.0...0.2.0)
+
+**Closed issues:**
+
+- The example reflex isn't being picked up by consumer.py on Windows [\#9](https://github.com/jonathan-s/django-sockpuppet/issues/9)
+
+## [0.1.0](https://github.com/jonathan-s/django-sockpuppet/tree/0.1.0) (2020-05-03)
+
+[Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/77e740833a7a91e85bbf19f499a187ccf840ceec...0.1.0)
+
+**Closed issues:**
+
+- Setup errors when there are already scripts in place. [\#7](https://github.com/jonathan-s/django-sockpuppet/issues/7)
 
 
 
