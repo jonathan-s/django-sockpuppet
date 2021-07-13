@@ -2,6 +2,7 @@ try:
     from lxml import etree
     from io import StringIO
     from lxml.cssselect import CSSSelector
+
     HAS_LXML = True
 except ImportError:
     HAS_LXML = False
@@ -65,7 +66,10 @@ def get_document_and_selectors(html, selectors):
 
 def parse_out_html(document, selector):
     if HAS_LXML:
-        return ''.join(
-            [etree.tostring(e, method="html").decode('utf-8') for e in selector(document)]
+        return "".join(
+            [
+                etree.tostring(e, method="html").decode("utf-8")
+                for e in selector(document)
+            ]
         )
-    return ''.join([e.decode_contents() for e in document.select(selector)])
+    return "".join([e.decode_contents() for e in document.select(selector)])

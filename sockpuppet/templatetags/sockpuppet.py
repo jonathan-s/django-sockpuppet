@@ -10,7 +10,7 @@ register.filter(name="pascalcase", filter_func=pascalcase)
 
 @register.tag(name="raw")
 def raw(parser, token):
-    nodelist = parser.parse(('endraw',))
+    nodelist = parser.parse(("endraw",))
     parser.delete_first_token()
     return RawNode(nodelist)
 
@@ -20,14 +20,14 @@ class RawNode(template.Node):
         self.nodelist = nodelist
 
     def render(self, context):
-        output = ''
+        output = ""
         for node in self.nodelist:
-            if node.token.token_type.name == 'BLOCK':
+            if node.token.token_type.name == "BLOCK":
                 template = Template(node.token.contents)
                 rendered = template.render(context)
-                raw = '{% ' + rendered + ' %}'
-            elif node.token.token_type.name == 'VAR':
-                raw = '{{ ' + node.token.contents + ' }}'
+                raw = "{% " + rendered + " %}"
+            elif node.token.token_type.name == "VAR":
+                raw = "{{ " + node.token.contents + " }}"
             else:
                 raw = node.token.contents
             output = output + raw
