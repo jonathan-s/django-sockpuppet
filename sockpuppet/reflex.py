@@ -34,12 +34,16 @@ class Reflex:
         resolved = resolve(parsed_url.path)
         view = resolved.func.view_class()
         view.request = self.request
-        try:
-            view.kwargs = resolved.kwargs
-            context = view.get_context_data(**{"stimulus_reflex": True})
-        except AttributeError:
-            view.get(self.request)
-            context = view.get_context_data(**{"stimulus_reflex": True})
+        view.kwargs = resolved.kwargs
+
+        # correct for detail and list views for django generic views
+        if hasattr(view, "get_object"):
+            view.object = view.get_object()
+
+        if hasattr(view, "paginate_queryset"):
+            view.object_list = view.get_queryset()
+
+        context = view.get_context_data(**{"stimulus_reflex": True})
 
         self.context = context
         self.context.update(**kwargs)
