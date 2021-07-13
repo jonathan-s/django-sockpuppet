@@ -11,7 +11,7 @@ from sockpuppet.element import Element
 def reflex_factory(url, client, user=None, attributes={}, selectors=None, params={}):
     if not user:
         user = AnonymousUser()
-    scope = {'session': client.session, 'user': user}
+    scope = {"session": client.session, "user": user}
     mock_consumer = MagicMock(scope=scope, spec=SockpuppetConsumer)
     element = Element(attributes)
     resolve(url)  # work as an assert that url actually exists
@@ -20,6 +20,6 @@ def reflex_factory(url, client, user=None, attributes={}, selectors=None, params
         url=url,
         element=element,
         selectors=selectors,
-        params=params
+        params=params,
     )
     return reflex
