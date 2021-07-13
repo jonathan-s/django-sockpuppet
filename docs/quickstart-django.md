@@ -41,7 +41,7 @@ Hook up the view that was generated to `urls.py`, visit the URL and click increm
 In the template, you'll see the following: 
 
 ```markup
-{% static 'sockpuppet/sockpuppet.js %}
+{% static 'sockpuppet/sockpuppet.js' %}
 ```
 
 If you don't want or need to build your own JavaScript with a build tool you can use that static tag.
