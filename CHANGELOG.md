@@ -12,6 +12,7 @@
 
 **Merged pull requests:**
 
+- Bump dependencies [\#126](https://github.com/jonathan-s/django-sockpuppet/pull/126) ([jonathan-s](https://github.com/jonathan-s))
 - Make the code black [\#125](https://github.com/jonathan-s/django-sockpuppet/pull/125) ([jonathan-s](https://github.com/jonathan-s))
 - Minor fix [\#121](https://github.com/jonathan-s/django-sockpuppet/pull/121) ([tanrax](https://github.com/tanrax))
 - extract/const isProd [\#118](https://github.com/jonathan-s/django-sockpuppet/pull/118) ([nerdoc](https://github.com/nerdoc))
