@@ -6,6 +6,7 @@
 
 **Implemented enhancements:**
 
+- CI for django 3.2 [\#127](https://github.com/jonathan-s/django-sockpuppet/pull/127) ([jonathan-s](https://github.com/jonathan-s))
 - extract/const isProd [\#118](https://github.com/jonathan-s/django-sockpuppet/pull/118) ([nerdoc](https://github.com/nerdoc))
 - camelCase/PascalCase correction of reflex scaffolding [\#87](https://github.com/jonathan-s/django-sockpuppet/pull/87) ([nerdoc](https://github.com/nerdoc))
 
@@ -18,6 +19,7 @@
 - Django message framework not usable from Reflex [\#101](https://github.com/jonathan-s/django-sockpuppet/issues/101)
 - use black to format code [\#88](https://github.com/jonathan-s/django-sockpuppet/issues/88)
 - scaffolding a reflex produces wrong class name when it contains a \_ [\#84](https://github.com/jonathan-s/django-sockpuppet/issues/84)
+- Fix some issues to increase package score [\#33](https://github.com/jonathan-s/django-sockpuppet/issues/33)
 
 **Merged pull requests:**
 
