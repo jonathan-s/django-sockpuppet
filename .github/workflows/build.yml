@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.6, 3.9]
-        django: ["2.2", "3.1"]
+        django: ["2.2", "3.2"]
 
     steps:
     - uses: actions/checkout@v2
@@ -83,6 +83,6 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run integration tests
         env:
-          TOX_ENV: py3.9-django3.1-channels${{ matrix.channels }}-cypress
+          TOX_ENV: py3.9-django3.2-channels${{ matrix.channels }}-cypress
         run: |
           tox -e $TOX_ENV
