@@ -4,6 +4,15 @@
 
 [Full Changelog](https://github.com/jonathan-s/django-sockpuppet/compare/0.6.0...HEAD)
 
+**Implemented enhancements:**
+
+- extract/const isProd [\#118](https://github.com/jonathan-s/django-sockpuppet/pull/118) ([nerdoc](https://github.com/nerdoc))
+- camelCase/PascalCase correction of reflex scaffolding [\#87](https://github.com/jonathan-s/django-sockpuppet/pull/87) ([nerdoc](https://github.com/nerdoc))
+
+**Fixed bugs:**
+
+- Don't call get\_context\_data more than necessary [\#124](https://github.com/jonathan-s/django-sockpuppet/pull/124) ([jonathan-s](https://github.com/jonathan-s))
+
 **Closed issues:**
 
 - Django message framework not usable from Reflex [\#101](https://github.com/jonathan-s/django-sockpuppet/issues/101)
@@ -15,8 +24,6 @@
 - Bump dependencies [\#126](https://github.com/jonathan-s/django-sockpuppet/pull/126) ([jonathan-s](https://github.com/jonathan-s))
 - Make the code black [\#125](https://github.com/jonathan-s/django-sockpuppet/pull/125) ([jonathan-s](https://github.com/jonathan-s))
 - Minor fix [\#121](https://github.com/jonathan-s/django-sockpuppet/pull/121) ([tanrax](https://github.com/tanrax))
-- extract/const isProd [\#118](https://github.com/jonathan-s/django-sockpuppet/pull/118) ([nerdoc](https://github.com/nerdoc))
-- camelCase/PascalCase correction of reflex scaffolding [\#87](https://github.com/jonathan-s/django-sockpuppet/pull/87) ([nerdoc](https://github.com/nerdoc))
 
 ## [0.6.0](https://github.com/jonathan-s/django-sockpuppet/tree/0.6.0) (2021-04-19)
 
