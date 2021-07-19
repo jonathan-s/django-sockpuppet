@@ -12,13 +12,18 @@
 
 **Fixed bugs:**
 
+- Fixing running initial\_sockpuppet in windows [\#132](https://github.com/jonathan-s/django-sockpuppet/pull/132) ([ciag00](https://github.com/ciag00))
 - Don't call get\_context\_data more than necessary [\#124](https://github.com/jonathan-s/django-sockpuppet/pull/124) ([jonathan-s](https://github.com/jonathan-s))
 
 **Closed issues:**
 
+- afterReflex, reflexSuccess, reflexError don't trigger if the element which "caused" the reflex isn't present on the page after the reflex.. [\#133](https://github.com/jonathan-s/django-sockpuppet/issues/133)
+- Exception doesn't trigger [\#123](https://github.com/jonathan-s/django-sockpuppet/issues/123)
+- Can't run `python manage.py initial_sockpuppet` on Windows [\#106](https://github.com/jonathan-s/django-sockpuppet/issues/106)
 - Django message framework not usable from Reflex [\#101](https://github.com/jonathan-s/django-sockpuppet/issues/101)
 - use black to format code [\#88](https://github.com/jonathan-s/django-sockpuppet/issues/88)
 - scaffolding a reflex produces wrong class name when it contains a \_ [\#84](https://github.com/jonathan-s/django-sockpuppet/issues/84)
+- Build Tools General Discussion [\#64](https://github.com/jonathan-s/django-sockpuppet/issues/64)
 - Fix some issues to increase package score [\#33](https://github.com/jonathan-s/django-sockpuppet/issues/33)
 
 **Merged pull requests:**
@@ -90,10 +95,10 @@
 
 **Fixed bugs:**
 
+- Bug fix: Better recovery when a Reflex isn't found. [\#68](https://github.com/jonathan-s/django-sockpuppet/pull/68) ([DamnedScholar](https://github.com/DamnedScholar))
 - Proper error logging for frontend and backend [\#74](https://github.com/jonathan-s/django-sockpuppet/pull/74) ([jonathan-s](https://github.com/jonathan-s))
 - Fix sourcemap url [\#71](https://github.com/jonathan-s/django-sockpuppet/pull/71) ([jonathan-s](https://github.com/jonathan-s))
 - Closing socket on page reload [\#69](https://github.com/jonathan-s/django-sockpuppet/pull/69) ([jonathan-s](https://github.com/jonathan-s))
-- Bug fix: Better recovery when a Reflex isn't found. [\#68](https://github.com/jonathan-s/django-sockpuppet/pull/68) ([DamnedScholar](https://github.com/DamnedScholar))
 
 **Closed issues:**
 
