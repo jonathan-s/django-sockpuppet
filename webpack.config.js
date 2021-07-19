@@ -26,9 +26,10 @@ let sourceMap = new webpack.SourceMapDevToolPlugin({
   filename: '[name].js.map'
 });
 
+const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = [
   function(env, argv) {
-    isProd = process.env.NODE_ENV === 'production'
     let config = {
       mode: process.env.NODE_ENV,
       entry: entryObj,
@@ -48,7 +49,6 @@ module.exports = [
     return config
   },
   function(env, argv) {
-    isProd = process.env.NODE_ENV === 'production'
     let config = {
       mode: process.env.NODE_ENV,
       entry: sockpuppet,

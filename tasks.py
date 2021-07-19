@@ -81,6 +81,18 @@ def kill_devserver(c):
 
 
 @task
+def black(c):
+    """Execute the black command"""
+    c.run("black --exclude sockpuppet/templates sockpuppet")
+
+
+@task
+def check_black(c):
+    """Check the black command"""
+    c.run("black --check --exclude sockpuppet/templates sockpuppet")
+
+
+@task
 def test_server(c):
     """
     Run testserver for cypress

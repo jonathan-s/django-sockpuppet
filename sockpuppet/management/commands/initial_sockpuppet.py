@@ -36,7 +36,7 @@ class Command(BaseGenerateCommand):
             self.call_stdout(msg)
 
         npm_pkg = "npm install -save-dev glob sockpuppet-js stimulus stimulus_reflex webpack webpack-cli"
-        subprocess.check_call(npm_pkg.split(" "))
+        subprocess.check_call(npm_pkg.split(" "), shell=True)
 
         template = get_template("sockpuppet/scaffolds/webpack.html")
         rendered = template.render({})

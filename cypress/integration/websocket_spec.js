@@ -55,6 +55,7 @@ describe("Integration tests", () => {
     cy.wait(200)
 
     cy.get("#increment").click()
+    cy.wait(200)
     cy.window().then((win) => {
       expect(win.console.log).to.have.callCount(2);
       let secondCall = win.console.log.args[1][0]
@@ -74,6 +75,7 @@ describe("Integration tests", () => {
     cy.visit('/users/1/')
     cy.wait(200)
     cy.get('#user-button').click()
+    cy.wait(200)
 
     cy.get('#user-reflex').should('have.text', 'test_user')
   })
