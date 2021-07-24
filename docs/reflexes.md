@@ -60,7 +60,7 @@ StimulusReflex makes the following properties available to the developer inside 
 * `request.post` - If the page contains a form, this will find the closest form.
 * `session` - the Django session store for the current visitor
 * `url` - the URL of the page that triggered the reflex
-* `element` - a dictionary like object that represents the HTML element that triggered the reflex
+* `element` - an object that represents the HTML element that triggered the reflex
 * `params` - Contains the form parameters for the closest form
 
 ## Methods
@@ -74,7 +74,7 @@ StimulusReflex makes the following properties available to the developer inside 
 
 ### `element`
 
-The `element` property contains all of the Reflex controller's [DOM element attributes](https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes) as well as other properties like, `tagName`, `checked` and `value`.
+The `element` property contains all of the Reflex controller's [DOM element attributes](https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes) as well as other properties like, `tag_name`, `checked` and `value`.
 
 {% hint style="info" %}
 **Most values are strings.** The only exceptions are `checked` and `selected` which are booleans.
@@ -98,17 +98,17 @@ from sockpuppet.reflex import Reflex
 
 class ExampleReflex(Reflex):
     def work(self):
-        self.element['id']               # the HTML element's id attribute value
+        self.element.attributes          # a dictionary that represents all attributes of the HTML element
         self.element.dataset             # a dictionary that represents the HTML element's dataset
 
-        self.element['id']               # => 'example'
-        self.element['tag_name']         # => 'CHECKBOX'
-        self.element['checked']          # => 'true'
-        self.element['label']            # => 'Example'
-        self.element['data-reflex']      # => 'ExampleReflex#work'
-        self.element.dataset['reflex']   # => 'ExampleReflex#work'
-        self.element['data-value']       # => '123'
-        self.element.dataset['value']    # => '123'
+        self.element.attributes['id']           # => 'example'
+        self.element.attributes['tag_name']     # => 'CHECKBOX'
+        self.element.attributes['checked']      # => 'true'
+        self.element.attributes['label']        # => 'Example'
+        self.element.attributes['data-reflex']  # => 'ExampleReflex#work'
+        self.element.dataset['reflex']          # => 'ExampleReflex#work'
+        self.element.attributes['data-value']   # => '123'
+        self.element.dataset['value']           # => '123'
 
 ```
 {% endtab %}
