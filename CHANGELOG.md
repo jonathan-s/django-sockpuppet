@@ -12,6 +12,7 @@
 
 **Fixed bugs:**
 
+- Remove Channels 2.4 in CI [\#134](https://github.com/jonathan-s/django-sockpuppet/pull/134) ([jonathan-s](https://github.com/jonathan-s))
 - Fixing running initial\_sockpuppet in windows [\#132](https://github.com/jonathan-s/django-sockpuppet/pull/132) ([ciag00](https://github.com/ciag00))
 - Don't call get\_context\_data more than necessary [\#124](https://github.com/jonathan-s/django-sockpuppet/pull/124) ([jonathan-s](https://github.com/jonathan-s))
 
