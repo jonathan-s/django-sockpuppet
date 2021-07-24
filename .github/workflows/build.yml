@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        channels: ["2.4", "3.0"]
+        channels: ["3.0"]
 
     steps:
       - uses: actions/checkout@v2
