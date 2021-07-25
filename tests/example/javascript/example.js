@@ -3,6 +3,7 @@ import StimulusReflex from 'stimulus_reflex'
 import CableReady from 'cable_ready'
 // because travis had issues with 'sockpuppet-js' we had to do this.
 import WebsocketConsumer from '../../../javascript/stimulus-websocket/index'
+import { Sockpuppet } from '../../../javascript/stimulus-websocket/index'
 import ExampleController from './controllers/example_controller'
 
 const application = Application.start()
@@ -16,4 +17,4 @@ consumer.subscriptions.create('progress', {
   }
 })
 application.register("example", ExampleController)
-StimulusReflex.initialize(application, { consumer, debug: true})
+Sockpuppet.initialize(application, { consumer, debug: true})

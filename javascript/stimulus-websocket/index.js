@@ -1,4 +1,9 @@
 import ReconnectingWebSocket from "reconnecting-websocket"
+import { Controller } from 'stimulus'
+import StimulusReflex from "stimulus_reflex"
+import actionCable from 'stimulus_reflex/javascript/transports/action_cable'
+import { reflexControllerMethods } from "stimulus_reflex/javascript/reflexes"
+
 
 // read up on the default options that actioncable has for websockets.
 
@@ -104,6 +109,43 @@ class Subscriptions {
         (subscription) => this.notify(subscription, callbackName, ...args)
       )
     }
+}
+
+class StimulusReflexController extends Controller {
+  constructor (...args) {
+    super(...args)
+    register(this)
+  }
+}
+
+
+const register = (controller, options = {}) => {
+  const channel = 'StimulusReflex::Channel'
+  controller.StimulusReflex = { ...options, channel }
+  actionCable.createSubscription(controller)
+  Object.assign(controller, reflexControllerMethods)
+}
+
+const initialize = (application, {
+  controller = StimulusReflexController,
+  consumer,
+  debug,
+  params,
+  isolate,
+  deprecate
+} = {}) => {
+  let options = {consumer, controller, debug, params, isolate, deprecate}
+  StimulusReflex.initialize(application, options)
+}
+
+
+const Sockpuppet = {
+  initialize: initialize,
+  register: register,
+}
+
+export {
+  Sockpuppet
 }
 
 export default class WebsocketConsumer {
