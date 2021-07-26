@@ -1,9 +1,9 @@
-import { Controller } from 'stimulus';
-import StimulusReflex from 'stimulus_reflex';
+import { Controller } from 'stimulus'
+import { Sockpuppet } from 'sockpuppet-js'
 
 export default class extends Controller {
   connect() {
-    StimulusReflex.register(this)
+    Sockpuppet.register(this)
   }
 
   increment(event) {
