@@ -27,6 +27,9 @@ class Context(UserDict):
 
     > context.my_data = 'hello'
     > context.my_data  # 'hello'
+
+    The following property will contain all data of the dictionary
+    > context.data
     """
 
     # NOTE for maintainer
@@ -34,42 +37,27 @@ class Context(UserDict):
     # or if values has been set with dot notation. We expect things to be set
     # in dot notation so a warning is issued until next major version (1.0)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._attr_data = {}
-
     def __getitem__(self, key):
         data = self.__dict__
-        if (
-            data["data"].get(key, KeyError) is KeyError
-            and data["_attr_data"].get(key, KeyError) is KeyError
-        ):
+        if data["data"].get(key, KeyError) is KeyError:
             raise KeyError(key)
-        return self.data.get(key) or self._attr_data.get(key)
-
-    def __setitem__(self, key, item):
-        if not self.__dict__.get("data"):
-            self.__dict__["data"] = {}
-        self.__dict__["data"][key] = item
+        return self.data.get(key)
 
     def __getattr__(self, key):
         if not self.__dict__.get("data"):
             self.__dict__["data"] = {}
-        if not self.__dict__.get("_attr_data"):
-            self.__dict__["_attr_data"] = {}
 
-        if (
-            self.__dict__["data"].get(key, KeyError) is KeyError
-            and self.__dict__["_attr_data"].get(key, KeyError) is KeyError
-        ):
+        if self.__dict__["data"].get(key, KeyError) is KeyError:
             raise AttributeError(key)
-        result = self.data.get(key) or self._attr_data.get(key)
+        result = self.data.get(key)
         return result
 
     def __setattr__(self, key, value):
-        if not self.__dict__.get("_attr_data"):
-            self.__dict__["_attr_data"] = {}
-        self.__dict__["_attr_data"][key] = value
+        if not self.__dict__.get("data"):
+            self.__dict__["data"] = {}
+        if key == "data" and value == {}:
+            return
+        self.__dict__["data"][key] = value
 
 
 class Reflex:

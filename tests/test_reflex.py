@@ -20,9 +20,6 @@ class ReflexTests(TestCase):
         self.assertEqual(context.hello, 'hello')
         self.assertEqual(context['hello'], 'hello')
 
-        self.assertEqual(context.data.get('hello'), None)
-        self.assertEqual(context._attr_data.get('hello'), 'hello')
-
         with self.assertRaises(AttributeError):
             context.not_an_attribute
 
