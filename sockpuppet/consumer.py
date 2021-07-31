@@ -177,8 +177,13 @@ class BaseConsumer(JsonWebsocketConsumer):
         arguments = data["args"] if data.get("args") else []
         params = dict(parse_qsl(data["formData"]))
         element = Element(data["attrs"])
-        if not self.reflexes:
-            self.load_reflexes()
+        try:
+            if not self.reflexes:
+                self.load_reflexes()
+        except Exception as e:
+            msg = f"Reflex couldn't be loaded: {str(e)}"
+            self.broadcast_error(msg, data)
+            return
 
         try:
             ReflexClass = self.reflexes.get(reflex_class_name)
