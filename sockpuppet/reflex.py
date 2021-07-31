@@ -17,10 +17,19 @@ PROTECTED_VARIABLES = [
 
 class Context(UserDict):
     """
-    A dictionary that keeps track of whether it's been used as dictionary
-    or if values has been set with dot notation. We expect things to be set
-    in dot notation so a warning is issued until next major version (1.0)
+    This class represents the context that will be rendered in a template
+    and then sent client-side through websockets.
+
+    It works just like a dictionary with the extension that you can set and get
+    data through dot access.
+
+    > context.my_data = 'hello'
+    > context.my_data  # 'hello'
     """
+    # NOTE for maintainer
+    # A dictionary that keeps track of whether it's been used as dictionary
+    # or if values has been set with dot notation. We expect things to be set
+    # in dot notation so a warning is issued until next major version (1.0)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -81,6 +90,15 @@ class Reflex:
         super().__setattr__(name, value)
 
     def get_context_data(self, *args, **kwargs):
+        """
+        Fetches the context from the view which the reflex belongs to.
+        Once you've made modifications you can update the reflex context.
+
+        > context = self.get_context_data()
+        > context['a_key'] = 'some data'
+        > self.context.update(context)
+        """
+
         if self.context:
             self.context.update(**kwargs)
             return self.context
@@ -112,6 +130,7 @@ class Reflex:
 
     @property
     def request(self):
+        """A synthetic request used to mimic the request-response cycle"""
         factory = RequestFactory()
         request = factory.get(self.url)
         request.session = self.consumer.scope["session"]
@@ -120,5 +139,10 @@ class Reflex:
         return request
 
     def reload(self):
-        """A default reflex to force a refresh"""
+        """
+        A default reflex to force a refresh, when used in html it will
+        refresh the page
+
+        data-action="click->MyReflexClass#reload"
+        """
         pass
