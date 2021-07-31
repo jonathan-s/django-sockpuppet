@@ -9,9 +9,11 @@ PROTECTED_VARIABLES = [
     "context",
     "element",
     "params",
+    "request",
     "selectors",
     "session",
     "url",
+    "_init_run",
 ]
 
 
@@ -26,6 +28,7 @@ class Context(UserDict):
     > context.my_data = 'hello'
     > context.my_data  # 'hello'
     """
+
     # NOTE for maintainer
     # A dictionary that keeps track of whether it's been used as dictionary
     # or if values has been set with dot notation. We expect things to be set

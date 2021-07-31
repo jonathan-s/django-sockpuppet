@@ -231,12 +231,15 @@ class BaseConsumer(JsonWebsocketConsumer):
         instance_variables = [
             name
             for (name, member) in inspect.getmembers(reflex)
-            if not name.startswith("__") and name not in PROTECTED_VARIABLES
+            if not name.startswith("__")
+            and name not in PROTECTED_VARIABLES
+            and not callable(getattr(reflex, name))
         ]
+
         reflex_context = {key: getattr(reflex, key) for key in instance_variables}
         reflex_context["stimulus_reflex"] = True
 
-        if not reflex.context._attr_data:
+        if len(instance_variables) > 0:
             msg = (
                 "Setting context through instance variables is deprecated, "
                 'please use reflex.context.context_variable = "my_data"'
