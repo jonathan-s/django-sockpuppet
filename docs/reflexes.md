@@ -4,7 +4,7 @@ description: "Reflex classes are full of Reflex actions. Reflex actions? Full of
 
 # Reflexes
 
-Server-side Reflexes inherit from `sockpuppet.Reflex`. They hold logic responsible for performing operations like writing to your backend data stores. Reflexes are not concerned with rendering because rendering is delegated to the Rails controller or Django view and action that originally rendered the page.
+Server-side Reflexes inherit from `sockpuppet.Reflex`. They hold logic responsible for performing operations like writing to your backend data stores. Reflexes are not concerned with rendering because rendering is delegated to the Django view.
 
 ## Glossary
 
@@ -26,11 +26,11 @@ All Stimulus controllers that have had `StimulusReflex.register(this)` called in
 this.stimulate(string target, [DOMElement element], ...[JSONObject argument])
 ```
 
-**target**, required \(exception: see "Requesting a Refresh" below\): A string containing the server Reflex class and method, in the form "ExampleReflex\#increment".
+- **target**, required \(exception: see "Requesting a Refresh" below\): A string containing the server Reflex class and method, in the form "ExampleReflex\#increment".
 
-**element**, optional: A reference to a DOM element which will provide both attributes and scoping selectors. Frequently pointed to `event.target` in JavaScript. **Defaults to the DOM element of the controller in scope**.
+- **element**, optional: A reference to a DOM element which will provide both attributes and scoping selectors. Frequently pointed to `event.target` in JavaScript. **Defaults to the DOM element of the controller in scope**.
 
-**argument**, optional: A **splat** of JSON-compliant JavaScript datatypes - array, object, string, numeric or boolean - can be received by the server Reflex action as one or many ordered arguments. Defaults to no argument\(s\). **Note: the method signature has to match.** If the Reflex action is expecting two arguments and doesn't receive two arguments, it will raise an exception.
+- **argument**, optional: A **splat** of JSON-compliant JavaScript datatypes - array, object, string, numeric or boolean - can be received by the server Reflex action as one or many ordered arguments. Defaults to no argument\(s\). **Note: the method signature has to match.** If the Reflex action is expecting two arguments and doesn't receive two arguments, it will raise an exception.
 
 ### Requesting a "refresh"
 
@@ -48,31 +48,70 @@ It's also possible to trigger this global Reflex by passing nothing but a browse
 <button data-reflex="click">Refresh</button>
 ```
 
-## Reflex Classes
+## The Reflex Class
 
 StimulusReflex makes the following properties available to the developer inside Reflex actions:
 
-{% tabs %}
-{% tab title="Python" %}
 ## Properties
-* `consumer` - the Websocket connection from django channels.
-* `request` - a django request object
-* `request.post` - If the page contains a form, this will find the closest form.
-* `session` - the Django session store for the current visitor
-* `url` - the URL of the page that triggered the reflex
-* `element` - an object that represents the HTML element that triggered the reflex
-* `params` - Contains the form parameters for the closest form
+- `consumer` - the Websocket connection from django channels.
+- `request` - a django request object
+- `request.post` - If the page contains a form, it will find the closest form which and the parameters will be contained here.
+- `session` - the Django session store for the current visitor
+- `url` - the URL of the page that triggered the reflex
+- `element` - an object that represents the HTML element that triggered the reflex
+- `params` - Contains the form parameters for the closest form
 
 ## Methods
-* `get_context_data` - Accesses the context data from the view associated with the reflex. You will know that the method is triggered from the reflex because the context now contains `stimulus_reflex` which is equal to `True`. This will be available from `kwargs` so you can modify the context based on whether it is a reflex or not.
-{% endtab %}
-{% endtabs %}
+- `get_context_data` - Accesses the context data from the view associated with the reflex. You will know that the method is triggered from the reflex because the context now contains `stimulus_reflex` which is equal to `True`. This will be available from `kwargs` so you can modify the context based on whether it is a reflex or not.
+
+- `get_channel_id` - By default this returns the session key which is used to deliver the websocket update to the client. This function can be overridden if you need a different key for transferring the update.
 
 {% hint style="danger" %}
 `reflex` and `process` are reserved words inside Reflex classes. You cannot create Reflex actions with these names.
 {% endhint %}
 
-### `element`
+### Modify or add to the view context
+
+When a reflex is triggered you can modify the current context of the view or add more context which previously didn't exist when the view rendered in the normal request-response cycle.
+
+{% tabs %}
+{% tab %}
+```python
+from sockpuppet.reflex import Reflex
+
+class ExampleReflex(Reflex):
+    def work(self):
+        # All new instance variables in the reflex will be accessible
+        # in the context during rendering.
+        self.instance_variable = 'hello world'
+
+        context = self.get_context_data()
+        context['a_key'] = 'a pink elephant'
+        # If "a_key" existed in the context before the reflex was triggered
+        # the context variable will now be modified to "a pink elephant"
+
+        # if it didn't exist, the context variable is then created with the
+        # data "a pink elephant" 🐘
+
+```
+{% endtab %}
+
+{% tab %}
+```html
+<div>
+    <!-- When the work reflex is triggered "new_variable" will be
+    available in the context -->
+    <span>{{ instance_variable }}</span>
+
+    <!-- This will show up as "a pink elephant" when triggering the reflex -->
+    <span>{{ a_key }}</span>
+</div>
+
+```
+{% endtab %}
+{% endtabs %}
+
+### The `element` property
 
 The `element` property contains all of the Reflex controller's [DOM element attributes](https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes) as well as other properties like, `tag_name`, `checked` and `value`.
 

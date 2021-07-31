@@ -176,7 +176,7 @@ For example, if your controller is named _list-item_ you might consider **this.e
 
 ## Server-Side
 
-### Rendering views inside of an ActiveRecord model or ActiveJob class
+### Rendering views inside of a Django model
 
 If you plan to broadcast an update of an html template from somewhere outside a reflex you can draw from the example below.
 
@@ -218,10 +218,10 @@ class NotificationReflex(Reflex):
 
     def force_update(id)
         channel = Channel(self.consumer.scope['session'].session_key)
-        channel.dispatch_event {
-        name: "force:update",
-        detail: {id: id},
-        }
+        channel.dispatch_event({
+            name: "force:update",
+            detail: {id: id},
+        })
         channel.broadcast()
 
     def reload(self):
@@ -233,7 +233,7 @@ class NotificationReflex(Reflex):
 
 {% tabs %}
 {% tab title="index.html" %}
-```markup
+```html
 <div data-action="force:update@document->notification#reload">
   <button data-action="notification#forceUpdate">
 </div>
