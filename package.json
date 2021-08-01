@@ -45,7 +45,8 @@
         "stimulus_reflex": "jonathan-s/stimulus_reflex#sockpuppet"
     },
     "files": [
-        "javascript/stimulus-websocket/index.js"
+        "javascript/stimulus-websocket/index.js",
+        "javascript/stimulus-websocket/websocket.js"
     ],
     "scripts": {
         "build": "rollup --config rollup.config.js",
