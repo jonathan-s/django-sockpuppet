@@ -1,3 +1,4 @@
+import json
 import subprocess
 
 from django.template.loader import get_template
@@ -9,21 +10,30 @@ from ._base import BaseGenerateCommand
 class Command(BaseGenerateCommand):
     help = "Generate scaffolding to compile javascript."
 
+    def add_project_script(
+        self, name: str, value: str, path: str = "", force: bool = False
+    ):
+        with open("package.json", "rw") as f:
+            jsn = json.load(f)
+
+            if not jsn.get("scripts"):
+                jsn["scripts"] = {}
+            else:
+                if not force and jsn["scripts"].get("name"):
+                    self.call_stdout("Skipping existing script '{}'" % name)
+
+            jsn["scripts"]["name"] = value
+            json.dump(jsn, f, indent=2)
+
     def handle(self, *args, **options):
         init = "npm init -y"
-        install = "npm install -g --force add-project-script"
         subprocess.check_call(init, shell=True)
-        subprocess.check_call(install, shell=True)
         try:
-            build = 'add-project-script -n "build" -v "webpack --mode production"'
-            watch = 'add-project-script -n "watch" -v "webpack --watch --info-verbosity verbose"'
-            subprocess.check_call(build, shell=True)
-            subprocess.check_call(watch, shell=True)
+            self.add_project_script("build", "webpack --mode production")
+            self.add_project_script("watch", "webpack --watch")
         except CalledProcessError:
             msg = "Build and watch already in package.json, so skipping these"
             self.call_stdout(msg)
-
-        subprocess.check_call("npm uninstall -g add-project-script", shell=True)
 
         npm_pkg = "npm install -save-dev glob sockpuppet-js stimulus stimulus_reflex webpack webpack-cli"
         subprocess.check_call(npm_pkg.split(" "), shell=True)
