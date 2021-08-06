@@ -38,7 +38,7 @@ python manage.py generate_reflex your_app your_reflex_name
 Hook up the view that was generated to `urls.py`, visit the URL and click increment. Magic! ✨
 
 {% hint style="info" %}
-In the template, you'll see the following: 
+In the template, you'll see the following:
 
 ```markup
 {% static 'sockpuppet/sockpuppet.js' %}
@@ -83,25 +83,25 @@ class CountView(TemplateView):
 ```
 {% endcode %}
 
-If you are building your own JavaScript this is what you need to wire up the JavaScript behind Sockpuppet. If not, you can use 
+If you are building your own JavaScript this is what you need to wire up the JavaScript behind Sockpuppet. If not, you can use
 
 ```markup
 {% load static %}
 {% static 'sockpuppet/sockpuppet.js %}
-``` 
+```
 
 in the template instead to include the required JavaScript.
 
 {% code title="frontend/src/js/index.js" %}
 ```javascript
 import { Application } from 'stimulus'
-import StimulusReflex from 'stimulus_reflex'
+import { Sockpuppet } from 'sockpuppet-js'
 import WebsocketConsumer from 'sockpuppet-js'
 
 const application = Application.start()
 const consumer = new WebsocketConsumer('ws://localhost:8000/ws/sockpuppet-sync')
 
-StimulusReflex.initialize(application, { consumer })
+Sockpuppet.initialize(application, { consumer })
 ```
 {% endcode %}
 

@@ -51,10 +51,6 @@ def integration(c):
     # import subprocess
     # import os
     c.run("npm install")
-    c.run("npm remove stimulus_reflex")
-    c.run("npm install stimulus_reflex")
-    c.run("npm install cable_ready")
-    c.run("npm install @rails/actioncable")
 
     c.run("npm run build:test")
     c.run("python manage.py migrate")

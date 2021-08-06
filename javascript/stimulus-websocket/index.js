@@ -1,167 +1,83 @@
-import ReconnectingWebSocket from "reconnecting-websocket"
+import { Controller } from 'stimulus'
+import StimulusReflex from "stimulus_reflex"
+import { reflexControllerMethods, received } from "stimulus_reflex/javascript/reflexes"
+import actionCable from 'stimulus_reflex/javascript/transports/action_cable'
+import Debug from 'stimulus_reflex/javascript/debug'
+import Deprecate from 'stimulus_reflex/javascript/deprecate'
+import { WebsocketConsumer } from './websocket'
 
+
+let globalConsumer
+let params
 // read up on the default options that actioncable has for websockets.
 
-function createWebSocketURL(url) {
-    if (typeof url === "function") {
-      url = url()
-    }
-
-    if (url && !/^wss?:/i.test(url)) {
-      const a = document.createElement("a")
-      a.href = url
-      // Fix populating Location properties in IE. Otherwise, protocol will be blank.
-      a.href = a.href
-      a.protocol = a.protocol.replace("http", "ws")
-      return a.href
-    } else {
-      return url
-    }
+class StimulusReflexController extends Controller {
+  constructor (...args) {
+    super(...args)
+    register(this)
+  }
 }
 
-const extend = function(object, properties) {
-    if (properties != null) {
-      for (let key in properties) {
-        const value = properties[key]
-        object[key] = value
-      }
-    }
-    return object
+const createSubscription = controller => {
+  let consumer = globalConsumer || controller.application.consumer
+  const { channel } = controller.StimulusReflex
+  const subscription = { channel, ...params }
+  const identifier = JSON.stringify(subscription)
+
+  controller.StimulusReflex.subscription =
+    consumer.subscriptions.findAll(identifier)[0] ||
+    consumer.subscriptions.create(subscription, {
+      received: received,
+      connected: actionCable.connected,
+
+      // these are currently never called.
+      rejected: actionCable.rejected,
+      disconnected: actionCable.disconnected
+    })
 }
 
-class Subscription {
-    constructor(consumer, params = {}, mixin) {
-        this.consumer = consumer
-        this.identifier = JSON.stringify(params)
-        extend(this, mixin)
-    }
 
-    send(data) {
-        return this.consumer.send(data, this.identifier)
-      }
+const register = (controller, options = {}) => {
+  const channel = 'StimulusReflex::Channel'
+  controller.StimulusReflex = { ...options, channel }
 
-    unsubscribe() {
-        return this.consumer.subscriptions.remove(this)
-    }
+  createSubscription(controller)
+  Object.assign(controller, reflexControllerMethods)
 }
 
-class Subscriptions {
-    constructor(consumer) {
-        this.consumer = consumer
-        this.subscriptions = []
-    }
-
-    findAll(identifier) {
-        return this.subscriptions.filter((s) => s.identifier === identifier)
-    }
-
-    add(subscription) {
-        this.subscriptions.push(subscription)
-        this.consumer.connection.send(JSON.stringify({
-            type: 'subscribe',
-            channelName: subscription.identifier
-        }))
-        return subscription
-    }
-
-    create(channelName, mixin) {
-        const channel = channelName
-        const params = typeof channel === "object" ? channel : {channel}
-        const subscription = new Subscription(this.consumer, params, mixin)
-        return this.add(subscription)
-    }
-
-    forget(subscription) {
-      this.subscriptions = (this.subscriptions.filter((s) => s !== subscription))
-      return subscription
-    }
-
-    remove(subscription) {
-      this.forget(subscription)
-      if (this.findAll(subscription.identifier).length == 0) {
-        this.consumer.connection.send(JSON.stringify({
-            type: 'unsubscribe',
-            channelName: subscription.identifier
-        }))
-      }
-      return subscription
-    }
-
-    notify(subscription, callbackName, ...args) {
-      let subscriptions
-      if (typeof subscription === "string") {
-        subscriptions = this.findAll(subscription)
-      } else {
-        subscriptions = [subscription]
-      }
-
-      return subscriptions.map((subscription) =>
-        (typeof subscription[callbackName] === "function" ? subscription[callbackName](...args) : undefined))
-    }
-
-    notifyAll(callbackName, ...args) {
-      return this.subscriptions.map(
-        (subscription) => this.notify(subscription, callbackName, ...args)
-      )
-    }
+const initialize = (application, {
+  controller = StimulusReflexController,
+  consumer,
+  debug,
+  params,
+  isolate,
+  deprecate
+} = {}) => {
+  let options = {consumer, controller, debug, params, isolate, deprecate}
+  globalConsumer = consumer
+  StimulusReflex.initialize(application, options)
 }
 
-export default class WebsocketConsumer {
-    constructor(url, options = {}) {
-        this._url = url
-        this.subscriptions = new Subscriptions(this)
 
-        options = {maxRetries: 3, ...options}
-        this.connection = new ReconnectingWebSocket(url, [], options)
-        this.connection.isOpen = function open() {
-            return this.readyState === ReconnectingWebSocket.OPEN;
-        }
-
-        // ensure socket is closed properly on full page unload
-        document.addEventListener('beforeunload', () => {
-          this.disconnect();
-        });
-
-        this.connection.addEventListener('open', (event) => {
-          var self = this
-          let notify = function() {
-            self.subscriptions.notifyAll('connected')
-          }
-          let identifiers = self.subscriptions.subscriptions.map(sub => sub.identifier).join()
-          if (!identifiers.includes('StimulusReflex::Channel')) {
-            // In chrome there was a race condition where connection is open
-            // and no subscriptions have yet to be created. So to fix this
-            // behaviour we wait for a bit. See PR for more details.
-            setTimeout(notify, 200);
-          } else {
-            notify()
-          }
-        })
-
-        this.connection.addEventListener("message", (event) => {
-            let data = JSON.parse(event.data)
-            if (data.meta_type === 'cookie') {
-              document.cookie = `${data.key}=${data.value||""}; max-age=${data.max_age}; path=/`;
-              return
-            }
-            this.subscriptions.notify(data.identifier, 'received', data)
-        })
-    }
-
-    get url() {
-        return createWebSocketURL(this._url)
-    }
-
-    send(data, identifier) {
-        data.identifier = identifier
-        return this.connection.send(JSON.stringify(data))
-    }
-
-    connect() {
-        return this.connection.open()
-    }
-
-    disconnect() {
-        return this.connection.close()
-    }
+const Sockpuppet = {
+  initialize: initialize,
+  register: register,
+  get debug () {
+    return Debug.value
+  },
+  set debug (value) {
+    Debug.set(!!value)
+  },
+  get deprecate () {
+    return Deprecate.value
+  },
+  set deprecate (value) {
+    Deprecate.set(!!value)
+  }
 }
+
+export {
+  Sockpuppet
+}
+
+export default WebsocketConsumer
