@@ -83,16 +83,17 @@ class ExampleReflex(Reflex):
     def work(self):
         # All new instance variables in the reflex will be accessible
         # in the context during rendering.
-        self.instance_variable = 'hello world'
+        self.context.instance_variable = 'hello world'
 
         context = self.get_context_data()
         context['a_key'] = 'a pink elephant'
+
+        self.context.update(context)
         # If "a_key" existed in the context before the reflex was triggered
         # the context variable will now be modified to "a pink elephant"
 
         # if it didn't exist, the context variable is then created with the
         # data "a pink elephant" 🐘
-
 ```
 {% endtab %}
 

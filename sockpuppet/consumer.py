@@ -5,6 +5,7 @@ from importlib import import_module
 import inspect
 from functools import wraps
 from os import walk, path
+import types
 from urllib.parse import urlparse
 from urllib.parse import parse_qsl
 
@@ -235,10 +236,21 @@ class BaseConsumer(JsonWebsocketConsumer):
         instance_variables = [
             name
             for (name, member) in inspect.getmembers(reflex)
-            if not name.startswith("__") and name not in PROTECTED_VARIABLES
+            if not name.startswith("__")
+            and name not in PROTECTED_VARIABLES
+            and not callable(getattr(reflex, name))
         ]
+
         reflex_context = {key: getattr(reflex, key) for key in instance_variables}
         reflex_context["stimulus_reflex"] = True
+
+        if len(instance_variables) > 0:
+            msg = (
+                "Setting context through instance variables is deprecated, "
+                'please use reflex.context.context_variable = "my_data"'
+            )
+            logger.warning(msg)
+        reflex_context.update(reflex.context)
 
         original_context_data = view.view_class.get_context_data
         reflex.get_context_data(**reflex_context)
@@ -250,6 +262,16 @@ class BaseConsumer(JsonWebsocketConsumer):
         )
 
         response = view(reflex.request, *resolved.args, **resolved.kwargs)
+
+        # When rendering the response the context has to be dict.
+        # Because django doesn't do the sane thing of forcing a dict we do it.
+        resolve_func = response.resolve_context
+
+        def resolve_context(self, context):
+            return resolve_func(dict(context))
+
+        response.resolve_context = types.MethodType(resolve_context, response)
+
         # we've got the response, the function needs to work as normal again
         view.view_class.get_context_data = original_context_data
         reflex.session.save()
