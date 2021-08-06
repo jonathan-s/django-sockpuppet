@@ -79,4 +79,12 @@ describe("Integration tests", () => {
 
     cy.get('#user-reflex').should('have.text', 'test_user')
   })
+
+  it("can send a morph in a reflex", () => {
+    cy.visit('/test')
+    cy.wait(200)
+    cy.get('#morph-button').click()
+
+    cy.get('#morph').should('have.text', 'I got morphed!')
+  })
 })

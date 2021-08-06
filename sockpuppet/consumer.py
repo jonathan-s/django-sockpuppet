@@ -173,6 +173,7 @@ class BaseConsumer(JsonWebsocketConsumer):
         url = data["url"]
         selectors = data["selectors"] if data["selectors"] else ["body"]
         target = data["target"]
+        identifier = data["identifier"]
         reflex_class_name, method_name = target.split("#")
         arguments = data["args"] if data.get("args") else []
         params = dict(parse_qsl(data["formData"]))
@@ -185,10 +186,23 @@ class BaseConsumer(JsonWebsocketConsumer):
             self.broadcast_error(msg, data)
             return
 
+        # TODO can be removed once stimulus-reflex has increased a couple of versions
+        permanent_attribute_name = data.get("permanent_attribute_name")
+        if not permanent_attribute_name:
+            # Used in stimulus-reflex >= 3.4
+            permanent_attribute_name = data["permanentAttributeName"]
+
         try:
             ReflexClass = self.reflexes.get(reflex_class_name)
             reflex = ReflexClass(
-                self, url=url, element=element, selectors=selectors, params=params
+                self,
+                url=url,
+                element=element,
+                selectors=selectors,
+                identifier=identifier,
+                params=params,
+                reflex_id=data["reflexId"],
+                permanent_attribute_name=permanent_attribute_name,
             )
             self.delegate_call_to_reflex(reflex, method_name, arguments)
         except TypeError as exc:
@@ -223,6 +237,10 @@ class BaseConsumer(JsonWebsocketConsumer):
         logger.debug("Reflex took %6.2fms", (time.perf_counter() - start) * 1000)
 
     def render_page_and_broadcast_morph(self, reflex, selectors, data):
+        if reflex.is_morph:
+            # The reflex has already sent a message so consumer doesn't need to.
+            return
+
         html = self.render_page(reflex)
         if html:
             self.broadcast_morphs(selectors, data, html, reflex)

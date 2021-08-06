@@ -31,3 +31,8 @@ class UserReflex(Reflex):
     def get_user(self):
         context = self.get_context_data()
         self.user_reveal = context['object']
+
+
+class MorphReflex(Reflex):
+    def morph_me(self):
+        self.morph('#morph', 'I got morphed!')
